@@ -1,0 +1,322 @@
+{
+    "common": {
+        "loading": "Đang tải...",
+        "error": "Có lỗi xảy ra",
+        "search": "Tìm kiếm bác sĩ",
+        "bookNow": "Đặt ngay",
+        "viewMore": "Xem thêm",
+        "readMore": "Đọc thêm",
+        "update": "Cập nhật",
+        "send": "Gửi mã"
+    },
+    "navbar": {
+        "menu": {
+            "facilities": "Cơ sở y tế",
+            "services": "Dịch vụ y tế",
+            "corporate": "Khám sức khỏe DN",
+            "guide": "Hướng dẫn",
+            "contact": "Liên hệ hợp tác",
+            "subItems": {
+                "allHospitals": "Tất cả bệnh viện",
+                "priorityBooking": "Đặt khám ưu tiên",
+                "facilityRegistration": "Đăng ký tại cơ sở",
+                "specializationBooking": "Khám theo chuyên khoa",
+                "healthPackage": "Gói sức khỏe & Xét nghiệm",
+                "pharmacy": "Mua thuốc MedPro",
+                "corporateIntro": "Giới thiệu doanh nghiệp",
+                "medproCampaign": "Chiến dịch MedPro",
+                "faq": "Câu hỏi thường gặp",
+                "contactAll": "Liên hệ chúng tôi"
+            }
+        },
+        "downloadApp": "Tải ứng dụng",
+        "consultation": "Tư vấn/Đặt khám",
+        "login": "Đăng nhập",
+        "register": "Đăng ký",
+        "account": "Tài khoản",
+        "profile": "Hồ sơ cá nhân",
+        "history": "Lịch sử khám",
+        "prescriptions": "Đơn thuốc của tôi",
+        "logout": "Đăng xuất",
+        "ticker": "Đặt Giúp Việc Cá Nhân hướng dẫn, hỗ trợ bạn đi khám tự lúc vào viện đến khi kết thúc khám. Gọi ngay 1900 2267!"
+    },
+    "auth": {
+        "loginTitle": "Đăng nhập",
+        "login": "Đăng nhập",
+        "register": "Đăng ký",
+        "loginButton": "Đăng nhập",
+        "registerButton": "Đăng ký",
+        "loginDesc": "Đăng nhập để đặt khám nhanh hơn",
+        "registerTitle": "Đăng ký tài khoản",
+        "registerDesc": "Tạo tài khoản để trải nghiệm đầy đủ dịch vụ",
+        "email": "Email",
+        "emailPlaceholder": "example@email.com",
+        "password": "Mật khẩu",
+        "passwordPlaceholder": "••••••••",
+        "fullName": "Họ và tên",
+        "namePlaceholder": "Nguyễn Văn A",
+        "phone": "Số điện thoại",
+        "phonePlaceholder": "0912 345 678",
+        "gender": "Giới tính",
+        "genderSelect": "Chọn",
+        "genderMale": "Nam",
+        "genderFemale": "Nữ",
+        "genderOther": "Khác",
+        "dob": "Ngày sinh",
+        "address": "Địa chỉ",
+        "addressPlaceholder": "Số nhà, đường, quận/huyện...",
+        "processing": "Đang xử lý...",
+        "loginSuccess": "Đăng nhập thành công!",
+        "registerSuccess": "Đăng ký thành công!",
+        "loginFail": "Đăng nhập thất bại",
+        "registerFail": "Đăng ký thất bại",
+        "forgotPassword": "Quên mật khẩu",
+        "forgotPasswordDesc": "Nhập email của bạn để nhận mã khôi phục mật khẩu.",
+        "verificationCode": "Mã xác nhận",
+        "newPassword": "Mật khẩu mới",
+        "confirmPassword": "Xác nhận mật khẩu mới",
+        "resendCode": "Gửi lại mã",
+        "sendCodeSuccess": "Mã xác nhận đã được gửi vào email của bạn.",
+        "resetPassword": {
+            "title": "Đặt lại mật khẩu"
+        }
+    },
+    "hero": {
+        "title": "Kết nối Người Dân với",
+        "highlight": "Cơ sở & Dịch vụ Y tế hàng đầu",
+        "searchPlaceholder": "Tìm kiếm bác sĩ",
+        "benefits": [
+            "Đặt khám nhanh - Lấy số thứ tự trực tuyến - Tư vấn sức khỏe từ xa",
+            "Đặt khám theo giờ - Đặt càng sớm để có thể có số thứ tự thấp nhất",
+            "Được hoàn tiền khi huỷ khám - Có cơ hội nhận ưu đãi hoàn tiền"
+        ]
+    },
+    "services": {
+        "bookFacility": "Đặt khám tại cơ sở",
+        "bookSpecialty": "Đặt khám chuyên khoa",
+        "videoConsultation": "Gọi video với bác sĩ",
+        "labTest": "Đặt lịch xét nghiệm",
+        "pharmacy": "Mua thuốc tại An Khang",
+        "medicalFacilities": "Cơ sở y tế",
+        "guide": "Hướng dẫn khám",
+        "personalAssistant": "Giúp việc cá nhân",
+        "corporateHealth": "Khám doanh nghiệp",
+        "new": "Mới"
+    },
+    "specializations": {
+        "title": "CHUYÊN KHOA",
+        "error": "Không thể tải danh sách chuyên khoa",
+        "retry": "Thử lại",
+        "empty": "Hiện chưa có chuyên khoa nào."
+    },
+    "doctors": {
+        "titleVideo": "BÁC SĨ TƯ VẤN KHÁM BỆNH QUA VIDEO",
+        "error": "Không thể tải danh sách bác sĩ",
+        "retry": "Thử lại",
+        "empty": "Hiện chưa có bác sĩ nào.",
+        "experience": "Kinh nghiệm:",
+        "years": "năm",
+        "verified": "Xác thực",
+        "general": "Đa khoa",
+        "consultNow": "Tư vấn ngay",
+        "viewAll": "Xem tất cả"
+    },
+    "healthPackages": {
+        "title": "CHĂM SÓC SỨC KHỎE TOÀN DIỆN",
+        "error": "Không thể tải danh sách gói khám",
+        "retry": "Thử lại",
+        "empty": "Hiện chưa có gói khám nào.",
+        "bookNow": "Đặt khám ngay",
+        "viewAll": "Xem tất cả"
+    },
+    "promoBanners": {
+        "banner1": {
+            "title": "Nhà Thuốc AN KHANG",
+            "subtitle": "Đã có mặt trên MEDPRO",
+            "description": "Tặng ngay Voucher 15%",
+            "note": "*Tối đa 50.000đ khi mua hàng online tại Nhà Thuốc An Khang",
+            "cta": "MUA NGAY"
+        },
+        "banner2": {
+            "title": "Đặt Khám Trước",
+            "subtitle": "Không cần xếp hàng tại Bệnh Viện",
+            "description": "Hơn 300 cơ sở y tế trên toàn quốc",
+            "note": "Đặt khám nhanh, tiện lợi, an toàn",
+            "cta": "ĐẶT NGAY"
+        },
+        "banner3": {
+            "title": "Giúp Việc Cá Nhân",
+            "subtitle": "Hỗ trợ bạn đi khám bệnh",
+            "description": "Hỗ trợ đặt lịch, di chuyển, xử lý giấy tờ",
+            "note": "Gọi ngay 1900 2267",
+            "cta": "GỌI NGAY"
+        }
+    },
+    "featuredClinics": {
+        "title": "Phòng bệnh",
+        "error": "Không thể tải danh sách phòng",
+        "retry": "Thử lại",
+        "empty": "Hiện chưa có phòng nào.",
+        "nights": "đêm",
+        "bookNow": "Đặt phòng ngay",
+        "viewAll": "Xem tất cả"
+    },
+    "partners": {
+        "title": "ĐƯỢC TIN TƯỞNG HỢP TÁC VÀ ĐỒNG HÀNH",
+        "viewAll": "Xem tất cả",
+        "list": [
+            "Bệnh viện Nhi đồng Thành phố Cần Thơ",
+            "Bệnh viện đa khoa Singapore (Singapore General Hospital)",
+            "Bệnh viện Quận 1 - Cơ sở 2",
+            "Bệnh viện Lao và Bệnh phổi Cần Thơ",
+            "Bệnh viện Mắt - Răng Hàm Mặt Cần Thơ",
+            "Bệnh viện Đại học Y Dược TP.HCM",
+            "Bệnh viện Chợ Rẫy",
+            "Bệnh viện Nhi Đồng 1"
+        ]
+    },
+    "footer": {
+        "description": "Kết nối người dân với cơ sở và dịch vụ y tế hàng đầu Việt Nam",
+        "links": {
+            "services": "Dịch vụ",
+            "facilities": "Cơ sở y tế",
+            "guides": "Hướng dẫn"
+        },
+        "serviceLinks": {
+            "facility": "Đặt khám tại cơ sở",
+            "specialty": "Đặt khám chuyên khoa",
+            "video": "Tư vấn khám bệnh qua video",
+            "lab": "Đặt lịch xét nghiệm",
+            "package": "Gói khám sức khỏe",
+            "corporate": "Đặt khám doanh nghiệp"
+        },
+        "facilityLinks": {
+            "public": "Bệnh viện công",
+            "private": "Bệnh viện tư",
+            "clinic": "Phòng khám",
+            "cabinet": "Phòng mạch",
+            "test": "Xét nghiệm",
+            "home": "Y tế tại nhà"
+        },
+        "guideLinks": {
+            "install": "Cài đặt ứng dụng",
+            "booking": "Đặt lịch khám",
+            "refund": "Quy trình hoàn phí",
+            "faq": "Câu hỏi thường gặp"
+        },
+        "bottom": {
+            "rights": "© 2024 MedPro. Tất cả quyền được bảo lưu.",
+            "privacy": "Chính sách bảo mật",
+            "terms": "Điều khoản sử dụng",
+            "regulations": "Quy chế hoạt động"
+        }
+    },
+    "medicalRecord": {
+        "title": "Hồ sơ khám bệnh",
+        "loginRequired": "Vui lòng đăng nhập để xem hồ sơ khám.",
+        "fetchError": "Không thể tải hồ sơ khám. Vui lòng thử lại.",
+        "back": "Quay lại",
+        "greeting": "Xin chào,",
+        "loginPrompt": "Vui lòng đăng nhập và thử lại",
+        "emptyState": "Chưa có hồ sơ khám",
+        "emptyDescription": "Hồ sơ khám bệnh sẽ hiển thị tại đây sau khi bạn hoàn thành khám",
+        "totalRecords": "Tổng cộng",
+        "recordPrefix": "Hồ sơ #",
+        "appointmentPrefix": "Lịch hẹn #",
+        "drPrefix": "BS.",
+        "diagnosis": "Chỉ định xét nghiệm (nếu có)",
+        "conclusion": "Kết luận",
+        "noInfo": "Chưa có thông tin"
+    },
+    "appointmentHistory": {
+        "title": "Lịch sử khám bệnh",
+        "loginRequired": "Vui lòng đăng nhập để xem lịch sử khám.",
+        "fetchError": "Không thể tải lịch sử khám. Vui lòng thử lại.",
+        "back": "Quay lại",
+        "greeting": "Xin chào,",
+        "loginPrompt": "Vui lòng đăng nhập và thử lại",
+        "totalAppointments": "Tổng lịch hẹn",
+        "completed": "Hoàn thành",
+        "pending": "Chờ xác nhận",
+        "cancelled": "Đã hủy",
+        "confirmed": "Đã xác nhận",
+        "filterAll": "Tất cả",
+        "emptyState": "Chưa có lịch hẹn nào",
+        "emptyDescription": "Đặt lịch khám để bắt đầu sử dụng dịch vụ",
+        "emptyFilterState": "Không có lịch hẹn nào với trạng thái này",
+        "monthPrefix": "Tháng",
+        "visitWith": "Khám với BS.",
+        "createdLabel": "Tạo:"
+    },
+    "serviceDetail": {
+        "fetchError": "Không thể tải thông tin dịch vụ",
+        "back": "Quay lại",
+        "mins": "phút",
+        "priceLabel": "Giá dịch vụ",
+        "descriptionLabel": "Mô tả dịch vụ",
+        "createdByLabel": "Được tạo bởi",
+        "homeBtn": "Trang chủ",
+        "bookNowBtn": "Đặt khám ngay"
+    },
+    "doctorDetail": {
+        "fetchError": "Không thể tải thông tin bác sĩ",
+        "back": "Quay lại",
+        "general": "Đa khoa",
+        "expYears": "năm kinh nghiệm",
+        "scheduleTitle": "Lịch khám bệnh",
+        "noSchedule": "Hiện chưa có lịch khám nào",
+        "confirmTitle": "Xác nhận đặt lịch",
+        "doctorLabel": "Bác sĩ",
+        "dateLabel": "Ngày khám",
+        "timeLabel": "Thời gian",
+        "noteLabel": "Ghi chú (tùy chọn)",
+        "notePlaceholder": "Mô tả triệu chứng hoặc lý do khám...",
+        "cancelBtn": "Hủy",
+        "confirmBtn": "Xác nhận đặt lịch khám",
+        "processing": "Đang xử lý...",
+        "successToast": "Đặt lịch khám thành công!",
+        "loginRequired": "Vui lòng đăng nhập để đặt lịch khám.",
+        "bookingFailed": "Đặt lịch thất bại. Vui lòng thử lại."
+    },
+    "healthPackageDetail": {
+        "fetchError": "Không thể tải thông tin gói khám",
+        "back": "Quay lại",
+        "tag": "Gói khám sức khỏe",
+        "priceLabel": "Giá gói khám",
+        "contact": "Liên hệ",
+        "descriptionLabel": "Mô tả gói khám",
+        "scheduleTitle": "Lịch khám gói sức khỏe",
+        "noSchedule": "Hiện chưa có lịch khám nào cho gói này",
+        "confirmTitle": "Xác nhận đặt gói khám",
+        "packageLabel": "Gói khám",
+        "dateLabel": "Ngày khám",
+        "timeLabel": "Thời gian",
+        "noteLabel": "Ghi chú (tùy chọn)",
+        "notePlaceholder": "Yêu cầu đặc biệt hoặc lưu ý...",
+        "cancelBtn": "Hủy",
+        "confirmBtn": "Xác nhận đặt gói khám",
+        "successToast": "Đặt gói khám thành công! Vui lòng đăng nhập để hoàn tất."
+    },
+    "specializationDetail": {
+        "fetchError": "Không thể tải thông tin chuyên khoa",
+        "back": "Quay lại",
+        "doctorsCount": "bác sĩ",
+        "doctorsListTitle": "Bác sĩ chuyên khoa",
+        "doctorsListDesc": "Danh sách bác sĩ thuộc chuyên khoa này",
+        "emptyState": "Hiện chưa có bác sĩ nào thuộc chuyên khoa này",
+        "general": "Đa khoa",
+        "expYears": "năm KN"
+    },
+    "roomBooking": {
+        "title": "Đặt phòng bệnh",
+        "checkIn": "Ngày nhận phòng",
+        "checkOut": "Ngày trả phòng",
+        "totalNights": "Số đêm",
+        "totalPrice": "Tổng tiền tạm tính",
+        "notes": "Ghi chú (tùy chọn)",
+        "notesPlaceholder": "Lý do nằm lại hoặc yêu cầu đặc biệt...",
+        "confirmBtn": "Xác nhận đặt phòng",
+        "success": "Đơn đặt phòng của bạn đang chờ xác nhận!",
+        "error": "Đặt phòng thất bại. Vui lòng thử lại."
+    }
+}

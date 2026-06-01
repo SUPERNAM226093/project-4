@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Use Spring Boot's default formatting -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    
+    <!-- Application Name from application.properties -->
+    <springProperty scope="context" name="springAppName" source="spring.application.name" defaultValue="clinic"/>
+    
+    <!-- Logging paths and file names -->
+    <property name="LOGS_DIR" value="./logs" />
+    <property name="LOG_FILE" value="clinic-app" />
+
+    <!-- Console Appender -->
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!-- Rolling File Appender -->
+    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS_DIR}/${LOG_FILE}.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Daily rollover -->
+            <fileNamePattern>${LOGS_DIR}/archived/${LOG_FILE}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- Rollover whenever the file size reaches 10MB -->
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- Keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Asynchronous Appenders for better performance -->
+    <appender name="AsyncConsole" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="Console" />
+        <queueSize>512</queueSize>
+    </appender>
+
+    <appender name="AsyncFile" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="RollingFile" />
+        <queueSize>512</queueSize>
+    </appender>
+
+    <!-- Logger for our application package -->
+    <logger name="com.myproject.clinic" level="debug" additivity="false">
+        <appender-ref ref="AsyncConsole" />
+        <appender-ref ref="AsyncFile" />
+    </logger>
+
+    <!-- Hibernate SQL logging -->
+    <logger name="org.hibernate.SQL" level="debug" additivity="false">
+        <appender-ref ref="AsyncConsole" />
+        <appender-ref ref="AsyncFile" />
+    </logger>
+    
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace" additivity="false">
+        <appender-ref ref="AsyncConsole" />
+        <appender-ref ref="AsyncFile" />
+    </logger>
+
+    <!-- Root Logger -->
+    <root level="info">
+        <appender-ref ref="AsyncConsole" />
+        <appender-ref ref="AsyncFile" />
+    </root>
+
+</configuration>

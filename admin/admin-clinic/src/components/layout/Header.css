@@ -1,0 +1,98 @@
+.app-header {
+    height: var(--header-height);
+    background: #ffffff;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.header-greeting {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+}
+
+.header-greeting span {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.header-user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-full);
+    background: var(--gradient-primary);
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.header-user-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-user-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.header-role-badge {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 1px 6px;
+    border-radius: var(--radius-full);
+    width: fit-content;
+}
+
+.role-admin {
+    background: var(--accent-primary-light);
+    color: var(--text-primary);
+}
+
+.role-doctor {
+    background: var(--accent-success-light);
+    color: var(--text-primary);
+}
+
+.role-patient {
+    background: var(--accent-info-light);
+    color: var(--text-primary);
+}
+
+.logout-btn {
+    color: var(--text-muted) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 7px !important;
+}
+
+.logout-btn:hover {
+    color: var(--accent-danger) !important;
+    border-color: var(--accent-danger) !important;
+    background: var(--accent-danger-light) !important;
+}

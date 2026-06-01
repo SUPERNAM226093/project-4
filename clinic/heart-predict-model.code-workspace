@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../heart-predict-model"
+		},
+		{
+			"path": "../client-clinic"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {}
+}

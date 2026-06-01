@@ -1,0 +1,347 @@
+Table appointments {
+  id bigint [pk, increment]
+  patient_id bigint [not null]
+  doctor_id bigint
+  service_id bigint
+  schedule_id bigint
+  appointment_date date [not null]
+  appointment_time time [not null]
+  status varchar(30)
+  note text
+  created_at timestamp
+  health_package_id bigint
+}
+
+Table call_sessions {
+  id bigint [pk, increment]
+  accepted_at datetime(6)
+  call_id varchar(255) [not null, unique]
+  created_at datetime(6) [not null]
+  doctor_email varchar(255) [not null]
+  duration_seconds bigint
+  ended_at datetime(6)
+  ended_by varchar(255)
+  patient_email varchar(255) [not null]
+  patient_name varchar(255)
+  room_id varchar(255)
+  status enum('ACCEPTED','CANCELLED','ENDED','IN_CALL','MISSED','PENDING','READY','REJECTED','ROOM_CREATING') [not null]
+}
+
+Table chat_sessions {
+  session_id varchar(64) [pk]
+  user_id bigint
+  state_json json [not null]
+  expires_at datetime(3) [not null]
+  updated_at datetime(3) [not null]
+}
+
+Table doctor_schedules {
+  id bigint [pk, increment]
+  doctor_id bigint [not null]
+  work_date date [not null]
+  start_time time [not null]
+  end_time time [not null]
+  created_at timestamp
+}
+
+Table doctors {
+  id bigint [pk, increment]
+  user_id bigint [not null, unique]
+  specialization_id bigint
+  license_number varchar(100)
+  experience_years int
+  bio text
+  feature_image varchar(500)
+  embedding json
+}
+
+Table flyway_schema_history {
+  installed_rank int [pk]
+  version varchar(50)
+  description varchar(200) [not null]
+  type varchar(20) [not null]
+  script varchar(1000) [not null]
+  checksum int
+  installed_by varchar(100) [not null]
+  installed_on timestamp [not null]
+  execution_time int [not null]
+  success tinyint(1) [not null]
+}
+
+Table health_package_bookings {
+  id bigint [pk, increment]
+  patient_id bigint [not null]
+  health_package_id bigint [not null]
+  booking_date date [not null]
+  booking_time time [not null]
+  status varchar(30)
+  note text
+  created_at timestamp
+}
+
+Table health_package_schedules {
+  id bigint [pk, increment]
+  health_package_id bigint [not null]
+  work_date date [not null]
+  start_time time [not null]
+  end_time time [not null]
+  created_at timestamp
+}
+
+Table health_packages {
+  id bigint [pk, increment]
+  name varchar(255) [not null]
+  description text
+  price decimal(12,2)
+  feature_image varchar(500)
+  created_at timestamp
+  embedding json
+  status varchar(20) [not null]
+}
+
+Table hospitals {
+  id bigint [pk, increment]
+  active bit(1) [not null]
+  address varchar(500)
+  banner_url varchar(500)
+  description text
+  hotline varchar(50)
+  image_url varchar(500)
+  name varchar(255) [not null]
+  short_description varchar(500)
+  slug varchar(255) [not null, unique]
+  specialties text
+  verified bit(1) [not null]
+  website varchar(255)
+  working_hours varchar(255)
+}
+
+Table lab_order_items {
+  id bigint [pk, increment]
+  lab_order_id bigint [not null]
+  service_id bigint
+  result text
+  file_url varchar(500)
+  status varchar(30)
+}
+
+Table lab_orders {
+  id bigint [pk, increment]
+  medical_record_id bigint [not null]
+  ordered_by bigint [not null]
+  status varchar(30)
+  created_at timestamp
+}
+
+Table medical_records {
+  id bigint [pk, increment]
+  appointment_id bigint [not null, unique]
+  doctor_id bigint [not null]
+  diagnosis text
+  conclusion text
+  created_at timestamp
+}
+
+Table online_consultations {
+  id bigint [pk, increment]
+  patient_id bigint [not null]
+  doctor_id bigint [not null]
+  specialization_id bigint
+  service_id bigint
+  phone_number varchar(15) [not null]
+  amount decimal(15,2) [not null]
+  payment_status varchar(20)
+  meeting_link varchar(500)
+  expired_at timestamp [not null]
+  created_at timestamp
+  consultation_date date
+  consultation_time varchar(20)
+}
+
+Table orders {
+  id bigint [pk, increment]
+  address varchar(255) [not null]
+  created_at datetime(6)
+  created_by varchar(50) [not null]
+  customer_name varchar(100) [not null]
+  delivery_fee decimal(12,2) [not null]
+  order_details text
+  order_type enum('COSMETICS','MEDICAL_EQUIPMENT','MEDICAL_SUPPLY','OTHER','PRESCRIBED_MEDICINE','VITAMIN') [not null]
+  phone varchar(15) [not null]
+  status enum('CANCELLED','COMPLETED','DELIVERING','PENDING') [not null]
+  total_amount decimal(12,2) [not null]
+  updated_at datetime(6)
+}
+
+Table password_reset_tokens {
+  id bigint [pk, increment]
+  created_at datetime(6)
+  expires_at datetime(6) [not null]
+  token_hash varchar(255) [not null]
+  used_at datetime(6)
+  user_id bigint [not null]
+}
+
+Table prescription_items {
+  id bigint [pk, increment]
+  prescription_id bigint [not null]
+  medicine_name varchar(255) [not null]
+  dosage varchar(100)
+  frequency varchar(100)
+  duration varchar(100)
+  note text
+}
+
+Table prescriptions {
+  id bigint [pk, increment]
+  medical_record_id bigint [not null, unique]
+  doctor_id bigint [not null]
+  created_at timestamp
+}
+
+Table role_urls {
+  id bigint [pk, increment]
+  role_id bigint [not null]
+  url_pattern varchar(255) [not null]
+  http_method varchar(10) [not null]
+  description varchar(255)
+  permission_source varchar(16) [not null]
+  matrix_module varchar(64)
+}
+
+Table roles {
+  id bigint [pk, increment]
+  name varchar(50) [not null]
+}
+
+Table room_amenities {
+  room_id bigint [not null]
+  amenity varchar(255)
+}
+
+Table room_bookings {
+  id bigint [pk, increment]
+  cancel_reason varchar(255)
+  cancelled_at datetime(6)
+  check_in_date datetime(6) [not null]
+  check_out_date datetime(6) [not null]
+  checked_in_at datetime(6)
+  checked_out_at datetime(6)
+  confirmed_at datetime(6)
+  created_at datetime(6)
+  estimated_fee decimal(19,2)
+  number_of_patients int [not null]
+  patient_name varchar(255) [not null]
+  special_notes text
+  status varchar(30) [not null]
+  total_nights int
+  booked_by bigint [not null]
+  room_id bigint [not null]
+  actual_check_in_at datetime(6)
+  actual_check_out_at datetime(6)
+  admin_note text
+  contact_phone varchar(20)
+  reject_reason varchar(255)
+  total_price decimal(19,2)
+}
+
+Table room_images {
+  room_id bigint [not null]
+  image_url varchar(255)
+}
+
+Table rooms {
+  id bigint [pk, increment]
+  bed_type varchar(255) [not null]
+  description text
+  floor varchar(255)
+  is_active bit(1)
+  max_capacity int [not null]
+  name varchar(255) [not null]
+  price_per_night decimal(12,2) [not null]
+  room_code varchar(255) [not null, unique]
+  available_beds int
+  cleaning_fee decimal(19,2)
+  service_fee decimal(19,2)
+  status varchar(255)
+  total_beds int
+}
+
+Table service_registrations {
+  id bigint [pk, increment]
+  user_id bigint [not null]
+  service_id bigint [not null]
+  status varchar(30)
+  created_at timestamp
+}
+
+Table services {
+  id bigint [pk, increment]
+  name varchar(255) [not null]
+  description text
+  price decimal(12,2)
+  type varchar(50)
+  duration_minutes int
+  created_by bigint
+  feature_image varchar(500)
+}
+
+Table specializations {
+  id bigint [pk, increment]
+  name varchar(255) [not null]
+  description text
+  feature_image varchar(500)
+  embedding json
+  status varchar(20) [not null]
+}
+
+Table users {
+  id bigint [pk, increment]
+  email varchar(255) [not null, unique]
+  password_hash varchar(255) [not null]
+  full_name varchar(255)
+  phone varchar(20)
+  date_of_birth date
+  gender varchar(10)
+  address text
+  role_id bigint
+  status varchar(20)
+  created_at timestamp
+  updated_at timestamp
+}
+
+// Relationships
+Ref: appointments.id < medical_records.appointment_id
+Ref: doctor_schedules.id < appointments.schedule_id
+Ref: doctors.id < appointments.doctor_id
+Ref: doctors.id < doctor_schedules.doctor_id
+Ref: doctors.id < lab_orders.ordered_by
+Ref: doctors.id < medical_records.doctor_id
+Ref: doctors.id < online_consultations.doctor_id
+Ref: doctors.id < prescriptions.doctor_id
+Ref: health_packages.id < appointments.health_package_id
+Ref: health_packages.id < health_package_bookings.health_package_id
+Ref: health_packages.id < health_package_schedules.health_package_id
+Ref: lab_orders.id < lab_order_items.lab_order_id
+Ref: medical_records.id < lab_orders.medical_record_id
+Ref: medical_records.id < prescriptions.medical_record_id
+Ref: prescriptions.id < prescription_items.prescription_id
+Ref: roles.id < role_urls.role_id
+Ref: roles.id < users.role_id
+Ref: rooms.id < room_amenities.room_id
+Ref: rooms.id < room_bookings.room_id
+Ref: rooms.id < room_images.room_id
+Ref: services.id < appointments.service_id
+Ref: services.id < lab_order_items.service_id
+Ref: services.id < online_consultations.service_id
+Ref: services.id < service_registrations.service_id
+Ref: specializations.id < doctors.specialization_id
+Ref: specializations.id < online_consultations.specialization_id
+Ref: users.id < appointments.patient_id
+Ref: users.id < doctors.user_id
+Ref: users.id < health_package_bookings.patient_id
+Ref: users.id < online_consultations.patient_id
+Ref: users.id < password_reset_tokens.user_id
+Ref: users.id < room_bookings.booked_by
+Ref: users.id < service_registrations.user_id
+Ref: users.id < services.created_by

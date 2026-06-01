@@ -1,0 +1,120 @@
+.matrix-toolbar-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.column-menu-wrap {
+    position: relative;
+}
+
+.column-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: 10;
+    background: var(--bg-primary, #fff);
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    min-width: 180px;
+}
+
+.column-menu label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+
+.permission-matrix-table .matrix-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary, #e11d48);
+    cursor: pointer;
+}
+
+.matrix-group-row td {
+    background: var(--bg-secondary, #f9fafb);
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.5rem 0.75rem;
+}
+
+.matrix-code {
+    background: var(--bg-secondary);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.truth-panel {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+}
+
+.truth-panel ul {
+    margin: 0.5rem 0 0 1.25rem;
+    padding: 0;
+}
+
+.role-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color, #e5e7eb);
+}
+
+.role-tab {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--text-secondary);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+}
+
+.role-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.diff-list {
+    max-height: 240px;
+    overflow-y: auto;
+    font-size: 0.875rem;
+}
+
+.diff-add {
+    color: #16a34a;
+}
+
+.diff-remove {
+    color: #dc2626;
+}
+
+.badge-manual {
+    font-size: 0.7rem;
+    background: #6b7280;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+}

@@ -1,0 +1,17 @@
+package com.myproject.clinic.repository;
+
+import com.myproject.clinic.entity.Hospital;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * Giao diện Repository cung cấp các phương thức truy xuất dữ liệu từ Database cho Hospital.
+ */
+public interface HospitalRepository extends JpaRepository<Hospital, Long> {
+
+    List<Hospital> findAllByActiveTrue();
+
+    Optional<Hospital> findBySlugAndActiveTrue(String slug);
+}

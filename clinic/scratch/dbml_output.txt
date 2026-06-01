@@ -1,0 +1,200 @@
+Table appointments {
+  id bigint [increment, not null]
+  patient_id bigint [not null]
+  doctor_id bigint
+  service_id bigint
+  schedule_id bigint
+  appointment_date date [not null]
+  appointment_time time [not null]
+  status varchar
+}
+
+Table call_sessions {
+  id bigint [increment, not null]
+  accepted_at datetime
+}
+
+Table chat_sessions {
+  session_id varchar(64) [not null]
+  user_id bigint
+  state_json json [not null]
+  expires_at datetime(3) [not null]
+  updated_at datetime(3) [not null]
+}
+
+Table doctor_schedules {
+  id bigint [increment, not null]
+  doctor_id bigint [not null]
+  work_date date [not null]
+  start_time time [not null]
+  end_time time [not null]
+  created_at timestamp
+}
+
+Table doctors {
+  id bigint [increment, not null]
+  user_id bigint [not null]
+  specialization_id bigint
+  license_number varchar
+}
+
+Table flyway_schema_history {
+  installed_rank int [not null]
+  version varchar
+}
+
+Table health_package_bookings {
+  id bigint [increment, not null]
+  patient_id bigint [not null]
+  health_package_id bigint [not null]
+  booking_date date [not null]
+  booking_time time [not null]
+  status varchar
+}
+
+Table health_package_schedules {
+  id bigint [increment, not null]
+  health_package_id bigint [not null]
+  work_date date [not null]
+  start_time time [not null]
+  end_time time [not null]
+  created_at timestamp
+}
+
+Table health_packages {
+  id bigint [increment, not null]
+  name varchar(255) [not null]
+  description text
+  price decimal
+}
+
+Table hospitals {
+  id bigint [increment, not null]
+  active bit(1) [not null]
+  address varchar
+}
+
+Table lab_order_items {
+  id bigint [increment, not null]
+  lab_order_id bigint [not null]
+  service_id bigint
+  result text
+  file_url varchar
+}
+
+Table lab_orders {
+  id bigint [increment, not null]
+  medical_record_id bigint [not null]
+  ordered_by bigint [not null]
+  status varchar
+}
+
+Table medical_records {
+  id bigint [increment, not null]
+  appointment_id bigint [not null]
+  doctor_id bigint [not null]
+  diagnosis text
+  conclusion text
+  created_at timestamp
+}
+
+Table online_consultations {
+  id bigint [increment, not null]
+  patient_id bigint [not null]
+  doctor_id bigint [not null]
+  specialization_id bigint
+  service_id bigint
+  phone_number varchar(15) [not null]
+  amount decimal(15,2) [not null]
+  payment_status varchar
+}
+
+Table password_reset_tokens {
+  id bigint [increment, not null]
+  created_at datetime
+}
+
+Table prescription_items {
+  id bigint [increment, not null]
+  prescription_id bigint [not null]
+  medicine_name varchar(255) [not null]
+  dosage varchar
+}
+
+Table prescriptions {
+  id bigint [increment, not null]
+  medical_record_id bigint [not null]
+  doctor_id bigint [not null]
+  created_at timestamp
+}
+
+Table role_urls {
+  id bigint [increment, not null]
+  role_id bigint [not null]
+  url_pattern varchar(255) [not null]
+  http_method varchar(10) [not null]
+  description varchar
+}
+
+Table roles {
+  id bigint [increment, not null]
+  name varchar(50) [not null]
+}
+
+Table room_amenities {
+  room_id bigint [not null]
+  amenity varchar
+}
+
+Table room_bookings {
+  id bigint [increment, not null]
+  cancel_reason varchar
+}
+
+Table room_images {
+  room_id bigint [not null]
+  image_url varchar
+}
+
+Table rooms {
+  id bigint [increment, not null]
+  bed_type varchar(255) [not null]
+  description text
+  floor varchar
+}
+
+Table service_registrations {
+  id bigint [increment, not null]
+  user_id bigint [not null]
+  service_id bigint [not null]
+  status varchar
+}
+
+Table services {
+  id bigint [increment, not null]
+  name varchar(255) [not null]
+  description text
+  price decimal
+}
+
+Table specializations {
+  id bigint [increment, not null]
+  name varchar(255) [not null]
+  description text
+  feature_image varchar
+}
+
+Table users {
+  id bigint [increment, not null]
+  email varchar(255) [not null]
+  password_hash varchar(255) [not null]
+  full_name varchar
+}
+
+// Relationships
+Ref: appointments.id < medical_records.appointment_id
+Ref: doctors.id < doctor_schedules.doctor_id
+Ref: doctors.id < medical_records.doctor_id
+Ref: doctors.id < prescriptions.doctor_id
+Ref: health_packages.id < health_package_schedules.health_package_id
+Ref: medical_records.id < prescriptions.medical_record_id

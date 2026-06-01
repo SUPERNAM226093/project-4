@@ -1,0 +1,36 @@
+# Local environment configs
+.env
+.env.bak
+*.env
+*.bak
+clinic/.env
+clinic/.env.bak
+**/.env
+**/.env.local
+**/.env.development.local
+**/.env.test.local
+**/.env.production.local
+**/.env.*
+
+# Logs
+*.log
+clinic/logs/
+clinic/logs/archived/
+clinic/out*.log
+replay_pid*
+hs_err_pid*
+
+# Node modules
+node_modules/
+**/node_modules/
+clinic/scratch/node_modules/
+clinic/scratch/package-lock.json
+
+# IDE / Build configs
+.vscode/
+.idea/
+.gradle/
+**/build/
+clinic/build/
+clinic/bin/
+clinic/out/
