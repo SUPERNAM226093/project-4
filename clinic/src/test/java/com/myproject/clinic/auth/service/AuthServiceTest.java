@@ -4,9 +4,7 @@ import com.myproject.clinic.auth.dto.AuthResponse;
 import com.myproject.clinic.auth.dto.LoginRequest;
 import com.myproject.clinic.auth.dto.RegisterRequest;
 import com.myproject.clinic.config.JwtConfig;
-import com.myproject.clinic.entity.Role;
-import com.myproject.clinic.entity.User;
-import com.myproject.clinic.repository.RoleRepository;
+
 import com.myproject.clinic.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,8 +29,7 @@ class AuthServiceTest {
 
     @Mock
     private UserRepository userRepository;
-    @Mock
-    private RoleRepository roleRepository;
+
     @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
@@ -55,13 +52,11 @@ class AuthServiceTest {
                 .fullName("Test User")
                 .build();
 
-        Role role = Role.builder().id(1L).name("PATIENT").build();
         User savedUser = User.builder()
                 .id(1L).email("test@gmail.com").fullName("Test User")
-                .passwordHash("encoded").role(role).status("ACTIVE").build();
+                .passwordHash("encoded").roleName("PATIENT").status("ACTIVE").build();
 
         when(userRepository.existsByEmail("test@gmail.com")).thenReturn(false);
-        when(roleRepository.findByName("PATIENT")).thenReturn(Optional.of(role));
         when(passwordEncoder.encode("password123")).thenReturn("encoded");
         when(userRepository.save(any(User.class))).thenReturn(savedUser);
         when(userDetailsService.loadUserByUsername("test@gmail.com")).thenReturn(userDetails);
@@ -89,8 +84,7 @@ class AuthServiceTest {
     @Test
     void login_success() {
         LoginRequest request = LoginRequest.builder().email("test@gmail.com").password("pass").build();
-        Role role = Role.builder().id(1L).name("PATIENT").build();
-        User user = User.builder().id(1L).email("test@gmail.com").fullName("Test").role(role).status("ACTIVE").build();
+        User user = User.builder().id(1L).email("test@gmail.com").fullName("Test").roleName("PATIENT").status("ACTIVE").build();
 
         when(userRepository.findByEmail("test@gmail.com")).thenReturn(Optional.of(user));
         when(userDetailsService.loadUserByUsername("test@gmail.com")).thenReturn(userDetails);

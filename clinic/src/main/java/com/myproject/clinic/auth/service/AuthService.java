@@ -3,10 +3,10 @@ package com.myproject.clinic.auth.service;
 import com.myproject.clinic.auth.dto.*;
 import com.myproject.clinic.config.JwtConfig;
 import com.myproject.clinic.entity.PasswordResetToken;
-import com.myproject.clinic.entity.Role;
+
 import com.myproject.clinic.entity.User;
 import com.myproject.clinic.repository.PasswordResetTokenRepository;
-import com.myproject.clinic.repository.RoleRepository;
+
 import com.myproject.clinic.repository.UserRepository;
 import com.myproject.clinic.utils.EmailService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ import java.util.Optional;
 public class AuthService {
 
         private final UserRepository userRepository;
-        private final RoleRepository roleRepository;
+
         private final PasswordResetTokenRepository tokenRepository;
         private final PasswordEncoder passwordEncoder;
         private final JwtConfig jwtConfig;
@@ -55,8 +55,7 @@ public class AuthService {
                         throw new IllegalArgumentException("Số điện thoại phải có đúng 10 chữ số");
                 }
 
-                Role defaultRole = roleRepository.findByName("PATIENT")
-                                .orElseGet(() -> roleRepository.save(Role.builder().name("PATIENT").build()));
+                String defaultRole = "PATIENT";
 
                 User user = User.builder()
                                 .email(request.getEmail())
@@ -66,7 +65,7 @@ public class AuthService {
                                 .dateOfBirth(request.getDateOfBirth())
                                 .gender(request.getGender())
                                 .address(request.getAddress())
-                                .role(defaultRole)
+                                .roleName(defaultRole)
                                 .status("ACTIVE")
                                 .build();
 
@@ -74,7 +73,7 @@ public class AuthService {
 
                 UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
                 Map<String, Object> extraClaims = new HashMap<>();
-                extraClaims.put("role", defaultRole.getName());
+                extraClaims.put("role", defaultRole);
                 String token = jwtConfig.generateToken(extraClaims, userDetails);
 
                 return AuthResponse.builder()
@@ -82,7 +81,7 @@ public class AuthService {
                                 .token(token)
                                 .email(user.getEmail())
                                 .fullName(user.getFullName())
-                                .role(defaultRole.getName())
+                                .role(defaultRole)
                                 .build();
         }
 
@@ -98,7 +97,7 @@ public class AuthService {
                 }
 
                 UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
-                String roleName = user.getRole() != null ? user.getRole().getName() : null;
+                String roleName = user.getRoleName();
                 Map<String, Object> extraClaims = new HashMap<>();
                 extraClaims.put("role", roleName);
                 String token = jwtConfig.generateToken(extraClaims, userDetails);
@@ -108,7 +107,7 @@ public class AuthService {
                                 .token(token)
                                 .email(user.getEmail())
                                 .fullName(user.getFullName())
-                                .role(user.getRole() != null ? user.getRole().getName() : null)
+                                .role(user.getRoleName())
                                 .build();
         }
 

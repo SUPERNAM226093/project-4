@@ -2,11 +2,9 @@ package com.myproject.clinic.user.service;
 
 import com.myproject.clinic.repository.AppointmentRepository;
 import com.myproject.clinic.repository.OnlineConsultationRepository;
-import com.myproject.clinic.entity.Role;
 import com.myproject.clinic.entity.User;
 import com.myproject.clinic.exception.ResourceNotFoundException;
 import com.myproject.clinic.repository.DoctorRepository;
-import com.myproject.clinic.repository.RoleRepository;
 import com.myproject.clinic.repository.UserRepository;
 import com.myproject.clinic.user.dto.UpdateProfileRequest;
 import com.myproject.clinic.user.dto.UserRequest;
@@ -30,7 +28,7 @@ import java.util.Objects;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+
     private final DoctorRepository doctorRepository;
     private final AppointmentRepository appointmentRepository;
     private final OnlineConsultationRepository onlineConsultationRepository;
@@ -59,11 +57,7 @@ public class UserService {
         if (request.getPhone() != null && !request.getPhone().matches("^\\d{10}$")) {
             throw new IllegalArgumentException("Số điện thoại phải có đúng 10 chữ số");
         }
-        Role role = null;
-        if (request.getRoleId() != null) {
-            role = roleRepository.findById(request.getRoleId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Role", request.getRoleId()));
-        }
+        String roleName = request.getRoleName() != null ? request.getRoleName() : "PATIENT";
 
         User user = User.builder()
                 .email(request.getEmail())
@@ -73,7 +67,7 @@ public class UserService {
                 .dateOfBirth(request.getDateOfBirth())
                 .gender(request.getGender())
                 .address(request.getAddress())
-                .role(role)
+                .roleName(roleName)
                 .status(request.getStatus() != null ? request.getStatus() : "ACTIVE")
                 .build();
 
@@ -111,7 +105,7 @@ public class UserService {
         if (request.getStatus() != null) {
             String newStatus = request.getStatus();
             if ("INACTIVE".equalsIgnoreCase(newStatus) && !"INACTIVE".equalsIgnoreCase(user.getStatus())) {
-                if (user.getRole() != null && "DOCTOR".equalsIgnoreCase(user.getRole().getName())) {
+                if (user.getRoleName() != null && "DOCTOR".equalsIgnoreCase(user.getRoleName())) {
                     doctorRepository.findByUserId(user.getId()).ifPresent(doctor -> {
                         LocalDate today = LocalDate.now();
                         LocalTime nowTime = LocalTime.now();
@@ -134,10 +128,8 @@ public class UserService {
             }
             user.setStatus(newStatus);
         }
-        if (request.getRoleId() != null) {
-            Role role = roleRepository.findById(request.getRoleId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Role", request.getRoleId()));
-            user.setRole(role);
+        if (request.getRoleName() != null) {
+            user.setRoleName(request.getRoleName());
         }
         if (request.getPassword() != null && !request.getPassword().isBlank()) {
             user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
@@ -227,7 +219,7 @@ public class UserService {
                 .dateOfBirth(user.getDateOfBirth())
                 .gender(user.getGender())
                 .address(user.getAddress())
-                .roleName(user.getRole() != null ? user.getRole().getName() : null)
+                .roleName(user.getRoleName())
                 .status(user.getStatus())
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())

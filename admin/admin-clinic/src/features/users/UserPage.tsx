@@ -28,20 +28,15 @@ interface User {
     createdAt: string;
 }
 
-interface Role {
-    id: number;
-    name: string;
-    isActive?: boolean;
-}
 
 // Khởi tạo form trống
-const emptyForm = { email: '', password: '', fullName: '', phone: '', gender: '', roleId: '', status: 'ACTIVE' };
+const emptyForm = { email: '', password: '', fullName: '', phone: '', gender: '', roleName: '', status: 'ACTIVE' };
 
 export default function UserPage() {
     // --- 1. KHỞI TẠO STATE & KIỂM TRA QUYỀN HẠN ---
-    const { isAdmin, isStaff } = useAuth(); // Chỉ Admin và Staff mới có quyền truy cập/thao tác tại đây
+    const { isAdmin } = useAuth(); // Chỉ Admin và Staff mới có quyền truy cập/thao tác tại đây
     const [users, setUsers] = useState<User[]>([]); // Danh sách người dùng
-    const [roles, setRoles] = useState<Role[]>([]); // Danh sách vai trò để phân quyền
+
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [editingId, setEditingId] = useState<number | null>(null);
@@ -56,12 +51,8 @@ export default function UserPage() {
     const fetchData = async () => {
         try {
             const t = Date.now();
-            const [usersRes, rolesRes] = await Promise.all([
-                api.get(`/users?t=${t}`), 
-                api.get(`/roles?t=${t}`)
-            ]);
+            const usersRes = await api.get(`/users?t=${t}`);
             setUsers(usersRes.data);
-            setRoles(rolesRes.data);
         } catch { 
             toast.error('Không thể tải danh sách người dùng'); 
         }
@@ -77,14 +68,13 @@ export default function UserPage() {
 
     // Mở Modal để chỉnh sửa tài khoản đã chọn
     const openEdit = (u: User) => {
-        const role = roles.find(r => r.name === u.roleName);
         setForm({ 
             email: u.email, 
             password: '', 
             fullName: u.fullName || '', 
             phone: u.phone || '', 
             gender: u.gender || '', 
-            roleId: role ? String(role.id) : '', 
+            roleName: u.roleName || '', 
             status: u.status || 'ACTIVE' 
         });
         setEditingId(u.id);
@@ -100,7 +90,7 @@ export default function UserPage() {
             // Chuẩn bị dữ liệu gửi đi (payload), chuyển roleId sang số và chỉ gửi password nếu có nhập
             const payload = { 
                 ...form, 
-                roleId: form.roleId ? Number(form.roleId) : undefined, 
+                roleName: form.roleName || undefined, 
                 password: form.password || undefined 
             };
             
@@ -286,11 +276,12 @@ export default function UserPage() {
                             </select>
                         </div>
                         <div className="form-group"><label>{"Quyền truy cập (Role)"}</label>
-                            <select name="roleId" className="form-control" value={form.roleId} onChange={handleChange}>
+                            <select name="roleName" className="form-control" value={form.roleName} onChange={handleChange}>
                                 <option value="">--- Chọn vai trò ---</option>
-                                {roles
-                                    .filter(r => (isAdmin || isStaff) && r.isActive !== false)
-                                    .map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
+                                <option value="ADMIN">Quản trị viên (ADMIN)</option>
+                                <option value="DOCTOR">Bác sĩ (DOCTOR)</option>
+                                <option value="STAFF">Nhân viên (STAFF)</option>
+                                <option value="PATIENT">Bệnh nhân (PATIENT)</option>
                             </select>
                         </div>
                     </div>

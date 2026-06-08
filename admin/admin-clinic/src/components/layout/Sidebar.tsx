@@ -41,7 +41,7 @@ interface NavItem {
 export const navItems: NavItem[] = [
     { path: '/', label: 'menu.dashboard', icon: <HiOutlineHome />, adminOnly: true },
     { path: '/users', label: 'menu.users', icon: <HiOutlineUsers /> },
-    { path: '/roles', label: 'menu.roles', icon: <HiOutlineShieldCheck /> },
+
     { path: '/doctors', label: 'menu.doctors', icon: <HiOutlineUserCircle /> },
     { path: '/specializations', label: 'menu.specializations', icon: <HiOutlineAcademicCap /> },
     { path: '/rooms', label: 'menu.services', icon: <HiOutlineCube /> },

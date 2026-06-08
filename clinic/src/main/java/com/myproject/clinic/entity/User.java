@@ -52,10 +52,9 @@ public class User {
     @Column(columnDefinition = "TEXT")
     private String address;
 
-    /** Vai trò phân quyền hệ thống (liên kết với thực thể Role). */
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id")
-    private Role role;
+    /** Tên vai trò (ADMIN, DOCTOR, PATIENT, STAFF). */
+    @Column(name = "role_name", length = 50)
+    private String roleName;
 
     /** Trạng thái hiện tại của thực thể. */
     @Column(length = 20)

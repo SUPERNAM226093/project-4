@@ -19,10 +19,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByPhoneAndIdNot(String phone, Long id);
 
-    @org.springframework.data.jpa.repository.Query("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM User u WHERE u.role.id = :roleId")
-    boolean existsByRoleId(@org.springframework.data.repository.query.Param("roleId") Long roleId);
+    boolean existsByRoleName(String roleName);
 
-    java.util.List<User> findByRoleId(Long roleId);
+    java.util.List<User> findByRoleName(String roleName);
 
     long countByRoleNameAndCreatedAtBetween(String roleName, java.time.LocalDateTime start, java.time.LocalDateTime end);
 

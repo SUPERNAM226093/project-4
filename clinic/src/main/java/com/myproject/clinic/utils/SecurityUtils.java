@@ -50,7 +50,7 @@ public class SecurityUtils {
      */
     public boolean isDoctor() {
         User user = getCurrentUser();
-        return "DOCTOR".equalsIgnoreCase(user.getRole().getName());
+        return "DOCTOR".equalsIgnoreCase(user.getRoleName());
     }
 
     /**
@@ -58,7 +58,7 @@ public class SecurityUtils {
      */
     public boolean isStaff() {
         User user = getCurrentUser();
-        return "STAFF".equalsIgnoreCase(user.getRole().getName());
+        return "STAFF".equalsIgnoreCase(user.getRoleName());
     }
 
     /**
@@ -67,7 +67,7 @@ public class SecurityUtils {
      * DOCTOR bị giới hạn dữ liệu cá nhân. PATIENT/USER không có quyền quản trị.
      */
     public boolean hasGlobalDataAccess() {
-        String roleName = getCurrentUser().getRole().getName();
+        String roleName = getCurrentUser().getRoleName();
         return !"DOCTOR".equalsIgnoreCase(roleName) 
             && !"PATIENT".equalsIgnoreCase(roleName) 
             && !"USER".equalsIgnoreCase(roleName);
@@ -80,7 +80,7 @@ public class SecurityUtils {
      */
     public Doctor getCurrentDoctorOrNull() {
         User user = getCurrentUser();
-        if (!"DOCTOR".equalsIgnoreCase(user.getRole().getName())) {
+        if (!"DOCTOR".equalsIgnoreCase(user.getRoleName())) {
             return null;
         }
         return doctorRepository.findByUserId(user.getId())
