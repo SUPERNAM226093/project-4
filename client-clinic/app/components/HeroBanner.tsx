@@ -121,13 +121,13 @@ export default function HeroBanner() {
                     {/* LEFT COLUMN: TEXT, SEARCH, BENEFITS */}
                     <div className="lg:col-span-7 text-left space-y-8 relative z-20">
                         <div className="space-y-4">
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-emerald-300 border border-sky-500/20">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
                                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                                 Đặt khám trực tuyến nhanh chóng
                             </span>
-                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight tracking-tight">
+                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold !text-white leading-tight tracking-tight">
                                 Kết nối Người Dân với<br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-emerald-300 to-emerald-400">
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-400">
                                     Cơ sở & Dịch vụ Y tế hàng đầu
                                 </span>
                             </h1>
