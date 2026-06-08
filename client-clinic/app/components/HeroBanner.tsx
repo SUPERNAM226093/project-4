@@ -125,11 +125,9 @@ export default function HeroBanner() {
                                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                                 Đặt khám trực tuyến nhanh chóng
                             </span>
-                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold !text-white leading-tight tracking-tight">
+                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold !text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-400 leading-tight tracking-tight">
                                 Kết nối Người Dân với<br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-400">
-                                    Cơ sở & Dịch vụ Y tế hàng đầu
-                                </span>
+                                Cơ sở & Dịch vụ Y tế hàng đầu
                             </h1>
                             <p className="text-slate-300 text-sm md:text-base max-w-xl font-medium leading-relaxed">
                                 Đặt lịch hẹn khám bệnh dễ dàng tại các bệnh viện uy tín, khám từ xa qua video call hoặc đặt dịch vụ chăm sóc sức khoẻ tại nhà chỉ với vài bước chạm.
