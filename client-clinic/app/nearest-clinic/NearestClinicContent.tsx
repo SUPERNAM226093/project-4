@@ -16,28 +16,28 @@ L.Icon.Default.mergeOptions({
 const clinics = [
   {
     id: 1,
-    name: "CS1 - Chùa Hương",
+    name: "Phòng khám Med 1 - CS1 - Chùa Hương",
     address: "Chùa Hương, Mỹ Đức, Hà Nội",
     lat: 20.6189,
     lng: 105.7456
   },
   {
     id: 2,
-    name: "CS2 - 226 Ngô Quyền",
+    name: "Phòng khám Med 2 - CS2 - 226 Ngô Quyền",
     address: "226 Ngô Quyền, Hà Đông, Hà Nội",
     lat: 20.9716,
     lng: 105.7784
   },
   {
     id: 3,
-    name: "CS3 - 82 Kim Mã",
+    name: "Phòng khám Med 3 - CS3 - 82 Kim Mã",
     address: "82 Kim Mã, Ba Đình, Hà Nội",
     lat: 21.0319,
     lng: 105.8243
   },
   {
     id: 4,
-    name: "CS4 - 10 Hoàng Quốc Việt",
+    name: "Phòng khám Med 4 - CS4 - 10 Hoàng Quốc Việt",
     address: "10 Hoàng Quốc Việt, Cầu Giấy, Hà Nội",
     lat: 21.0462,
     lng: 105.7937
