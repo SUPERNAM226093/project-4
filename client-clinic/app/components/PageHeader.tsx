@@ -50,7 +50,7 @@ export default function PageHeader({
 
             {/* THẺ TIÊU ĐỀ (Hero Card) - Thiết kế dạng thẻ bo góc với nền đen sang trọng */}
             <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="bg-gradient-to-r from-[#1a8fe3] to-[#0d6cbf] px-8 py-10 relative overflow-hidden">
+                <div className="bg-gradient-to-r from-[var(--green-mid)] to-[var(--green-dark)] px-8 py-10 relative overflow-hidden">
                     {/* Các hình tròn trang trí mờ ảo ở nền */}
                     <div className="absolute -top-12 -right-12 w-40 h-40 bg-white/10 rounded-full" />
                     <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-white/5 rounded-full" />
@@ -76,7 +76,7 @@ export default function PageHeader({
                     <div className="px-8 py-4 flex flex-wrap gap-8 border-t border-gray-100 bg-white">
                         {stats.map((s, i) => (
                             <div key={i} className="flex items-center gap-2 text-sm">
-                                <span className="font-bold text-[#0d2d6b]">{s.value}</span>
+                                <span className="font-bold text-[var(--green-dark)]">{s.value}</span>
                                 <span className="text-gray-500">{s.label}</span>
                             </div>
                         ))}
