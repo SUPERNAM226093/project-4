@@ -161,7 +161,7 @@ export default function HeroBanner() {
                             {showSuggestions && suggestions.length > 0 && (
                                 <div className="absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-2xl border border-[#b2e8d9] overflow-hidden z-[60] animate-in fade-in slide-in-from-top-2 duration-200">
                                     <div className="py-2">
-                                        <p className="px-5 py-3 text-[10px] font-bold text-[#4d8871] uppercase tracking-[0.2em] border-b border-[#F2FAFF]">
+                                        <p className="px-5 py-3 text-[10px] font-bold text-[#4d8871] uppercase tracking-[0.2em] border-b border-[var(--green-ultra)]">
                                             Bác sĩ tìm thấy ({suggestions.length})
                                         </p>
                                         {suggestions.map((doctor) => (
@@ -170,7 +170,7 @@ export default function HeroBanner() {
                                                 onClick={() => handleSelectDoctor(doctor.id)}
                                                 className="w-full px-5 py-4 flex items-center gap-4 hover:bg-[#f0fdf8] transition-all text-left group"
                                             >
-                                                <div className="w-12 h-12 rounded-full overflow-hidden bg-[#F2FAFF] border border-[#b2e8d9] flex-shrink-0 shadow-sm">
+                                                <div className="w-12 h-12 rounded-full overflow-hidden bg-[var(--green-ultra)] border border-[#b2e8d9] flex-shrink-0 shadow-sm">
                                                     {doctor.featureImageUrl ? (
                                                         <img src={getImageUrl(doctor.featureImageUrl)} alt={doctor.fullName} className="w-full h-full object-cover" />
                                                     ) : (
@@ -187,7 +187,7 @@ export default function HeroBanner() {
                                                         {doctor.specializationName}
                                                     </p>
                                                 </div>
-                                                <div className="w-8 h-8 rounded-full bg-[#F2FAFF] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
+                                                <div className="w-8 h-8 rounded-full bg-[var(--green-ultra)] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
                                                     <svg className="w-4 h-4 text-[#0d6b52]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                                     </svg>
@@ -203,7 +203,7 @@ export default function HeroBanner() {
 
                             {showSuggestions && searchQuery.trim().length > 0 && suggestions.length === 0 && (
                                 <div className="absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-2xl border border-[#b2e8d9] p-10 text-center z-[60]">
-                                    <div className="w-16 h-16 bg-[#F2FAFF] rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <div className="w-16 h-16 bg-[var(--green-ultra)] rounded-full flex items-center justify-center mx-auto mb-4">
                                         <svg className="w-8 h-8 text-[#b2e8d9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                         </svg>

@@ -146,11 +146,11 @@ export default function PaymentPage() {
                             {["Thông tin", "Thanh toán", "Tư vấn"].map((step, i) => (
                                 <div key={i} className="flex items-center gap-2">
                                     <div className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold
-                                        ${i === 1 ? "bg-[#1a8fe3] text-white shadow-md shadow-emerald-200"
+                                        ${i === 1 ? "bg-[var(--green-mid)] text-white shadow-md shadow-emerald-200"
                                             : i < 1 ? "bg-green-400 text-white" : "bg-gray-100 text-gray-400"}`}>
                                         {i < 1 ? "✓" : i + 1}
                                     </div>
-                                    <span className={`text-xs font-medium ${i === 1 ? "text-[#1a8fe3]" : i < 1 ? "text-green-500" : "text-gray-400"}`}>{step}</span>
+                                    <span className={`text-xs font-medium ${i === 1 ? "text-[var(--green-mid)]" : i < 1 ? "text-green-500" : "text-gray-400"}`}>{step}</span>
                                     {i < 2 && <div className="w-8 h-px bg-gray-200" />}
                                 </div>
                             ))}
@@ -178,8 +178,8 @@ export default function PaymentPage() {
 
                     {/* Order summary */}
                     <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6">
-                        <h2 className="text-sm font-bold text-[#0d2d6b] mb-4 flex items-center gap-2">
-                            <svg className="w-4 h-4 text-[#1a8fe3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <h2 className="text-sm font-bold text-[var(--green-dark)] mb-4 flex items-center gap-2">
+                            <svg className="w-4 h-4 text-[var(--green-mid)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                             </svg>
                             Thông tin đơn tư vấn #{consultation.id}
@@ -187,19 +187,19 @@ export default function PaymentPage() {
                         <div className="grid grid-cols-2 gap-3 text-sm">
                             <div>
                                 <p className="text-gray-400 text-xs mb-0.5">Bác sĩ</p>
-                                <p className="font-semibold text-[#0d2d6b]">{consultation.doctorName}</p>
+                                <p className="font-semibold text-[var(--green-dark)]">{consultation.doctorName}</p>
                             </div>
                             <div>
                                 <p className="text-gray-400 text-xs mb-0.5">Chuyên khoa</p>
-                                <p className="font-semibold text-[#0d2d6b]">{consultation.specializationName || "—"}</p>
+                                <p className="font-semibold text-[var(--green-dark)]">{consultation.specializationName || "—"}</p>
                             </div>
                             <div>
                                 <p className="text-gray-400 text-xs mb-0.5">Dịch vụ</p>
-                                <p className="font-semibold text-[#0d2d6b]">{consultation.serviceName || "—"}</p>
+                                <p className="font-semibold text-[var(--green-dark)]">{consultation.serviceName || "—"}</p>
                             </div>
                             <div>
                                 <p className="text-gray-400 text-xs mb-0.5">SĐT liên hệ</p>
-                                <p className="font-semibold text-[#0d2d6b]">{consultation.phoneNumber}</p>
+                                <p className="font-semibold text-[var(--green-dark)]">{consultation.phoneNumber}</p>
                             </div>
                         </div>
                         <div className="mt-4 flex items-center justify-between bg-emerald-50 rounded-xl px-4 py-3">
@@ -214,7 +214,7 @@ export default function PaymentPage() {
                     {!isPaid && !isCancelled && (
                         <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 space-y-6">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-sm font-bold text-[#0d2d6b] flex items-center gap-2">
+                                <h2 className="text-sm font-bold text-[var(--green-dark)] flex items-center gap-2">
                                     💳 Thanh toán trực tuyến qua VNPay
                                 </h2>
                                 {countdown && (
@@ -243,7 +243,7 @@ export default function PaymentPage() {
                             <button
                                 onClick={handleVnPayPayment}
                                 disabled={paying || cancelling}
-                                className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-emerald-500 via-[#1a8fe3] to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 shadow-lg shadow-emerald-200 transition-all hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none"
+                                className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-emerald-500 via-[var(--green-mid)] to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 shadow-lg shadow-emerald-200 transition-all hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none"
                             >
                                 {paying ? (
                                     <>
@@ -276,13 +276,13 @@ export default function PaymentPage() {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.362a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                 </svg>
                             </div>
-                            <h3 className="font-bold text-[#0d2d6b] mb-1">Phòng họp đã sẵn sàng!</h3>
+                            <h3 className="font-bold text-[var(--green-dark)] mb-1">Phòng họp đã sẵn sàng!</h3>
                             <p className="text-xs text-gray-500 mb-4">Bấm nút bên dưới để bắt đầu tư vấn với bác sĩ</p>
                             <a
                                 href={consultation.meetingLink}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-block w-full py-3.5 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-[#1a8fe3] to-[#0d6cbf] shadow-lg shadow-emerald-200 transition-all hover:shadow-xl"
+                                className="inline-block w-full py-3.5 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-[var(--green-mid)] to-[var(--green-dark)] shadow-lg shadow-emerald-200 transition-all hover:shadow-xl"
                             >
                                 🎥 Vào phòng họp ngay
                             </a>

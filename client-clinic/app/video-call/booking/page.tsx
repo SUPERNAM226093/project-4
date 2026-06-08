@@ -177,12 +177,12 @@ export default function VideoCallBookingPage() {
 
                     {/* Header */}
                     <div className="text-center mb-8">
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-[#1a8fe3] to-[#0d6cbf] text-white mb-4 shadow-lg shadow-emerald-200">
+                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-[var(--green-mid)] to-[var(--green-dark)] text-white mb-4 shadow-lg shadow-emerald-200">
                             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.362a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                             </svg>
                         </div>
-                        <h1 className="text-2xl font-bold text-[#0d2d6b]">Tư vấn Video với Bác sĩ</h1>
+                        <h1 className="text-2xl font-bold text-[var(--green-dark)]">Tư vấn Video với Bác sĩ</h1>
                         <p className="text-sm text-gray-500 mt-1">Khám online từ xa, nhanh chóng và tiện lợi</p>
                     </div>
 
@@ -194,10 +194,10 @@ export default function VideoCallBookingPage() {
                             {["Thông tin", "Thanh toán", "Tư vấn"].map((step, i) => (
                                 <div key={i} className="flex items-center gap-2">
                                     <div className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold transition-all
-                                        ${i === 0 ? "bg-[#1a8fe3] text-white shadow-md shadow-emerald-200" : "bg-gray-100 text-gray-400"}`}>
+                                        ${i === 0 ? "bg-[var(--green-mid)] text-white shadow-md shadow-emerald-200" : "bg-gray-100 text-gray-400"}`}>
                                         {i + 1}
                                     </div>
-                                    <span className={`text-xs font-medium ${i === 0 ? "text-[#1a8fe3]" : "text-gray-400"}`}>{step}</span>
+                                    <span className={`text-xs font-medium ${i === 0 ? "text-[var(--green-mid)]" : "text-gray-400"}`}>{step}</span>
                                     {i < 2 && <div className="w-8 h-px bg-gray-200" />}
                                 </div>
                             ))}
@@ -205,7 +205,7 @@ export default function VideoCallBookingPage() {
 
                         {/* Specialization */}
                         <div className="p-6 border-b border-gray-50">
-                            <label className="block text-sm font-semibold text-[#0d2d6b] mb-2">
+                            <label className="block text-sm font-semibold text-[var(--green-dark)] mb-2">
                                 Chuyên khoa <span className="text-red-500">*</span>
                             </label>
                             <div className="relative">
@@ -231,7 +231,7 @@ export default function VideoCallBookingPage() {
 
                         {/* Doctor */}
                         <div className="p-6 border-b border-gray-50">
-                            <label className="block text-sm font-semibold text-[#0d2d6b] mb-2">
+                            <label className="block text-sm font-semibold text-[var(--green-dark)] mb-2">
                                 Bác sĩ <span className="text-red-500">*</span>
                             </label>
                             <div className="relative">
@@ -260,14 +260,14 @@ export default function VideoCallBookingPage() {
 
                         {/* Service - Hardcoded Display */}
                         <div className="p-6 border-b border-gray-50">
-                            <label className="block text-sm font-semibold text-[#0d2d6b] mb-2">
+                            <label className="block text-sm font-semibold text-[var(--green-dark)] mb-2">
                                 Dịch vụ tư vấn
                             </label>
                             {selectedService ? (
                                 <>
-                                    <div className="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-emerald-100 bg-emerald-50/30 text-[#0d2d6b] text-sm">
+                                    <div className="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-emerald-100 bg-emerald-50/30 text-[var(--green-dark)] text-sm">
                                         <span className="font-medium">{selectedService.name}</span>
-                                        <span className="text-[#1a8fe3] font-bold">
+                                        <span className="text-[var(--green-mid)] font-bold">
                                             {selectedService.price.toLocaleString("vi-VN")}đ
                                         </span>
                                     </div>
@@ -282,7 +282,7 @@ export default function VideoCallBookingPage() {
 
                         {/* Phone */}
                         <div className="p-6">
-                            <label className="block text-sm font-semibold text-[#0d2d6b] mb-2">
+                            <label className="block text-sm font-semibold text-[var(--green-dark)] mb-2">
                                 Số điện thoại liên hệ <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -304,7 +304,7 @@ export default function VideoCallBookingPage() {
 
                         {/* Consultation Date & Time */}
                         <div className="p-6 border-t border-gray-50 bg-emerald-50/10">
-                            <h3 className="text-sm font-bold text-[#0d2d6b] mb-4 flex items-center gap-2">
+                            <h3 className="text-sm font-bold text-[var(--green-dark)] mb-4 flex items-center gap-2">
                                 <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
@@ -339,8 +339,8 @@ export default function VideoCallBookingPage() {
                                                         isBooked
                                                             ? "bg-gray-100 text-gray-400 border-gray-100 cursor-not-allowed opacity-50"
                                                             : isSelected
-                                                                ? "bg-[#1a8fe3] text-white border-[#1a8fe3] shadow-md shadow-[#1a8fe3]/30 scale-105"
-                                                                : "bg-white text-gray-700 hover:bg-emerald-50 hover:text-[#1a8fe3] border-gray-200 hover:border-[#1a8fe3]/30"
+                                                                ? "bg-[var(--green-mid)] text-white border-[var(--green-mid)] shadow-md shadow-[var(--green-mid)]/30 scale-105"
+                                                                : "bg-white text-gray-700 hover:bg-emerald-50 hover:text-[var(--green-mid)] border-gray-200 hover:border-[var(--green-mid)]/30"
                                                     }`}
                                                 >
                                                     {t}
@@ -375,7 +375,7 @@ export default function VideoCallBookingPage() {
                             <button
                                 onClick={handleSubmit}
                                 disabled={submitting}
-                                className="w-full py-4 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-[#1a8fe3] to-[#0d6cbf] hover:from-[#1580cc] hover:to-[#0b5ca0] shadow-lg shadow-emerald-200 transition-all disabled:opacity-40 flex items-center justify-center gap-2"
+                                className="w-full py-4 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-[var(--green-mid)] to-[var(--green-dark)] hover:from-[#1580cc] hover:to-[#0b5ca0] shadow-lg shadow-emerald-200 transition-all disabled:opacity-40 flex items-center justify-center gap-2"
                             >
                                 {submitting ? (
                                     <>
@@ -392,7 +392,7 @@ export default function VideoCallBookingPage() {
                             {!user && (
                                 <p className="text-xs text-center text-gray-400 mt-2">
                                     Bạn cần{" "}
-                                    <button onClick={() => router.push("/login")} className="text-[#1a8fe3] underline">
+                                    <button onClick={() => router.push("/login")} className="text-[var(--green-mid)] underline">
                                         đăng nhập
                                     </button>{" "}
                                     để đặt lịch tư vấn

@@ -243,7 +243,7 @@ export default function DoctorDetailPage() {
 
                     {/* Doctor Profile Card */}
                     <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mb-6">
-                        <div className="bg-gradient-to-r from-[#1a8fe3] to-[#0d6cbf] h-32 relative" />
+                        <div className="bg-gradient-to-r from-[var(--green-mid)] to-[var(--green-dark)] h-32 relative" />
                         <div className="px-8 pb-8 -mt-16 relative">
                             <div className="flex flex-col md:flex-row gap-6 items-start">
                                 {/* Avatar */}
@@ -266,7 +266,7 @@ export default function DoctorDetailPage() {
 
                                 {/* Info */}
                                 <div className="pt-4 md:pt-16 flex-1">
-                                    <h1 className="text-2xl font-bold text-[#0d2d6b] mb-1">{doctor.fullName}</h1>
+                                    <h1 className="text-2xl font-bold text-[var(--green-dark)] mb-1">{doctor.fullName}</h1>
                                     <div className="flex flex-wrap gap-3 mb-4">
                                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 text-black text-xs font-semibold">
                                             <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
@@ -306,8 +306,8 @@ export default function DoctorDetailPage() {
                     {/* Schedule Calendar */}
                     <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 mb-6">
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-                            <h2 className="text-lg font-bold text-[#0d2d6b] flex items-center gap-2">
-                                <svg className="w-5 h-5 text-[#1a8fe3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <h2 className="text-lg font-bold text-[var(--green-dark)] flex items-center gap-2">
+                                <svg className="w-5 h-5 text-[var(--green-mid)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
                                 {"Lịch khám bệnh"}
@@ -324,7 +324,7 @@ export default function DoctorDetailPage() {
                                         setSelectedDate(e.target.value);
                                         setSelectedSchedule(null);
                                     }}
-                                    className="px-4 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a8fe3]/20 focus:border-[#1a8fe3] cursor-pointer"
+                                    className="px-4 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--green-mid)]/20 focus:border-[var(--green-mid)] cursor-pointer"
                                 />
                             </div>
                         </div>
@@ -356,8 +356,8 @@ export default function DoctorDetailPage() {
                                                 !isAvailable
                                                     ? "bg-gray-100 text-gray-400 border-gray-100 cursor-not-allowed opacity-50"
                                                     : isSelected
-                                                        ? "bg-[#1a8fe3] text-white border-[#1a8fe3] shadow-md scale-105 z-10"
-                                                        : "bg-white text-gray-700 hover:bg-[#E6EFFF] hover:text-[#0065FF] border-gray-200 hover:border-[#1a8fe3]"
+                                                        ? "bg-[var(--green-mid)] text-white border-[var(--green-mid)] shadow-md scale-105 z-10"
+                                                        : "bg-white text-gray-700 hover:bg-[#E6EFFF] hover:text-[#0065FF] border-gray-200 hover:border-[var(--green-mid)]"
                                             }`}
                                         >
                                             <span>
@@ -373,8 +373,8 @@ export default function DoctorDetailPage() {
                     {/* Booking Form */}
                     {selectedSchedule && (
                         <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 mb-6 animate-in slide-in-from-bottom-4">
-                            <h3 className="text-lg font-bold text-[#0d2d6b] mb-4 flex items-center gap-2">
-                                <svg className="w-5 h-5 text-[#1a8fe3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <h3 className="text-lg font-bold text-[var(--green-dark)] mb-4 flex items-center gap-2">
+                                <svg className="w-5 h-5 text-[var(--green-mid)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                                 </svg>
                                 {"Xác nhận đặt lịch"}
@@ -384,15 +384,15 @@ export default function DoctorDetailPage() {
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                                     <div>
                                         <p className="text-gray-500 text-xs mb-1">{"Bác sĩ"}</p>
-                                        <p className="font-semibold text-[#0d2d6b]">{doctor.fullName}</p>
+                                        <p className="font-semibold text-[var(--green-dark)]">{doctor.fullName}</p>
                                     </div>
                                     <div>
                                         <p className="text-gray-500 text-xs mb-1">{"Ngày khám"}</p>
-                                        <p className="font-semibold text-[#0d2d6b]">{formatDate(selectedSchedule.workDate).full}</p>
+                                        <p className="font-semibold text-[var(--green-dark)]">{formatDate(selectedSchedule.workDate).full}</p>
                                     </div>
                                     <div>
                                         <p className="text-gray-500 text-xs mb-1">{"Thời gian"}</p>
-                                        <p className="font-semibold text-[#0d2d6b]">
+                                        <p className="font-semibold text-[var(--green-dark)]">
                                             {formatTime(selectedSchedule.startTime)} - {formatTime(selectedSchedule.endTime)}
                                         </p>
                                     </div>
@@ -400,12 +400,12 @@ export default function DoctorDetailPage() {
                             </div>
 
                             <div className="mb-5">
-                                <label className="block text-sm font-medium text-[#0d2d6b] mb-2">{"Ghi chú (tùy chọn)"}</label>
+                                <label className="block text-sm font-medium text-[var(--green-dark)] mb-2">{"Ghi chú (tùy chọn)"}</label>
                                 <textarea
                                     value={bookingNote}
                                     onChange={(e) => setBookingNote(e.target.value)}
                                     placeholder={"Mô tả triệu chứng hoặc lý do khám..."}
-                                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a8fe3]/20 focus:border-[#1a8fe3] resize-none"
+                                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--green-mid)]/20 focus:border-[var(--green-mid)] resize-none"
                                     rows={3}
                                     disabled={bookingLoading}
                                 />
@@ -424,7 +424,7 @@ export default function DoctorDetailPage() {
                                 <button
                                     onClick={handleBooking}
                                     disabled={bookingLoading}
-                                    className="flex-1 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-[#1a8fe3] to-[#0d6cbf] hover:from-[#1580cc] hover:to-[#0b5ca0] shadow-lg transition-all hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                    className="flex-1 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-[var(--green-mid)] to-[var(--green-dark)] hover:from-[#1580cc] hover:to-[#0b5ca0] shadow-lg transition-all hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                                 >
                                     {bookingLoading ? (
                                         <>

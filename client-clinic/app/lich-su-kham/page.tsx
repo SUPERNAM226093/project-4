@@ -418,7 +418,7 @@ export default function AppointmentHistoryPage() {
                             {/* Online Consultations Section */}
                             {onlineConsultations.length > 0 && (
                                 <div className="mt-8">
-                                    <h2 className="text-lg font-bold text-[#0d2d6b] mb-4 flex items-center gap-2">
+                                    <h2 className="text-lg font-bold text-[var(--green-dark)] mb-4 flex items-center gap-2">
                                         <span className="text-xl">🎥</span>
                                         Lịch sử tư vấn Video Online
                                     </h2>
@@ -433,14 +433,14 @@ export default function AppointmentHistoryPage() {
                                             return (
                                                 <div key={c.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-shadow">
                                                     <div className="flex flex-col md:flex-row md:items-center gap-4">
-                                                        <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-gradient-to-br from-[#1a8fe3] to-[#0d6cbf] text-white flex flex-col items-center justify-center">
+                                                        <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-gradient-to-br from-[var(--green-mid)] to-[var(--green-dark)] text-white flex flex-col items-center justify-center">
                                                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.362a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                                             </svg>
                                                             <span className="text-[9px] mt-1 opacity-80">Online</span>
                                                         </div>
                                                         <div className="flex-1 min-w-0">
-                                                            <p className="font-semibold text-[#0d2d6b] text-sm mb-1">{c.doctorName}</p>
+                                                            <p className="font-semibold text-[var(--green-dark)] text-sm mb-1">{c.doctorName}</p>
                                                             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500">
                                                                 {c.consultationDate && (
                                                                     <span className="font-bold text-emerald-600">
@@ -493,7 +493,7 @@ export default function AppointmentHistoryPage() {
                                                             {c.paymentStatus === "PENDING" && (
                                                                 <button
                                                                     onClick={() => router.push(`/video-call/payment/${c.id}`)}
-                                                                    className="text-xs text-[#1a8fe3] border border-emerald-100 hover:bg-emerald-50 px-3 py-1 rounded-full transition-all"
+                                                                    className="text-xs text-[var(--green-mid)] border border-emerald-100 hover:bg-emerald-50 px-3 py-1 rounded-full transition-all"
                                                                 >
                                                                     Xem QR thanh toán
                                                                 </button>

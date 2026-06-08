@@ -54,7 +54,7 @@ function CallbackContent() {
                     </svg>
                 </div>
                 <div className="space-y-2">
-                    <h2 className="text-2xl font-bold text-[#0d2d6b]">Thanh toán thành công!</h2>
+                    <h2 className="text-2xl font-bold text-[var(--green-dark)]">Thanh toán thành công!</h2>
                     <p className="text-sm text-gray-500 leading-relaxed">
                         Hóa đơn của bạn đã được thanh toán qua cổng VNPay. Lịch hẹn tư vấn trực tuyến đã được kích hoạt.
                     </p>
@@ -83,7 +83,7 @@ function CallbackContent() {
             <div className="flex flex-col gap-2">
                 <button
                     onClick={() => router.push("/lich-su-kham")}
-                    className="w-full py-3.5 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-[#1a8fe3] to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 shadow-lg shadow-emerald-200 transition-all hover:scale-[1.01]"
+                    className="w-full py-3.5 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-[var(--green-mid)] to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 shadow-lg shadow-emerald-200 transition-all hover:scale-[1.01]"
                 >
                     Quay lại lịch sử khám
                 </button>

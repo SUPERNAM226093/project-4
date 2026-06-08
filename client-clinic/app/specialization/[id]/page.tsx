@@ -111,7 +111,7 @@ export default function SpecializationDetailPage() {
 
                     {/* Specialization Header Card */}
                     <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mb-8">
-                        <div className="bg-gradient-to-r from-[#1a8fe3] to-[#0d6cbf] px-8 py-10 relative overflow-hidden">
+                        <div className="bg-gradient-to-r from-[var(--green-mid)] to-[var(--green-dark)] px-8 py-10 relative overflow-hidden">
                             <div className="absolute -top-12 -right-12 w-40 h-40 bg-white/10 rounded-full" />
                             <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-white/5 rounded-full" />
 
@@ -147,10 +147,10 @@ export default function SpecializationDetailPage() {
                         {/* Stats */}
                         <div className="px-8 py-5 bg-white flex items-center gap-8 border-t border-gray-100">
                             <div className="flex items-center gap-2 text-sm">
-                                <svg className="w-5 h-5 text-[#0d2d6b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-5 h-5 text-[var(--green-dark)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
-                                <span className="text-[#0d2d6b] font-semibold">{doctors.length}</span>
+                                <span className="text-[var(--green-dark)] font-semibold">{doctors.length}</span>
                                 <span className="text-gray-500">{"bác sĩ"}</span>
                             </div>
                         </div>
@@ -158,8 +158,8 @@ export default function SpecializationDetailPage() {
 
                     {/* Section Title */}
                     <div className="mb-6">
-                        <h2 className="text-xl font-bold text-[#0d2d6b] flex items-center gap-2">
-                            <svg className="w-5 h-5 text-[#1a8fe3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <h2 className="text-xl font-bold text-[var(--green-dark)] flex items-center gap-2">
+                            <svg className="w-5 h-5 text-[var(--green-mid)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             {"Bác sĩ chuyên khoa"} {specialization.name}
@@ -187,7 +187,7 @@ export default function SpecializationDetailPage() {
                                 >
                                     <div className="flex gap-4 items-center">
                                         {/* Avatar */}
-                                        <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 border-2 border-gray-100 group-hover:border-[#1a8fe3] transition-colors">
+                                        <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 border-2 border-gray-100 group-hover:border-[var(--green-mid)] transition-colors">
                                             {doc.featureImageUrl ? (
                                                 <img
                                                     src={`http://localhost:8081${doc.featureImageUrl}`}
@@ -206,7 +206,7 @@ export default function SpecializationDetailPage() {
 
                                         {/* Info */}
                                         <div className="flex-1 min-w-0">
-                                            <h3 className="text-sm font-bold text-[#0d2d6b] group-hover:text-[#1a8fe3] group-hover:underline transition-colors truncate">
+                                            <h3 className="text-sm font-bold text-[var(--green-dark)] group-hover:text-[var(--green-mid)] group-hover:underline transition-colors truncate">
                                                 {doc.fullName}
                                             </h3>
                                             <p className="text-xs text-gray-500 mt-0.5 truncate">
@@ -220,7 +220,7 @@ export default function SpecializationDetailPage() {
                                         </div>
 
                                         {/* Arrow */}
-                                        <svg className="w-4 h-4 text-gray-300 group-hover:text-[#1a8fe3] transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="w-4 h-4 text-gray-300 group-hover:text-[var(--green-mid)] transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                         </svg>
                                     </div>

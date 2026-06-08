@@ -108,7 +108,7 @@ export default function FeaturedClinics() {
                         {rooms.map((room) => (
                             <div 
                                 key={room.id}
-                                className="flex-shrink-0 w-[300px] md:w-[320px] snap-start bg-white rounded-[2.5rem] overflow-hidden shadow-[0_15px_35px_-10px_rgba(0,0,0,0.05)] border border-[#b2e8d9] group hover:translate-y-[-8px] transition-all duration-500 hover:shadow-[0_20px_45px_-10px_rgba(37,99,235,0.15)] hover:border-[#0d6b52]/30"
+                                className="flex-shrink-0 w-[300px] md:w-[320px] snap-start bg-white rounded-[2.5rem] overflow-hidden shadow-[0_15px_35px_-10px_rgba(0,0,0,0.05)] border border-[#b2e8d9] group hover:translate-y-[-8px] transition-all duration-500 hover:shadow-[0_20px_45px_-10px_rgba(13,107,82,0.15)] hover:border-[#0d6b52]/30"
                             >
                                 {/* PHẦN TRÊN THẺ: Hình ảnh và Trạng thái phòng */}
                                 <div className="relative h-60 overflow-hidden">
@@ -119,7 +119,7 @@ export default function FeaturedClinics() {
                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                                         />
                                     ) : (
-                                        <div className="w-full h-full bg-[#F2FAFF] flex items-center justify-center">
+                                        <div className="w-full h-full bg-[var(--green-ultra)] flex items-center justify-center">
                                             <span className="text-4xl font-black text-[#b2e8d9]">{room.roomCode}</span>
                                         </div>
                                     )}
@@ -149,7 +149,7 @@ export default function FeaturedClinics() {
                                         disabled={room.status === 'MAINTENANCE'}
                                         className={`w-full font-bold py-4 rounded-2xl transition-all duration-300 ${
                                             room.status !== 'MAINTENANCE' 
-                                            ? 'bg-[#F2FAFF] text-[#0d6b52] border border-[#b2e8d9] hover:bg-[#0d6b52] hover:text-white hover:border-[#0d6b52] hover:shadow-lg hover:shadow-emerald-100' 
+                                            ? 'bg-[var(--green-ultra)] text-[#0d6b52] border border-[#b2e8d9] hover:bg-[#0d6b52] hover:text-white hover:border-[#0d6b52] hover:shadow-lg hover:shadow-emerald-100' 
                                             : 'bg-gray-50 text-gray-400 cursor-not-allowed border border-gray-100'
                                         }`}
                                     >

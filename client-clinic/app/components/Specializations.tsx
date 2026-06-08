@@ -185,9 +185,9 @@ export default function Specializations() {
                             >
                                 <div className="w-20 h-20 rounded-[1.5rem] bg-white flex items-center justify-center overflow-hidden
                                                 shadow-[0_10px_25px_-10px_rgba(0,0,0,0.05)] border border-[#b2e8d9] 
-                                                group-hover:shadow-[0_15px_30px_-10px_rgba(37,99,235,0.2)] 
+                                                group-hover:shadow-[0_15px_30px_-10px_rgba(13,107,82,0.2)] 
                                                 group-hover:border-[#0d6b52]/40 transition-all duration-500 relative">
-                                    <div className="absolute inset-0 bg-gradient-to-br from-[#F2FAFF] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--green-ultra)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                     {spec.featureImageUrl ? (
                                         <img
                                             src={`http://localhost:8081${spec.featureImageUrl}`}
