@@ -32,10 +32,7 @@ class AuthControllerTest {
         private AuthService authService;
         @MockitoBean
         private JwtConfig jwtConfig;
-        @MockitoBean
-        private com.myproject.clinic.repository.RoleUrlRepository roleUrlRepository;
-        @MockitoBean
-        private com.myproject.clinic.repository.RoleRepository roleRepository;
+
 
         @Test
         void register_returnsToken() throws Exception {

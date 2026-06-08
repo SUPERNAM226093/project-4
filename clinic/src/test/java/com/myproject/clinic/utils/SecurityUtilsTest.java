@@ -1,7 +1,7 @@
 package com.myproject.clinic.utils;
 
 import com.myproject.clinic.entity.Doctor;
-import com.myproject.clinic.entity.Role;
+
 import com.myproject.clinic.entity.User;
 import com.myproject.clinic.repository.DoctorRepository;
 import com.myproject.clinic.repository.UserRepository;
@@ -45,8 +45,7 @@ class SecurityUtilsTest {
     }
 
     private User buildUser(Long id, String email, String roleName) {
-        Role role = new Role(1L, roleName, true);
-        return User.builder().id(id).email(email).role(role).build();
+        return User.builder().id(id).email(email).roleName(roleName).build();
     }
 
     // ── TC-04: DOCTOR xem đúng dữ liệu của mình ──────────────────────────────────

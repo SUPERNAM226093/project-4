@@ -4,6 +4,7 @@ import com.myproject.clinic.auth.dto.AuthResponse;
 import com.myproject.clinic.auth.dto.LoginRequest;
 import com.myproject.clinic.auth.dto.RegisterRequest;
 import com.myproject.clinic.config.JwtConfig;
+import com.myproject.clinic.entity.User;
 
 import com.myproject.clinic.repository.UserRepository;
 import org.junit.jupiter.api.Test;

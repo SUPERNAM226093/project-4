@@ -1,10 +1,8 @@
 package com.myproject.clinic.user.service;
 
-import com.myproject.clinic.entity.Role;
 import com.myproject.clinic.entity.User;
 import com.myproject.clinic.exception.ResourceNotFoundException;
 import com.myproject.clinic.repository.DoctorRepository;
-import com.myproject.clinic.repository.RoleRepository;
 import com.myproject.clinic.repository.UserRepository;
 import com.myproject.clinic.user.dto.UserRequest;
 import com.myproject.clinic.user.dto.UserResponse;
@@ -28,8 +26,6 @@ class UserServiceTest {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private RoleRepository roleRepository;
-    @Mock
     private DoctorRepository doctorRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -37,9 +33,8 @@ class UserServiceTest {
     private UserService userService;
 
     private User createUser() {
-        Role role = Role.builder().id(1L).name("PATIENT").build();
         return User.builder().id(1L).email("test@gmail.com").passwordHash("hashed")
-                .fullName("Test User").role(role).status("ACTIVE").build();
+                .fullName("Test User").roleName("PATIENT").status("ACTIVE").build();
     }
 
     @Test
@@ -65,12 +60,10 @@ class UserServiceTest {
 
     @Test
     void create_success() {
-        UserRequest request = UserRequest.builder().email("new@gmail.com").password("pass").roleId(1L).build();
-        Role role = Role.builder().id(1L).name("PATIENT").build();
-        User saved = User.builder().id(2L).email("new@gmail.com").passwordHash("enc").role(role).status("ACTIVE")
+        UserRequest request = UserRequest.builder().email("new@gmail.com").password("pass").roleName("PATIENT").build();
+        User saved = User.builder().id(2L).email("new@gmail.com").passwordHash("enc").roleName("PATIENT").status("ACTIVE")
                 .build();
 
-        when(roleRepository.findById(1L)).thenReturn(Optional.of(role));
         when(passwordEncoder.encode("pass")).thenReturn("enc");
         when(userRepository.save(any())).thenReturn(saved);
 
