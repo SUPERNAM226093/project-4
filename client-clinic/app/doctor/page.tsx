@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { fetchDoctors, DoctorResponse } from "../lib/api";
+import { HOSPITALS } from "../lib/hospitals";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import PageHeader from "../components/PageHeader";
@@ -14,6 +15,7 @@ export default function DoctorListPage() {
     const [doctors, setDoctors] = useState<DoctorResponse[]>([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
+    const [selectedClinicId, setSelectedClinicId] = useState<number | null>(null);
 
     useEffect(() => {
         fetchDoctors()
@@ -21,11 +23,12 @@ export default function DoctorListPage() {
             .catch(() => setLoading(false));
     }, []);
 
-    const filtered = doctors.filter(
-        (d) =>
-            d.fullName.toLowerCase().includes(search.toLowerCase()) ||
-            (d.specializationName || "").toLowerCase().includes(search.toLowerCase())
-    );
+    const filtered = doctors.filter((d) => {
+        const matchSearch = d.fullName.toLowerCase().includes(search.toLowerCase()) ||
+            (d.specializationName || "").toLowerCase().includes(search.toLowerCase());
+        const matchClinic = selectedClinicId === null ? true : d.clinicId === selectedClinicId;
+        return matchSearch && matchClinic;
+    });
 
     return (
         <>
@@ -45,17 +48,48 @@ export default function DoctorListPage() {
                         stats={[{ label: "bác sĩ", value: doctors.length }]}
                     />
 
-                    {/* Search */}
-                    <div className="mb-6 relative">
-                        <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                        <input
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            placeholder="Tìm theo tên, chuyên khoa..."
-                            className="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-black"
-                        />
+                    {/* Filters & Search */}
+                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-10 flex flex-col md:flex-row gap-6 items-center justify-between">
+                        <div className="flex flex-wrap gap-2">
+                            <button
+                                onClick={() => setSelectedClinicId(null)}
+                                className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${
+                                    selectedClinicId === null 
+                                    ? "bg-black text-white shadow-lg" 
+                                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                                }`}
+                            >
+                                Tất cả
+                            </button>
+                            {HOSPITALS.map((hospital) => {
+                                // Extract the short name, e.g., "Med 1", "Med 2"
+                                const shortName = hospital.name.match(/(Med \d+)/)?.[1] || hospital.name.split(" - ")[0];
+                                return (
+                                    <button
+                                        key={hospital.id}
+                                        onClick={() => setSelectedClinicId(hospital.id)}
+                                        className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${
+                                            selectedClinicId === hospital.id 
+                                            ? "bg-black text-white shadow-lg" 
+                                            : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                                        }`}
+                                    >
+                                        {shortName}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                        <div className="relative w-full md:w-80">
+                            <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            <input
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                placeholder="Tìm kiếm bác sĩ..."
+                                className="w-full pl-12 pr-4 py-3 bg-gray-50 border-none rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-black/10 transition-all"
+                            />
+                        </div>
                     </div>
 
                     {loading ? (
@@ -100,6 +134,9 @@ export default function DoctorListPage() {
                                         <div className="flex-1 min-w-0">
                                             <h3 className="text-sm font-bold text-black group-hover:text-black group-hover:underline transition-colors truncate">{doc.fullName}</h3>
                                             <p className="text-xs text-gray-500 mt-0.5 truncate">{doc.specializationName || "Đa khoa"}</p>
+                                            <p className="text-xs text-gray-400 mt-0.5 truncate">
+                                                {HOSPITALS.find(h => h.id === doc.clinicId)?.name || "Chưa phân bổ"}
+                                            </p>
                                             {doc.experienceYears > 0 && (
                                                 <span className="inline-flex items-center gap-1 mt-1.5 text-[10px] font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
                                                     ⭐ {doc.experienceYears} năm kinh nghiệm
