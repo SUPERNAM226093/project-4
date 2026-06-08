@@ -11,8 +11,11 @@ import java.util.Optional;
  */
 @Repository
 public interface PrescriptionRepository extends JpaRepository<Prescription, Long> {
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"medicalRecord", "doctor"})
     Optional<Prescription> findByMedicalRecordId(Long medicalRecordId);
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"medicalRecord", "doctor"})
     java.util.List<Prescription> findByMedicalRecordAppointmentPatientIdOrderByCreatedAtDesc(Long patientId);
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"medicalRecord", "doctor"})
     java.util.List<Prescription> findByDoctorIdOrderByCreatedAtDesc(Long doctorId);
     long countByCreatedAtBetween(java.time.LocalDateTime start, java.time.LocalDateTime end);
 
