@@ -8,7 +8,7 @@ import PageHeader from "../components/PageHeader";
 
 import { HOSPITALS } from "../lib/hospitals";
 
-const areas = ["Tất cả", "TP.HCM", "Cần Thơ", "Khác"];
+const areas = ["Tất cả", "TP.HCM", "Hà Nội", "Đà Nẵng", "Cần Thơ"];
 
 export default function AllHospitalsPage() {
     const [search, setSearch] = useState("");
@@ -17,7 +17,10 @@ export default function AllHospitalsPage() {
     // Lấy vùng miền từ tên hospital (giả định dựa trên dữ liệu mock)
     const hospitalsWithArea = HOSPITALS.map(h => ({
         ...h,
-        area: h.address.includes("Cần Thơ") ? "Cần Thơ" : h.address.includes("Hồ Chí Minh") ? "TP.HCM" : "Khác"
+        area: h.address.includes("Cần Thơ") ? "Cần Thơ" : 
+              h.address.includes("Hồ Chí Minh") ? "TP.HCM" : 
+              h.address.includes("Hà Nội") ? "Hà Nội" : 
+              h.address.includes("Đà Nẵng") ? "Đà Nẵng" : "Khác"
     }));
 
     const filteredHospitals = hospitalsWithArea.filter(h => {
