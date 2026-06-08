@@ -7,7 +7,6 @@ import LoginPage from './features/auth/LoginPage';
 import DashboardPage from './features/dashboard/DashboardPage';
 import UserPage from './features/users/UserPage';
 import RolePage from './features/roles/RolePage';
-import RoleUrlPage from './features/role-urls/RoleUrlPage';
 import DoctorPage from './features/doctors/DoctorPage';
 import SpecializationPage from './features/specializations/SpecializationPage';
 import RoomPage from './features/rooms/RoomPage';
@@ -75,7 +74,6 @@ export default function App() {
           <Route path="/doctors" element={<DoctorPage />} />
           <Route path="/roles" element={<RolePage />} />
           <Route path="/specializations" element={<SpecializationPage />} />
-          <Route path="/role-urls" element={<RoleUrlPage />} />
         </Route>
       </Route>
 
