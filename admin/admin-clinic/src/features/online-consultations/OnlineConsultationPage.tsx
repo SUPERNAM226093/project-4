@@ -5,6 +5,7 @@ import { HiOutlinePencil, HiOutlineTrash, HiOutlineVideoCamera, HiOutlineArrowPa
 import api from "../../services/api";
 import Modal from "../../components/ui/Modal";
 import ConfirmDialog from "../../components/ui/ConfirmDialog";
+import { useAuth } from "../../store/AuthContext";
 
 /**
  * FILE: OnlineConsultationPage.tsx
@@ -67,6 +68,12 @@ export default function OnlineConsultationPage() {
     });
 
     const [deleteId, setDeleteId] = useState<number | null>(null);
+
+    // Phân quyền: DOCTOR và STAFF chỉ được Xem và Sửa, không được Thêm/Xóa
+    const { isAdmin } = useAuth();
+    const canDelete = isAdmin;
+    // canAdd cũng chỉ Admin (tư vấn online tạo từ phia patient, không tạo từ admin)
+    const canAdd = isAdmin;
 
     /**
      * HÀM: fetchData
@@ -254,7 +261,7 @@ export default function OnlineConsultationPage() {
                                                         <HiOutlineVideoCamera />
                                                     </a>
                                                 )}
-                                                <button className="btn-icon text-red-500" title="Xóa" onClick={() => setDeleteId(c.id)}><HiOutlineTrash /></button>
+                                                                {canDelete && <button className="btn-icon text-red-500" title="Xóa" onClick={() => setDeleteId(c.id)}><HiOutlineTrash /></button>}
                                             </div>
                                         </td>
                                     </tr>

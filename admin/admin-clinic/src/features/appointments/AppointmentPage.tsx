@@ -35,7 +35,10 @@ export default function AppointmentPage() {
     
     const [form, setForm] = useState(emptyForm); // Dữ liệu form
     const [deleteId, setDeleteId] = useState<number | null>(null); // ID của lịch hẹn đang chờ xóa
-    const { isDoctor } = useAuth(); // Lấy thông tin quyền hạn của người dùng đang đăng nhập
+    const { isDoctor, isAdmin } = useAuth(); // Lấy thông tin quyền hạn của người dùng đang đăng nhập
+    // Phân quyền cứng: chỉ Admin được Thêm/Xóa lịch hẹn; Doctor & Staff chỉ Xem/Sửa
+    const canAdd = isAdmin;
+    const canDelete = isAdmin;
 
     /**
      * HÀM: fetchData
@@ -133,7 +136,7 @@ export default function AppointmentPage() {
                     <p>{"Quản lý lịch hẹn bệnh nhân"}</p>
                 </div>
                 {/* Chỉ Admin mới được tạo lịch hẹn thủ công tại đây */}
-                {!isDoctor && (
+                {canAdd && (
                     <button className="btn btn-primary" onClick={openCreate}><HiOutlinePlus /> {"Lịch hẹn mới"}</button>
                 )}
             </div>
@@ -167,7 +170,7 @@ export default function AppointmentPage() {
                                 <td>
                                     <div className="table-actions">
                                         <button className="btn-icon" onClick={() => openEdit(a)} title="Chỉnh sửa"><HiOutlinePencil /></button>
-                                        {!isDoctor && (
+                                        {canDelete && (
                                             <button className="btn-icon" onClick={() => setDeleteId(a.id)} title="Xóa"><HiOutlineTrash /></button>
                                         )}
                                     </div>

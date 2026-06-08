@@ -22,7 +22,10 @@ const emptyForm = { appointmentId: '', doctorId: '', diagnosis: '', conclusion: 
 
 export default function MedicalRecordPage() {
     // --- 1. KHỞI TẠO STATE & QUYỀN HẠN ---
-    const { user, isDoctor, isAdmin, isStaff } = useAuth(); // Lấy thông tin vai trò người dùng
+    const { user, isDoctor, isAdmin, isStaff } = useAuth();
+    // Phân quyền cứng: DOCTOR chỉ được Xem/Sửa Hồ sơ bệnh án, không được Thêm/Xóa
+    const canAdd = isAdmin;
+    const canDelete = isAdmin;
     const [items, setItems] = useState<MedicalRecord[]>([]); // Danh sách bệnh án
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
@@ -146,7 +149,7 @@ export default function MedicalRecordPage() {
                     <h1>{"Hồ sơ bệnh án"}</h1>
                     <p>{"Quản lý hồ sơ bệnh án bệnh nhân"}</p>
                 </div>
-                <button className="btn btn-primary" onClick={openCreate}><HiOutlinePlus /> {"Thêm Hồ sơ"}</button>
+                <button className="btn btn-primary" onClick={openCreate} style={{ display: canAdd ? undefined : 'none' }}><HiOutlinePlus /> {"Thêm Hồ sơ"}</button>
             </div>
 
             {/* BẢNG DANH SÁCH BỆNH ÁN */}
@@ -160,7 +163,7 @@ export default function MedicalRecordPage() {
                             <th>{"Chẩn đoán"}</th>
                             <th>{"Kết luận"}</th>
                             <th>{"Ngày tạo"}</th>
-                            {!isAdmin && <th>{"Thao tác"}</th>}
+                            <th>{"Thao tác"}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -173,17 +176,17 @@ export default function MedicalRecordPage() {
                                 <td style={{ maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={r.diagnosis}>{r.diagnosis || '—'}</td>
                                 <td style={{ maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={r.conclusion}>{r.conclusion || '—'}</td>
                                 <td>{r.createdAt ? new Date(r.createdAt).toLocaleDateString('vi-VN') : '—'}</td>
-                                {!isAdmin && (
-                                    <td>
-                                        <div className="table-actions">
-                                            <button className="btn-icon" onClick={() => openEdit(r)} title="Sửa bệnh án"><HiOutlinePencil /></button>
+                                <td>
+                                    <div className="table-actions">
+                                        <button className="btn-icon" onClick={() => openEdit(r)} title="Sửa bệnh án"><HiOutlinePencil /></button>
+                                        {canDelete && (
                                             <button className="btn-icon" onClick={() => setDeleteId(r.id)} title="Xóa bệnh án"><HiOutlineTrash /></button>
-                                        </div>
-                                    </td>
-                                )}
+                                        )}
+                                    </div>
+                                </td>
                             </tr>
                         ))}
-                        {items.length === 0 && <tr><td colSpan={isAdmin ? 6 : 7} className="empty-state">{"Không có hồ sơ nào"}</td></tr>}
+                        {items.length === 0 && <tr><td colSpan={7} className="empty-state">{"Không có hồ sơ nào"}</td></tr>}
                     </tbody>
                 </table>
             </div></div>

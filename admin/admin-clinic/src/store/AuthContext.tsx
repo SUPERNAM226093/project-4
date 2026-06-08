@@ -44,38 +44,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [isPermissionsLoaded, setIsPermissionsLoaded] = useState<boolean>(false);
 
     // ── Quyền cố định (hardcode) cho từng vai trò ──────────────────────────
-    // STAFF: Dịch vụ & Phòng, Đăng ký dịch vụ, Gói khám sức khỏe,
-    //        Đăng ký gói khám → Xem/Thêm/Sửa  |  Tư vấn, Lịch hẹn → Xem/Sửa
-    const STAFF_PATHS = new Set([
-        '/rooms',
-        '/room-bookings',
-        '/health-packages',
-        '/health-package-bookings',
-        '/online-consultations',
-        '/appointments',
-    ]);
+    // STAFF: Đăng ký dịch vụ, Gói khám, Đăng ký gói khám → Xem/Thêm/Sửa
+    //        Tư vấn trực tuyến, Lịch hẹn → Xem/Sửa (không Thêm/Xóa)
+    // DOCTOR: Tư vấn, Lịch hẹn, Hồ sơ bệnh án, Đơn thuốc → Xem/Sửa (không Thêm/Xóa)
+    //         Dịch vụ & Phòng (rooms) → Xem/Thêm/Sửa (không Xóa)
 
-    // DOCTOR: Tư vấn trực tuyến, Lịch hẹn, Hồ sơ bệnh án, Đơn thuốc → Xem/Sửa
-    const DOCTOR_PATHS = new Set([
-        '/online-consultations',
-        '/appointments',
-        '/medical-records',
-        '/prescriptions',
-    ]);
-
-    const fetchAllowedPaths = useCallback(async (roleName: string) => {
+    const fetchAllowedPaths = useCallback((roleName: string) => {
         if (roleName === 'ADMIN') {
             setAllowedPaths(new Set(['*']));
             setIsPermissionsLoaded(true);
             return;
         }
         if (roleName === 'STAFF') {
-            setAllowedPaths(STAFF_PATHS);
+            // STAFF được truy cập: Đăng ký dịch vụ, Gói khám, Đăng ký gói khám, Tư vấn, Lịch hẹn
+            setAllowedPaths(new Set([
+                '/service-registrations',
+                '/health-packages',
+                '/health-package-bookings',
+                '/online-consultations',
+                '/appointments',
+            ]));
             setIsPermissionsLoaded(true);
             return;
         }
         if (roleName === 'DOCTOR') {
-            setAllowedPaths(DOCTOR_PATHS);
+            // DOCTOR được truy cập: Tư vấn, Lịch hẹn, Hồ sơ bệnh án, Đơn thuốc, Dịch vụ & Phòng
+            setAllowedPaths(new Set([
+                '/online-consultations',
+                '/appointments',
+                '/medical-records',
+                '/prescriptions',
+                '/rooms',
+            ]));
             setIsPermissionsLoaded(true);
             return;
         }
@@ -92,8 +92,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
 
         setIsPermissionsLoaded(false);
+        // fetchAllowedPaths đồng bộ (không async) nên gọi trực tiếp
         fetchAllowedPaths(user.role);
-    }, [user?.role, fetchAllowedPaths]);
+    }, [user?.role]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const isPathAllowed = useCallback((path: string) => {
         // Always allowed paths

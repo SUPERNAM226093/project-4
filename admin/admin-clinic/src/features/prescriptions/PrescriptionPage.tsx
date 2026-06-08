@@ -27,6 +27,9 @@ const emptyForm = { medicalRecordId: '', doctorId: '', items: [{ ...emptyItem }]
 export default function PrescriptionPage() {
     // --- 1. KHỞI TẠO STATE & QUYỀN HẠN ---
     const { user, isDoctor, isAdmin, isStaff } = useAuth();
+    // Phân quyền cứng: DOCTOR chỉ được Xem/Sửa Đơn thuốc, không được Thêm/Xóa
+    const canAdd = isAdmin;
+    const canDelete = isAdmin;
     const [items, setItems] = useState<Prescription[]>([]); // Danh sách các đơn thuốc hiện có
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
@@ -39,10 +42,6 @@ export default function PrescriptionPage() {
     const [medicalRecords, setMedicalRecords] = useState<MedicalRecordOption[]>([]);
     const [doctors, setDoctors] = useState<DoctorOption[]>([]);
 
-    /**
-     * HÀM: fetchData
-     * MÔ TẢ: Lấy danh sách toàn bộ đơn thuốc từ Backend.
-     */
     const fetchData = async () => {
         try { 
             const res = await api.get('/prescriptions'); 
@@ -56,10 +55,6 @@ export default function PrescriptionPage() {
         }
     };
 
-    /**
-     * HÀM: fetchOptions
-     * MÔ TẢ: Lấy danh sách hồ sơ bệnh án và bác sĩ để phục vụ việc chọn dữ liệu trong Form.
-     */
     const fetchOptions = async () => {
         try {
             const [mrRes, docRes] = await Promise.all([
@@ -76,10 +71,6 @@ export default function PrescriptionPage() {
         fetchOptions(); 
     }, []);
 
-    /**
-     * HÀM: openCreate
-     * MÔ TẢ: Mở form tạo đơn thuốc mới.
-     */
     const openCreate = () => {
         let defaultDoctorId = '';
         if (isDoctor) {
@@ -91,10 +82,6 @@ export default function PrescriptionPage() {
         setShowModal(true);
     };
 
-    /**
-     * HÀM: openEdit
-     * MÔ TẢ: Mở form chỉnh sửa đơn thuốc cũ.
-     */
     const openEdit = (p: Prescription) => {
         setForm({ 
             medicalRecordId: String(p.medicalRecordId), 
@@ -105,13 +92,8 @@ export default function PrescriptionPage() {
         setShowModal(true);
     };
 
-    /**
-     * HÀM: handleSubmit
-     * MÔ TẢ: Lưu đơn thuốc (Gửi dữ liệu mảng các loại thuốc lên Server).
-     */
     const handleSubmit = async () => {
         try {
-            // Lọc bỏ những dòng thuốc mà người dùng chưa nhập tên thuốc
             const payload = { 
                 medicalRecordId: Number(form.medicalRecordId), 
                 doctorId: Number(form.doctorId), 
@@ -133,10 +115,6 @@ export default function PrescriptionPage() {
         }
     };
 
-    /**
-     * HÀM: handleDelete
-     * MÔ TẢ: Xóa đơn thuốc khỏi hệ thống.
-     */
     const handleDelete = async () => {
         if (!deleteId) return;
         try { 
@@ -150,19 +128,13 @@ export default function PrescriptionPage() {
         }
     };
 
-    // --- CÁC HÀM XỬ LÝ DYNAMIC ITEMS (THÊM/XÓA DÒNG THUỐC) ---
-
-    // Cập nhật giá trị cho một trường cụ thể trong một dòng thuốc
     const updateItem = (idx: number, field: string, value: string) => {
         const newItems = [...form.items];
         (newItems[idx] as any)[field] = value;
         setForm({ ...form, items: newItems });
     };
 
-    // Thêm một dòng thuốc mới vào form
     const addItem = () => setForm({ ...form, items: [...form.items, { ...emptyItem }] });
-
-    // Xóa một dòng thuốc khỏi form
     const removeItem = (idx: number) => setForm({ ...form, items: form.items.filter((_, i) => i !== idx) });
 
     if (loading) return <div className="loading-spinner"><div className="spinner" /></div>;
@@ -175,7 +147,9 @@ export default function PrescriptionPage() {
                     <h1>{"Đơn thuốc"}</h1>
                     <p>{"Quản lý đơn thuốc bệnh nhân"}</p>
                 </div>
-                <button className="btn btn-primary" onClick={openCreate}><HiOutlinePlus /> {"Thêm Đơn thuốc"}</button>
+                {canAdd && (
+                    <button className="btn btn-primary" onClick={openCreate}><HiOutlinePlus /> {"Thêm Đơn thuốc"}</button>
+                )}
             </div>
 
             {/* BẢNG DANH SÁCH ĐƠN THUỐC */}
@@ -188,7 +162,7 @@ export default function PrescriptionPage() {
                             <th>{"Bác sĩ"}</th>
                             <th>{"Thuốc"}</th>
                             <th>{"Ngày tạo"}</th>
-                            {!isAdmin && <th>{"Thao tác"}</th>}
+                            <th>{"Thao tác"}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -198,7 +172,6 @@ export default function PrescriptionPage() {
                                 <td>#{p.medicalRecordId}</td>
                                 <td style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{p.doctorName}</td>
                                 <td>
-                                    {/* Hiển thị danh sách thuốc dưới dạng các nhãn (labels) nhỏ */}
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                                         {p.items.map((item, idx) => (
                                             <span key={idx} style={{ fontSize: '0.75rem', background: 'var(--bg-secondary)', padding: '2px 8px', borderRadius: '4px', border: '1px solid var(--border-color)' }}>
@@ -209,26 +182,25 @@ export default function PrescriptionPage() {
                                     </div>
                                 </td>
                                 <td>{p.createdAt ? new Date(p.createdAt).toLocaleDateString('vi-VN') : '—'}</td>
-                                {!isAdmin && (
-                                    <td>
-                                        <div className="table-actions">
-                                            <button className="btn-icon" onClick={() => openEdit(p)} title="Sửa đơn thuốc"><HiOutlinePencil /></button>
+                                <td>
+                                    <div className="table-actions">
+                                        <button className="btn-icon" onClick={() => openEdit(p)} title="Sửa đơn thuốc"><HiOutlinePencil /></button>
+                                        {canDelete && (
                                             <button className="btn-icon" onClick={() => setDeleteId(p.id)} title="Xóa đơn thuốc"><HiOutlineTrash /></button>
-                                        </div>
-                                    </td>
-                                )}
+                                        )}
+                                    </div>
+                                </td>
                             </tr>
                         ))}
-                        {items.length === 0 && <tr><td colSpan={isAdmin ? 5 : 6} className="empty-state">{"Không có đơn thuốc nào"}</td></tr>}
+                        {items.length === 0 && <tr><td colSpan={6} className="empty-state">{"Không có đơn thuốc nào"}</td></tr>}
                     </tbody>
                 </table>
             </div></div>
 
-            {/* MODAL THÊM / SỬA ĐƠN THUỐC (Chế độ WIDE - rộng) */}
+            {/* MODAL THÊM / SỬA ĐƠN THUỐC */}
             {showModal && (
                 <Modal title={editingId ? "Sửa Đơn thuốc" : "Tạo Đơn thuốc"} onClose={() => setShowModal(false)} wide>
                     <div className="form-row">
-                        {/* Chọn Hồ sơ bệnh án tương ứng */}
                         <div className="form-group">
                             <label>{"Hồ sơ bệnh án"}</label>
                             <select className="form-control" value={form.medicalRecordId} onChange={e => setForm({ ...form, medicalRecordId: e.target.value })}>
@@ -240,7 +212,6 @@ export default function PrescriptionPage() {
                                 ))}
                             </select>
                         </div>
-                        {/* Chọn Bác sĩ (Bị khóa nếu người dùng là Bác sĩ) */}
                         <div className="form-group">
                             <label>{"Bác sĩ"}</label>
                             <select className="form-control" value={form.doctorId} onChange={e => setForm({ ...form, doctorId: e.target.value })} disabled={isDoctor}>
@@ -254,7 +225,6 @@ export default function PrescriptionPage() {
                         </div>
                     </div>
 
-                    {/* DANH SÁCH CÁC LOẠI THUỐC TRONG ĐƠN (Dynamic List) */}
                     <div style={{ marginTop: 24 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                             <label style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
@@ -273,7 +243,6 @@ export default function PrescriptionPage() {
                                     <div className="form-group"><label>{"Tần suất"}</label><input className="form-control" value={item.frequency} onChange={e => updateItem(idx, 'frequency', e.target.value)} placeholder="Ví dụ: 3 lần/ngày, sau ăn" /></div>
                                     <div className="form-group"><label>{"Thời gian dùng"}</label><input className="form-control" value={item.duration} onChange={e => updateItem(idx, 'duration', e.target.value)} placeholder="Ví dụ: 7 ngày" /></div>
                                 </div>
-                                {/* Nút xóa dòng thuốc (Chỉ hiện nếu có nhiều hơn 1 dòng) */}
                                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                                     {form.items.length > 1 && <button className="btn btn-sm btn-ghost" style={{ color: 'var(--accent-danger)' }} onClick={() => removeItem(idx)}><HiOutlineTrash /> Gỡ bỏ</button>}
                                 </div>
@@ -281,7 +250,6 @@ export default function PrescriptionPage() {
                         ))}
                     </div>
 
-                    {/* NÚT HÀNH ĐỘNG */}
                     <div className="form-actions" style={{ marginTop: 24 }}>
                         <button className="btn btn-ghost" onClick={() => setShowModal(false)}>{"Hủy"}</button>
                         <button className="btn btn-primary" onClick={handleSubmit}>{editingId ? "Cập nhật" : "Tạo mới"}</button>
@@ -289,7 +257,6 @@ export default function PrescriptionPage() {
                 </Modal>
             )}
 
-            {/* DIALOG XÁC NHẬN XÓA */}
             {deleteId && <ConfirmDialog title={"Xóa Đơn thuốc"} message={"Bạn có chắc chắn không?"} onConfirm={handleDelete} onCancel={() => setDeleteId(null)} />}
         </div>
     );

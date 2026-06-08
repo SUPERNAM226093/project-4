@@ -18,6 +18,7 @@ import HealthPackagePage from './features/health-packages/HealthPackagePage';
 import OnlineConsultationPage from './features/online-consultations/OnlineConsultationPage';
 import HealthPackageBookingPage from './features/health-package-bookings/HealthPackageBookingPage';
 import ProfilePage from './features/profile/ProfilePage';
+import ServiceRegistrationPage from './features/service-registrations/ServiceRegistrationPage';
 import { navItems } from './components/layout/Sidebar';
 
 function RedirectIfAuth({ children }: { children: React.ReactNode }) {
@@ -64,6 +65,7 @@ export default function App() {
           <Route path="/room-bookings" element={<RoomBookingPage />} />
           <Route path="/health-packages" element={<HealthPackagePage />} />
           <Route path="/health-package-bookings" element={<HealthPackageBookingPage />} />
+          <Route path="/service-registrations" element={<ServiceRegistrationPage />} />
           <Route path="/users" element={<UserPage />} />
           <Route path="/rooms" element={<RoomPage />} />
           <Route path="/appointments" element={<AppointmentPage />} />

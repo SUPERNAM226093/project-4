@@ -42,7 +42,10 @@ const emptyForm = {
 };
 
 export default function RoomPage() {
-    const { isAdmin, isStaff } = useAuth();
+    const { isAdmin, isDoctor, isStaff } = useAuth();
+    // Phân quyền cứng: DOCTOR được Xem/Thêm/Sửa Phòng, KHÔNG Xóa; ADMIN toàn quyền
+    const canAdd = isAdmin || isDoctor;
+    const canDelete = isAdmin;
     const [items, setItems] = useState<Room[]>([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
@@ -62,15 +65,9 @@ export default function RoomPage() {
         }
     };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+    useEffect(() => { fetchData(); }, []);
 
-    const openCreate = () => {
-        setForm(emptyForm);
-        setEditingId(null);
-        setShowModal(true);
-    };
+    const openCreate = () => { setForm(emptyForm); setEditingId(null); setShowModal(true); };
 
     const openEdit = (r: Room) => {
         setForm({
@@ -103,15 +100,15 @@ export default function RoomPage() {
             };
             if (editingId) {
                 await api.put(`/rooms/${editingId}`, payload);
-                toast.success("Updated");
+                toast.success("Cập nhật phòng thành công");
             } else {
                 await api.post('/rooms', payload);
-                toast.success("Created");
+                toast.success("Tạo phòng mới thành công");
             }
             setShowModal(false);
             fetchData();
         } catch (err: any) {
-            toast.error(err.response?.data?.message || 'Error saving room');
+            toast.error(err.response?.data?.message || 'Lỗi khi lưu phòng');
         }
     };
 
@@ -119,21 +116,21 @@ export default function RoomPage() {
         if (!deleteId) return;
         try {
             await api.delete(`/rooms/${deleteId}`);
-            toast.success("Deleted");
+            toast.success("Đã xóa phòng");
             setDeleteId(null);
             fetchData();
         } catch {
-            toast.error('Failed to delete room');
+            toast.error('Xóa phòng thất bại');
         }
     };
 
     const toggleStatus = async (room: Room) => {
         try {
             await api.put(`/rooms/${room.id}`, { ...room, isActive: !room.isActive });
-            toast.success('Status updated');
+            toast.success('Cập nhật trạng thái thành công');
             fetchData();
         } catch {
-            toast.error('Failed to update status');
+            toast.error('Cập nhật trạng thái thất bại');
         }
     };
 
@@ -142,10 +139,10 @@ export default function RoomPage() {
         fd.append('file', file);
         try {
             await api.post(`/rooms/${id}/image`, fd);
-            toast.success('Image uploaded');
+            toast.success('Tải ảnh thành công');
             fetchData();
         } catch (err: any) {
-            toast.error(err.displayMessage || 'Upload failed');
+            toast.error(err.displayMessage || 'Tải ảnh thất bại');
         }
     };
 
@@ -163,7 +160,7 @@ export default function RoomPage() {
                     <h1>{"Phòng bệnh"}</h1>
                     <p>{"Quản lý phòng và giường bệnh"}</p>
                 </div>
-                {(isAdmin || isStaff) && (
+                {canAdd && (
                     <button className="btn btn-primary" onClick={openCreate}>
                         <HiOutlinePlus /> {"Thêm phòng"}
                     </button>
@@ -213,23 +210,25 @@ export default function RoomPage() {
                                     <td>
                                         <button 
                                             className={`badge ${r.isActive ? 'badge-success' : 'badge-danger'}`}
-                                            onClick={() => (isAdmin || isStaff) && toggleStatus(r)}
-                                            style={{ cursor: (isAdmin || isStaff) ? 'pointer' : 'default', border: 'none' }}
+                                            onClick={() => canAdd && toggleStatus(r)}
+                                            style={{ cursor: canAdd ? 'pointer' : 'default', border: 'none' }}
                                         >
                                             {r.isActive ? "Hoạt động" : "Ngừng hoạt động"}
                                         </button>
                                     </td>
                                     <td>
                                         <div className="table-actions">
-                                            {(isAdmin || isStaff) && (
+                                            {canAdd && (
                                                 <>
                                                     <label className="btn-icon" title="Upload Image" style={{ cursor: 'pointer' }}>
                                                         <HiOutlinePhoto />
                                                         <input type="file" accept="image/*" hidden onChange={e => { if (e.target.files?.[0]) handleImageUpload(r.id, e.target.files[0]); }} />
                                                     </label>
                                                     <button className="btn-icon" onClick={() => openEdit(r)}><HiOutlinePencil /></button>
-                                                    <button className="btn-icon" onClick={() => setDeleteId(r.id)}><HiOutlineTrash /></button>
                                                 </>
+                                            )}
+                                            {canDelete && (
+                                                <button className="btn-icon" onClick={() => setDeleteId(r.id)}><HiOutlineTrash /></button>
                                             )}
                                         </div>
                                     </td>
@@ -237,7 +236,7 @@ export default function RoomPage() {
                             ))}
                             {items.length === 0 && (
                                 <tr>
-                                    <td colSpan={8} className="empty-state">{"Không tìm thấy phòng nào"}</td>
+                                    <td colSpan={9} className="empty-state">{"Không tìm thấy phòng nào"}</td>
                                 </tr>
                             )}
                         </tbody>
@@ -279,7 +278,7 @@ export default function RoomPage() {
                     </div>
                     <div className="form-row">
                         <div className="form-group">
-                            <label>Tổng số giường (Total Beds)</label>
+                            <label>Tổng số giường</label>
                             <input name="totalBeds" type="number" className="form-control" value={form.totalBeds} onChange={handleChange} />
                         </div>
                         <div className="form-group">
@@ -293,11 +292,11 @@ export default function RoomPage() {
                     </div>
                     <div className="form-row">
                         <div className="form-group">
-                            <label>Phí vệ sinh (Cleaning Fee)</label>
+                            <label>Phí vệ sinh</label>
                             <input name="cleaningFee" type="number" className="form-control" value={form.cleaningFee} onChange={handleChange} />
                         </div>
                         <div className="form-group">
-                            <label>Phí dịch vụ (Service Fee)</label>
+                            <label>Phí dịch vụ</label>
                             <input name="serviceFee" type="number" className="form-control" value={form.serviceFee} onChange={handleChange} />
                         </div>
                     </div>

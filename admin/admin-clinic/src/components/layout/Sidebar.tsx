@@ -46,6 +46,7 @@ export const navItems: NavItem[] = [
     { path: '/specializations', label: 'menu.specializations', icon: <HiOutlineAcademicCap /> },
     { path: '/rooms', label: 'menu.services', icon: <HiOutlineCube /> },
     { path: '/room-bookings', label: 'menu.registrations', icon: <HiOutlineClipboardDocumentList /> },
+    { path: '/service-registrations', label: 'menu.serviceRegistrations', icon: <HiOutlineLink /> },
     { path: '/health-packages', label: 'menu.healthPackages', icon: <HiOutlineHeart /> },
     { path: '/health-package-bookings', label: 'menu.healthPackageBookings', icon: <HiOutlineClipboardDocumentList /> },
     { path: '/online-consultations', label: 'menu.onlineConsultations', icon: <HiOutlineVideoCamera /> },
