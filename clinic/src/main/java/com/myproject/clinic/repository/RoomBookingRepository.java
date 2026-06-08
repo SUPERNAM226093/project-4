@@ -15,12 +15,15 @@ import java.util.List;
 @Repository
 public interface RoomBookingRepository extends JpaRepository<RoomBooking, Long> {
     
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"bookedBy", "room"})
     List<RoomBooking> findByBookedById(Long userId);
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"bookedBy", "room"})
     List<RoomBooking> findByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
 
     @Query("SELECT b FROM RoomBooking b WHERE b.room.id = :roomId " +
            "AND b.status IN ('CONFIRMED', 'CHECKED_IN') " +
            "AND (:newCheckIn < b.checkOutDate AND :newCheckOut > b.checkInDate)")
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"bookedBy", "room"})
     List<RoomBooking> findOverlappingBookings(
             @Param("roomId") Long roomId,
             @Param("newCheckIn") LocalDateTime newCheckIn,
@@ -52,5 +55,6 @@ public interface RoomBookingRepository extends JpaRepository<RoomBooking, Long> 
 
     boolean existsByRoomId(Long roomId);
 
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"bookedBy", "room"})
     List<RoomBooking> findByStatus(String status);
 }
