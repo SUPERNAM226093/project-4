@@ -62,8 +62,12 @@ export default function DoctorListPage() {
                                 Tất cả
                             </button>
                             {HOSPITALS.map((hospital) => {
-                                // Extract the short name, e.g., "Med 1", "Med 2"
-                                const shortName = hospital.name.match(/(Med \d+)/)?.[1] || hospital.name.split(" - ")[0];
+                                // Extract the district name for the button label to match UI exactly
+                                const shortName = hospital.address.includes("Mỹ Đức") ? "Mỹ Đức" :
+                                                  hospital.address.includes("Hà Đông") ? "Hà Đông" :
+                                                  hospital.address.includes("Ba Đình") ? "Ba Đình" :
+                                                  hospital.address.includes("Cầu Giấy") ? "Cầu Giấy" : 
+                                                  hospital.name.match(/(Med \d+)/)?.[1] || hospital.name.split(" - ")[0];
                                 return (
                                     <button
                                         key={hospital.id}
