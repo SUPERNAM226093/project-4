@@ -223,7 +223,7 @@ export default function ChatWidget() {
                 onClick={() => setIsOpen(!isOpen)}
                 className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
                 style={{
-                    background: "linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)",
+                    background: "linear-gradient(135deg, #0d6b52 0%, #0ea882 100%)",
                 }}
                 id="chat-toggle-btn"
             >
@@ -248,7 +248,7 @@ export default function ChatWidget() {
                     <div
                         className="px-5 py-4 flex items-center gap-3"
                         style={{
-                            background: "linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)",
+                            background: "linear-gradient(135deg, #0d6b52 0%, #0ea882 100%)",
                         }}
                     >
                         <div className="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center">
@@ -263,14 +263,14 @@ export default function ChatWidget() {
                     </div>
 
                     {/* VÙNG HIỂN THỊ TIN NHẮN */}
-                    <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
+                    <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#f0fdf8]">
                         {messages.map((msg, idx) => (
                             <div key={idx} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                                 <div className={`max-w-[85%] ${msg.role === "user" ? "" : ""}`}>
                                     <div
                                         className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${msg.role === "user"
-                                            ? "bg-[#2563EB] text-white rounded-br-sm"
-                                            : "bg-white text-gray-700 rounded-bl-sm shadow-sm border border-gray-100"
+                                            ? "bg-[#0d6b52] text-white rounded-br-sm"
+                                            : "bg-white text-[#0a3d2e] rounded-bl-sm shadow-sm border border-[#b2e8d9]"
                                             }`}
                                     >
                                         {formatMessage(msg.content)}
@@ -283,7 +283,7 @@ export default function ChatWidget() {
                                                 <div
                                                     key={card.id}
                                                     onClick={() => handleCardClick(card)}
-                                                    className="bg-white rounded-xl p-3 border border-gray-100 hover:border-[#2563EB]/30 hover:shadow-md cursor-pointer transition-all flex items-center gap-3"
+                                                    className="bg-white rounded-xl p-3 border border-[#d1faf0] hover:border-[#0ea882] hover:shadow-md cursor-pointer transition-all flex items-center gap-3"
                                                 >
                                                     {card.featureImageUrl ? (
                                                         <img
@@ -292,8 +292,8 @@ export default function ChatWidget() {
                                                             className="w-12 h-12 rounded-xl object-cover"
                                                         />
                                                     ) : (
-                                                        <div className="w-12 h-12 rounded-xl bg-[#EFF6FF] flex items-center justify-center">
-                                                            <svg className="w-6 h-6 text-[#2563EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <div className="w-12 h-12 rounded-xl bg-[#e8f9f4] flex items-center justify-center">
+                                                            <svg className="w-6 h-6 text-[#0d6b52]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                                                             </svg>
                                                         </div>
@@ -352,7 +352,7 @@ export default function ChatWidget() {
                                             {msg.doctors.map((doctor, dIdx) => (
                                                 <div
                                                     key={doctor.id}
-                                                    className="bg-white rounded-xl p-3 border border-gray-100 hover:border-[#2563EB]/30 hover:shadow-md cursor-pointer transition-all"
+                                                    className="bg-white rounded-xl p-3 border border-[#d1faf0] hover:border-[#0ea882] hover:shadow-md cursor-pointer transition-all"
                                                     onClick={() => handleDoctorClick(doctor)}
                                                 >
                                                     <div className="flex items-center gap-3 mb-2">
@@ -363,7 +363,7 @@ export default function ChatWidget() {
                                                                 className="w-10 h-10 rounded-full object-cover"
                                                             />
                                                         ) : (
-                                                            <div className="w-10 h-10 rounded-full bg-[#EFF6FF] flex items-center justify-center">
+                                                            <div className="w-10 h-10 rounded-full bg-[#e8f9f4] flex items-center justify-center">
                                                                 <span className="text-sm">👨‍⚕️</span>
                                                             </div>
                                                         )}
@@ -372,7 +372,7 @@ export default function ChatWidget() {
                                                                 {dIdx + 1}. {doctor.fullName}
                                                             </p>
                                                             {doctor.specializationName && (
-                                                                <p className="text-xs text-[#2563EB]">{doctor.specializationName}</p>
+                                                                <p className="text-xs text-[#0d6b52] font-medium">{doctor.specializationName}</p>
                                                             )}
                                                         </div>
                                                     </div>
@@ -381,7 +381,7 @@ export default function ChatWidget() {
                                                             {doctor.schedules.slice(0, 3).map((slot) => (
                                                                 <span
                                                                     key={slot.id}
-                                                                    className="text-xs bg-[#E8F4FF] text-[#1D4ED8] px-2 py-0.5 rounded-full"
+                                                                    className="text-xs bg-[#d1faf0] text-[#0d6b52] px-2 py-0.5 rounded-full"
                                                                 >
                                                                     {slot.workDate} {slot.startTime}
                                                                 </span>
@@ -415,9 +415,9 @@ export default function ChatWidget() {
                             <div className="flex justify-start">
                                 <div className="bg-white px-4 py-3 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100">
                                     <div className="flex gap-1.5">
-                                        <div className="w-2 h-2 bg-[#2563EB] rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                                        <div className="w-2 h-2 bg-[#2563EB] rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                                        <div className="w-2 h-2 bg-[#2563EB] rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                                        <div className="w-2 h-2 bg-[#0d6b52] rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                                        <div className="w-2 h-2 bg-[#0d6b52] rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                                        <div className="w-2 h-2 bg-[#0d6b52] rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
                                     </div>
                                 </div>
                             </div>
@@ -436,7 +436,7 @@ export default function ChatWidget() {
                                 onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                                 placeholder="Nhập tin nhắn..."
                                 disabled={loading}
-                                className="flex-1 bg-gray-50 rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#2563EB]/30 border border-gray-200 transition-all disabled:opacity-50"
+                                className="flex-1 bg-[#f0fdf8] rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#0ea882]/30 border border-[#b2e8d9] transition-all disabled:opacity-50"
                                 id="chat-input"
                             />
                             <button
@@ -444,7 +444,7 @@ export default function ChatWidget() {
                                 disabled={loading || !input.trim()}
                                 className="w-10 h-10 rounded-xl flex items-center justify-center transition-all disabled:opacity-40"
                                 style={{
-                                    background: "linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)",
+                                    background: "linear-gradient(135deg, #0d6b52 0%, #0ea882 100%)",
                                 }}
                                 id="chat-send-btn"
                             >
