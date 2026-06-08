@@ -86,7 +86,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/chat").permitAll()
 
                         // ── ADMIN: Toàn quyền quản lý người dùng, vai trò ───
-                        .requestMatchers("/api/users/**").hasRole("ADMIN")
+                        .requestMatchers("/api/users/**").hasAnyRole("ADMIN", "STAFF", "DOCTOR")
                         .requestMatchers("/api/roles/**").hasRole("ADMIN")
                         .requestMatchers("/api/doctors/**").hasAnyRole("ADMIN", "DOCTOR", "STAFF")
                         .requestMatchers("/api/specializations/**").hasAnyRole("ADMIN", "STAFF")
@@ -96,6 +96,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/room-bookings/**").hasAnyRole("ADMIN", "STAFF")
                         .requestMatchers("/api/health-packages/**").hasAnyRole("ADMIN", "STAFF")
                         .requestMatchers("/api/health-package-bookings/**").hasAnyRole("ADMIN", "STAFF")
+                        .requestMatchers("/api/service-registrations/**").hasAnyRole("ADMIN", "STAFF")
 
                         // ── STAFF + DOCTOR: Lịch hẹn và Tư vấn ─────────────
                         .requestMatchers("/api/appointments/**").hasAnyRole("ADMIN", "STAFF", "DOCTOR")

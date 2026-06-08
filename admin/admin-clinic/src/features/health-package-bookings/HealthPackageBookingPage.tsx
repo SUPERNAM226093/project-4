@@ -6,6 +6,7 @@ import { HiOutlinePlus, HiOutlinePencil, HiOutlineTrash } from 'react-icons/hi2'
 import Modal from '../../components/ui/Modal';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
 import { t } from '../../utils/i18n';
+import { useAuth } from '../../store/AuthContext';
 
 interface HealthPackageBooking {
     id: number;
@@ -38,6 +39,11 @@ export default function HealthPackageBookingPage() {
     const [editingId, setEditingId] = useState<number | null>(null);
     const [form, setForm] = useState(emptyForm);
     const [deleteId, setDeleteId] = useState<number | null>(null);
+
+    const { isAdmin, isStaff } = useAuth();
+    const canAdd = isAdmin || isStaff;
+    const canEdit = isAdmin || isStaff;
+    const canDelete = isAdmin;
 
     const fetchData = async () => {
         setLoading(true);
@@ -130,9 +136,11 @@ export default function HealthPackageBookingPage() {
                     <h1>Quản lý đặt gói khám</h1>
                     <p className="text-secondary">Theo dõi và cập nhật trạng thái các đơn đặt gói khám sức khỏe</p>
                 </div>
-                <button className="btn btn-primary" onClick={openCreate}>
-                    <HiOutlinePlus /> Thêm mới
-                </button>
+                {canAdd && (
+                    <button className="btn btn-primary" onClick={openCreate}>
+                        <HiOutlinePlus /> Thêm mới
+                    </button>
+                )}
             </div>
 
             <div className="card">
@@ -168,12 +176,16 @@ export default function HealthPackageBookingPage() {
                                         </td>
                                         <td>
                                             <div className="table-actions">
-                                                <button className="btn-icon" onClick={() => openEdit(b)}>
-                                                    <HiOutlinePencil />
-                                                </button>
-                                                <button className="btn-icon" onClick={() => setDeleteId(b.id)}>
-                                                    <HiOutlineTrash />
-                                                </button>
+                                                {canEdit && (
+                                                    <button className="btn-icon" onClick={() => openEdit(b)}>
+                                                        <HiOutlinePencil />
+                                                    </button>
+                                                )}
+                                                {canDelete && (
+                                                    <button className="btn-icon" onClick={() => setDeleteId(b.id)}>
+                                                        <HiOutlineTrash />
+                                                    </button>
+                                                )}
                                             </div>
                                         </td>
                                     </tr>

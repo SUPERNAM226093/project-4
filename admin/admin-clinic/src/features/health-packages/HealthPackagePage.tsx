@@ -3,6 +3,7 @@ import api from '../../services/api';
 import Modal from '../../components/ui/Modal';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
 import { toast } from 'react-toastify';
+import { useAuth } from '../../store/AuthContext';
 
 import { HiOutlinePlus, HiOutlinePencil, HiOutlineTrash, HiOutlinePhoto } from 'react-icons/hi2';
 
@@ -30,6 +31,11 @@ export default function HealthPackagePage() {
     const [editingId, setEditingId] = useState<number | null>(null);
     const [form, setForm] = useState(emptyForm);
     const [deleteId, setDeleteId] = useState<number | null>(null);
+
+    const { isAdmin, isStaff } = useAuth();
+    const canAdd = isAdmin || isStaff;
+    const canEdit = isAdmin || isStaff;
+    const canDelete = isAdmin;
 
     const fetchData = async () => {
         try {
@@ -122,7 +128,7 @@ export default function HealthPackagePage() {
         <div className="page-container">
             <div className="page-header">
                 <div><h1>{"Gói khám"}</h1><p>{"Quản lý gói khám sức khỏe"}</p></div>
-                <button className="btn btn-primary" onClick={openCreate}><HiOutlinePlus /> {"Thêm Gói"}</button>
+                {canAdd && <button className="btn btn-primary" onClick={openCreate}><HiOutlinePlus /> {"Thêm Gói"}</button>}
             </div>
 
             <div className="table-container"><div className="table-wrapper">
@@ -146,6 +152,7 @@ export default function HealthPackagePage() {
                                 <td><span className="badge badge-primary">{hp.price ? formatPrice(hp.price) : '—'}</span></td>
                                 <td>
                                     <select
+                                        disabled={!canEdit}
                                         value={hp.status || 'ACTIVE'}
                                         onChange={(e) => handleStatusChange(hp.id, e.target.value)}
                                         style={{
@@ -168,9 +175,9 @@ export default function HealthPackagePage() {
                                     </select>
                                 </td>
                                 <td><div className="table-actions">
-                                    <label className="btn-icon" style={{ cursor: 'pointer' }}><HiOutlinePhoto /><input type="file" accept="image/*" hidden onChange={e => { if (e.target.files?.[0]) handleImageUpload(hp.id, e.target.files[0]); }} /></label>
-                                    <button className="btn-icon" onClick={() => openEdit(hp)}><HiOutlinePencil /></button>
-                                    <button className="btn-icon" onClick={() => setDeleteId(hp.id)}><HiOutlineTrash /></button>
+                                    {canEdit && <label className="btn-icon" style={{ cursor: 'pointer' }}><HiOutlinePhoto /><input type="file" accept="image/*" hidden onChange={e => { if (e.target.files?.[0]) handleImageUpload(hp.id, e.target.files[0]); }} /></label>}
+                                    {canEdit && <button className="btn-icon" onClick={() => openEdit(hp)}><HiOutlinePencil /></button>}
+                                    {canDelete && <button className="btn-icon" onClick={() => setDeleteId(hp.id)}><HiOutlineTrash /></button>}
                                 </div></td>
                             </tr>
                         ))}

@@ -4,6 +4,7 @@ import Modal from '../../components/ui/Modal';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
 import { toast } from 'react-toastify';
 import { t } from '../../utils/i18n';
+import { useAuth } from '../../store/AuthContext';
 
 import { HiOutlinePlus, HiOutlinePencil, HiOutlineTrash } from 'react-icons/hi2';
 
@@ -21,6 +22,11 @@ export default function ServiceRegistrationPage() {
     const [deleteId, setDeleteId] = useState<number | null>(null);
     const [users, setUsers] = useState<any[]>([]);
     const [services, setServices] = useState<any[]>([]);
+
+    const { isAdmin, isStaff } = useAuth();
+    const canAdd = isAdmin || isStaff;
+    const canEdit = isAdmin || isStaff;
+    const canDelete = isAdmin;
 
     const fetchData = async () => {
         try {
@@ -59,7 +65,7 @@ export default function ServiceRegistrationPage() {
         <div className="page-container">
             <div className="page-header">
                 <div><h1>{"Đăng ký dịch vụ"}</h1><p>{"Quản lý yêu cầu đăng ký khám dịch vụ"}</p></div>
-                <button className="btn btn-primary" onClick={openCreate}><HiOutlinePlus /> {"Thêm Đăng ký"}</button>
+                {canAdd && <button className="btn btn-primary" onClick={openCreate}><HiOutlinePlus /> {"Thêm Đăng ký"}</button>}
             </div>
 
             <div className="table-container"><div className="table-wrapper">
@@ -74,8 +80,8 @@ export default function ServiceRegistrationPage() {
                                 <td><span className={`badge badge-${statusColors[r.status] || 'info'}`}>{typeof t === 'function' ? t(`status.${r.status.toLowerCase()}`, r.status) : r.status}</span></td>
                                 <td>{r.createdAt ? new Date(r.createdAt).toLocaleDateString() : '—'}</td>
                                 <td><div className="table-actions">
-                                    <button className="btn-icon" onClick={() => openEdit(r)}><HiOutlinePencil /></button>
-                                    <button className="btn-icon" onClick={() => setDeleteId(r.id)}><HiOutlineTrash /></button>
+                                    {canEdit && <button className="btn-icon" onClick={() => openEdit(r)}><HiOutlinePencil /></button>}
+                                    {canDelete && <button className="btn-icon" onClick={() => setDeleteId(r.id)}><HiOutlineTrash /></button>}
                                 </div></td>
                             </tr>
                         ))}

@@ -4,7 +4,6 @@ import { useAuth } from '../../store/AuthContext';
 import {
     HiOutlineHome,
     HiOutlineUsers,
-    HiOutlineShieldCheck,
     HiOutlineUserCircle,
     HiOutlineAcademicCap,
     HiOutlineCube,

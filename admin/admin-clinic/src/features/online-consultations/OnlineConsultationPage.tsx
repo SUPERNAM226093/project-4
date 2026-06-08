@@ -47,7 +47,7 @@ export default function OnlineConsultationPage() {
     
     const [items, setItems] = useState<OnlineConsultation[]>([]); // Danh sách đơn tư vấn
     const [loading, setLoading] = useState(true);
-    const [filterStatus, setFilterStatus] = useState("ALL"); // Bộ lọc trạng thái
+    const [filterStatus] = useState("ALL"); // Bộ lọc trạng thái
     
     const [editModal, setEditModal] = useState<OnlineConsultation | null>(null); // Đơn đang được chỉnh sửa
     const [approving, setApproving] = useState(false); // Trạng thái lưu dữ liệu
@@ -73,7 +73,6 @@ export default function OnlineConsultationPage() {
     const { isAdmin } = useAuth();
     const canDelete = isAdmin;
     // canAdd cũng chỉ Admin (tư vấn online tạo từ phia patient, không tạo từ admin)
-    const canAdd = isAdmin;
 
     /**
      * HÀM: fetchData

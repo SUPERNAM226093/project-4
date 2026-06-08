@@ -8,8 +8,7 @@ import {
     HiOutlineUserPlus,
     HiOutlineCheckBadge,
     HiChevronLeft,
-    HiChevronRight,
-    HiOutlineArrowPath
+    HiChevronRight
 } from 'react-icons/hi2';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer

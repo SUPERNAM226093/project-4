@@ -26,7 +26,7 @@ const emptyForm = { medicalRecordId: '', doctorId: '', items: [{ ...emptyItem }]
 
 export default function PrescriptionPage() {
     // --- 1. KHỞI TẠO STATE & QUYỀN HẠN ---
-    const { user, isDoctor, isAdmin, isStaff } = useAuth();
+    const { user, isDoctor, isAdmin } = useAuth();
     // Phân quyền cứng: DOCTOR chỉ được Xem/Sửa Đơn thuốc, không được Thêm/Xóa
     const canAdd = isAdmin;
     const canDelete = isAdmin;

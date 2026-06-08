@@ -130,7 +130,7 @@ export default function HeroBanner() {
                                 Cơ sở & Dịch vụ Y tế hàng đầu
                             </h1>
                             <p className="text-slate-300 text-sm md:text-base max-w-xl font-medium leading-relaxed">
-                                Đặt lịch hẹn khám bệnh dễ dàng tại các bệnh viện uy tín, khám từ xa qua video call hoặc đặt dịch vụ chăm sóc sức khoẻ tại nhà chỉ với vài bước chạm.
+                                Đặt lịch hẹn khám bệnh dễ dàng tại các phòng khám uy tín, khám từ xa qua video call hoặc đặt dịch vụ chăm sóc sức khoe chỉ với vài bước chạm.
                             </p>
                         </div>
 

@@ -42,7 +42,7 @@ const emptyForm = {
 };
 
 export default function RoomPage() {
-    const { isAdmin, isDoctor, isStaff } = useAuth();
+    const { isAdmin, isDoctor } = useAuth();
     // Phân quyền cứng: DOCTOR được Xem/Thêm/Sửa Phòng, KHÔNG Xóa; ADMIN toàn quyền
     const canAdd = isAdmin || isDoctor;
     const canDelete = isAdmin;

@@ -22,7 +22,7 @@ const emptyForm = { appointmentId: '', doctorId: '', diagnosis: '', conclusion: 
 
 export default function MedicalRecordPage() {
     // --- 1. KHỞI TẠO STATE & QUYỀN HẠN ---
-    const { user, isDoctor, isAdmin, isStaff } = useAuth();
+    const { user, isDoctor, isAdmin } = useAuth();
     // Phân quyền cứng: DOCTOR chỉ được Xem/Sửa Hồ sơ bệnh án, không được Thêm/Xóa
     const canAdd = isAdmin;
     const canDelete = isAdmin;

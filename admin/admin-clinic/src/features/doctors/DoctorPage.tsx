@@ -33,7 +33,7 @@ const emptyForm = { userId: '', specializationId: '', clinicId: '', experienceYe
 
 export default function DoctorPage() {
     // --- 1. KHỞI TẠO STATE ---
-    const { isAdmin } = useAuth();
+    useAuth(); // keep hook if it performs initialization, though it's unused now. Wait, just removing `const { isAdmin } =`
     const [doctors, setDoctors] = useState<Doctor[]>([]); // Danh sách bác sĩ hiện tại
     const [users, setUsers] = useState<UserOption[]>([]); // Danh sách người dùng (để gán quyền bác sĩ)
     const [specs, setSpecs] = useState<SpecOption[]>([]); // Danh sách các chuyên khoa
