@@ -78,55 +78,86 @@ export default function HeroBanner() {
     const benefits = ["Đặt khám nhanh - Lấy số thứ tự trực tuyến - Tư vấn sức khỏe từ xa", "Đặt khám theo giờ - Đặt càng sớm để có thể có số thứ tự thấp nhất", "Được hoàn tiền khi huỷ khám - Có cơ hội nhận ưu đãi hoàn tiền"];
 
     return (
-        <section className="relative pt-32 pb-16 overflow-hidden">
-            {/* --- PHẦN 1: NỀN VÀ CÁC HỌA TIẾT TRANG TRÍ --- */}
-            <div className="absolute inset-0 bg-[#CBE7FC]" />
-            <div className="absolute inset-0 opacity-15" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.4) 1.5px, transparent 1.5px)', backgroundSize: '40px 40px' }} />
+        <section className="relative pt-36 pb-16 lg:pb-0 overflow-hidden bg-[#042f2e] min-h-screen flex items-center">
+            {/* Background Image of Clinic corridor */}
+            <div className="absolute inset-0 z-0">
+                <Image
+                    src="/clinic_corridor_bg.png"
+                    alt="Clinic Background"
+                    fill
+                    priority
+                    sizes="100vw"
+                    className="object-cover object-center select-none pointer-events-none opacity-50 lg:opacity-75"
+                />
+                {/* Gradient overlay to match the reference style: solid teal on the left fading to transparent on the right */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#042f2e]/95 via-[#134e4a]/90 to-[#042f2e]/95 lg:bg-gradient-to-r lg:from-[#042f2e]/95 lg:via-[#0f766e]/85 lg:via-[#0d9488]/25 lg:to-transparent" />
+            </div>
 
-            {/* Các khối hiệu ứng mờ tạo chiều sâu */}
-            <div className="absolute top-20 left-10 w-32 h-32 bg-white/20 rounded-full blur-3xl" />
-            <div className="absolute top-40 right-20 w-48 h-48 bg-white/20 rounded-full blur-3xl" />
+            {/* Pattern overlay */}
+            <div className="absolute inset-0 opacity-5 pointer-events-none z-[1]" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.4) 1.5px, transparent 1.5px)', backgroundSize: '40px 40px' }} />
 
-            {/* Các họa tiết hình dấu cộng (+) phong cách y tế hiện đại */}
-            <div className="absolute top-24 right-[10%] text-white/20 text-6xl font-thin select-none">+</div>
-            <div className="absolute top-48 left-[5%] text-white/20 text-4xl font-thin select-none">+</div>
-            <div className="absolute bottom-32 right-[20%] text-white/20 text-5xl font-thin select-none">+</div>
+            {/* Medical cross decor */}
+            <div className="absolute top-24 right-[45%] text-white/5 text-6xl font-thin select-none pointer-events-none z-[1]">+</div>
+            <div className="absolute top-48 left-[5%] text-white/5 text-4xl font-thin select-none pointer-events-none z-[1]">+</div>
+            <div className="absolute bottom-32 left-[40%] text-white/5 text-5xl font-thin select-none pointer-events-none z-[1]">+</div>
 
-            <div className="relative max-w-7xl mx-auto px-4">
-                <div className="flex flex-col lg:flex-row items-center gap-8">
-                    {/* Hình ảnh bác sĩ - Màn hình lớn */}
-                    <div className="hidden lg:block flex-shrink-0 w-64">
-                        <Image src="/doctor-female-v2.png" alt="Bác sĩ" width={256} height={400} className="w-full h-auto object-contain drop-shadow-2xl brightness-105" />
-                    </div>
+            {/* Absolute Doctors Group Image positioned behind the text grid (z-10) */}
+            <div className="absolute right-[5%] bottom-0 h-[96%] w-[55%] z-10 pointer-events-none hidden lg:flex items-end justify-end">
+                <div className="relative w-full max-w-[440px] sm:max-w-[550px] lg:max-w-[850px] h-full">
+                    <Image
+                        src="/doctors-group.png"
+                        alt="Medical Staff"
+                        fill
+                        priority
+                        sizes="(max-width: 1024px) 100vw, 850px"
+                        className="object-contain object-bottom select-none pointer-events-none drop-shadow-[0_15px_30px_rgba(0,0,0,0.35)] brightness-105"
+                    />
+                </div>
+            </div>
 
-                    {/* --- PHẦN 2: NỘI DUNG CHÍNH (TIÊU ĐỀ & Ô TÌM KIẾM) --- */}
-                    <div className="flex-1 text-center max-w-2xl mx-auto">
-                        <h1 className="text-3xl md:text-4xl lg:text-[44px] font-extrabold text-[#102A56] leading-tight mb-8 drop-shadow-sm">
-                            {"Kết nối Người Dân với"} {"Cơ sở & Dịch vụ Y tế hàng đầu"}
-                        </h1>
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-20">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
-                        {/* Thanh tìm kiếm cao cấp */}
-                        <div className="relative max-w-xl mx-auto mb-8" ref={searchRef}>
-                            <div className="relative flex items-center bg-white rounded-full shadow-[0_10px_40px_-10px_rgba(37,99,235,0.15)] border border-[#D6EAFE] p-1.5 transition-all hover:shadow-[0_15px_50px_-10px_rgba(37,99,235,0.25)]">
+                    {/* LEFT COLUMN: TEXT, SEARCH, BENEFITS */}
+                    <div className="lg:col-span-7 text-left space-y-8 relative z-20">
+                        <div className="space-y-4">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/20">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                                Đặt khám trực tuyến nhanh chóng
+                            </span>
+                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight tracking-tight">
+                                Kết nối Người Dân với<br />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-sky-300 to-emerald-400">
+                                    Cơ sở & Dịch vụ Y tế hàng đầu
+                                </span>
+                            </h1>
+                            <p className="text-slate-300 text-sm md:text-base max-w-xl font-medium leading-relaxed">
+                                Đặt lịch hẹn khám bệnh dễ dàng tại các bệnh viện uy tín, khám từ xa qua video call hoặc đặt dịch vụ chăm sóc sức khoẻ tại nhà chỉ với vài bước chạm.
+                            </p>
+                        </div>
+
+                        {/* Search Bar */}
+                        <div className="relative max-w-xl" ref={searchRef}>
+                            <div className="relative flex items-center bg-white rounded-full shadow-2xl p-1.5 border border-white/10 transition-all focus-within:ring-2 focus-within:ring-sky-500/50">
                                 <div className="flex items-center flex-1 px-4">
-                                    <svg className="w-5 h-5 text-[#2563EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
                                     <input
                                         type="text"
-                                        placeholder={"Tìm kiếm bác sĩ"}
+                                        placeholder="Tìm kiếm bác sĩ hoặc chuyên khoa..."
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                         onFocus={() => searchQuery && setShowSuggestions(true)}
-                                        className="w-full px-4 py-3.5 text-[15px] text-[#102A56] placeholder-[#5F789A] bg-transparent outline-none font-medium"
+                                        className="w-full px-3 py-3.5 text-[15px] text-[#102A56] placeholder-[#5F789A] bg-transparent outline-none font-semibold"
                                     />
                                 </div>
-                                <button className="px-8 py-3.5 rounded-full text-sm font-bold text-white bg-gradient-to-r from-[#2563EB] to-[#1E40AF] shadow-lg shadow-blue-200 hover:scale-[1.02] active:scale-95 transition-all">
+                                <button className="px-6 py-3.5 rounded-full text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-500 hover:to-blue-700 active:scale-95 transition-all shadow-md">
                                     Tìm kiếm
                                 </button>
                             </div>
 
-                            {/* DROPDOWN GỢI Ý */}
+                            {/* Suggestions Dropdown */}
                             {showSuggestions && suggestions.length > 0 && (
                                 <div className="absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-2xl border border-[#D6EAFE] overflow-hidden z-[60] animate-in fade-in slide-in-from-top-2 duration-200">
                                     <div className="py-2">
@@ -183,16 +214,16 @@ export default function HeroBanner() {
                             )}
                         </div>
 
-                        {/* DANH SÁCH LỢI ÍCH */}
-                        <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 max-w-3xl mx-auto">
+                        {/* Benefits list */}
+                        <div className="space-y-3.5 pt-2">
                             {benefits.map((benefit, index) => (
-                                <div key={index} className="flex items-center gap-2 text-left">
-                                    <div className="w-5 h-5 rounded-full bg-[#EAF4FF] flex items-center justify-center flex-shrink-0">
-                                        <svg className="w-3 h-3 text-[#2563EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div key={index} className="flex items-start gap-3">
+                                    <div className="w-5 h-5 rounded-full bg-sky-500/10 border border-sky-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg className="w-3 h-3 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                                         </svg>
                                     </div>
-                                    <p className="text-sm font-bold text-[#102A56]">
+                                    <p className="text-sm font-semibold text-slate-300">
                                         {benefit}
                                     </p>
                                 </div>
@@ -200,19 +231,11 @@ export default function HeroBanner() {
                         </div>
                     </div>
 
-                    {/* Hình ảnh bác sĩ nam bên phải (Chỉ hiện trên màn hình lớn) */}
-                    <div className="hidden lg:block flex-shrink-0 w-64">
-                        <Image
-                            src="/doctor-male-v2.png"
-                            alt="Bác sĩ"
-                            width={256}
-                            height={400}
-                            className="w-full h-auto object-contain drop-shadow-2xl"
-                        />
-                    </div>
+                    {/* RIGHT COLUMN: Spacer to allow the absolutely positioned doctor image to show through */}
+                    <div className="lg:col-span-5 hidden lg:block h-[500px] pointer-events-none" />
+
                 </div>
             </div>
         </section>
     );
 }
-

@@ -91,7 +91,7 @@ public class AliasNormalizationService {
 
     /**
      * Tìm ID chuyên khoa từ tên dân dã mà người dùng nhập.
-     * Ưu tiên: Alias Map -> Tìm kiếm gần đúng trong DB (Contains).
+     * Ưu tiên: Khớp chính xác không dấu -> Khớp bán phần không dấu -> Alias Map.
      *
      * @param rawName tên chuyên khoa người dùng nhập (vd: "khoa tim")
      * @return ID chuyên khoa nếu tìm thấy, null nếu không khớp
@@ -99,25 +99,46 @@ public class AliasNormalizationService {
     public Long resolveSpecializationId(String rawName) {
         if (rawName == null || rawName.isBlank()) return null;
 
-        String normalized = rawName.toLowerCase().trim();
+        String cleanInput = removeDiacritics(rawName.toLowerCase().trim());
 
-        // Bước 1: Tìm trong Alias Map
+        // Tiền xử lý: bỏ các từ "khoa", "chuyên khoa", "phòng khám" để so khớp lõi tốt hơn
+        cleanInput = cleanInput.replaceAll("^(chuyen\\s+)?khoa\\s+", "")
+                               .replaceAll("^phong\\s+kham\\s+", "")
+                               .trim();
+
+        // Lấy tất cả chuyên khoa từ DB
+        List<Specialization> allSpecs = specializationRepository.findAll();
+
+        // Bước 1: Thử tìm khớp chính xác sau khi bỏ dấu
+        for (Specialization spec : allSpecs) {
+            String cleanSpecName = removeDiacritics(spec.getName().toLowerCase().trim());
+            cleanSpecName = cleanSpecName.replaceAll("^(chuyen\\s+)?khoa\\s+", "").trim();
+
+            if (cleanSpecName.equals(cleanInput)) {
+                log.info("[AliasNorm] Khớp chính xác không dấu: '{}' -> '{}' (ID={})", rawName, spec.getName(), spec.getId());
+                return spec.getId();
+            }
+        }
+
+        // Bước 2: Thử tìm khớp bán phần (chứa nhau) sau khi bỏ dấu
+        for (Specialization spec : allSpecs) {
+            String cleanSpecName = removeDiacritics(spec.getName().toLowerCase().trim());
+            cleanSpecName = cleanSpecName.replaceAll("^(chuyen\\s+)?khoa\\s+", "").trim();
+
+            if (cleanSpecName.contains(cleanInput) || cleanInput.contains(cleanSpecName)) {
+                log.info("[AliasNorm] Khớp bán phần không dấu: '{}' -> '{}' (ID={})", rawName, spec.getName(), spec.getId());
+                return spec.getId();
+            }
+        }
+
+        // Bước 3: Dự phòng tìm theo Alias Map gốc
+        String normalized = rawName.toLowerCase().trim();
         String canonicalName = ALIAS_MAP.get(normalized);
         if (canonicalName != null) {
             Optional<Specialization> found = findByName(canonicalName);
             if (found.isPresent()) {
-                log.debug("[AliasNorm] '{}' -> '{}' (ID={})", rawName, canonicalName, found.get().getId());
+                log.info("[AliasNorm] Khớp Alias Map: '{}' -> '{}' (ID={})", rawName, canonicalName, found.get().getId());
                 return found.get().getId();
-            }
-        }
-
-        // Bước 2: Tìm kiếm gần đúng trực tiếp trong DB (contains, case-insensitive)
-        List<Specialization> allSpecs = specializationRepository.findAll();
-        for (Specialization spec : allSpecs) {
-            if (spec.getName().toLowerCase().contains(normalized)
-                    || normalized.contains(spec.getName().toLowerCase())) {
-                log.debug("[AliasNorm] Fuzzy match '{}' -> '{}' (ID={})", rawName, spec.getName(), spec.getId());
-                return spec.getId();
             }
         }
 
@@ -126,11 +147,20 @@ public class AliasNormalizationService {
     }
 
     /**
+     * Loại bỏ dấu tiếng Việt để so sánh chuỗi chính xác.
+     */
+    public static String removeDiacritics(String str) {
+        if (str == null) return null;
+        String nfdNormalizedString = java.text.Normalizer.normalize(str, java.text.Normalizer.Form.NFD);
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        String temp = pattern.matcher(nfdNormalizedString).replaceAll("");
+        return temp.replace('đ', 'd').replace('Đ', 'D')
+                   .replace("o\u031b", "o")
+                   .replace("u\u031b", "u");
+    }
+
+    /**
      * Tìm kiếm một chuyên khoa theo tên chính xác (không phân biệt hoa thường).
-     * Hàm này duyệt qua tất cả chuyên khoa trong DB để tìm ra kết quả khớp đầu tiên.
-     * 
-     * @param name Tên chuyên khoa cần tìm (ví dụ: "Tim mạch")
-     * @return Optional chứa đối tượng Specialization nếu tìm thấy, hoặc empty nếu không có
      */
     private Optional<Specialization> findByName(String name) {
         return specializationRepository.findAll().stream()

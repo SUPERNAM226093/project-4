@@ -82,7 +82,7 @@ public class ChatbotService {
 
             // 4. Chuẩn bị state cho STATISTICS (cần extractedParams trước khi vào strategy)
             if ("STATISTICS".equals(primaryIntent)) {
-                ExtractionResult params = dataExtractionService.extract(message, intents);
+                ExtractionResult params = dataExtractionService.extract(message, intents, chatHistory);
                 state.put("extractedParams", params);
             }
             state.put("intent", primaryIntent);

@@ -344,7 +344,7 @@ export default function MedicalRecordPage() {
                         <div className="flex items-center gap-3 mb-8">
                             <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center text-2xl">📋</div>
                             <div>
-                                <h2 className="text-2xl font-bold text-[#392E7B]">Chỉ định xét nghiệm (nếu có)</h2>
+                                <h2 className="text-2xl font-bold text-[#392E7B]">Lịch sử chẩn đoán của bác sĩ</h2>
                                 <p className="text-sm text-gray-400">Xem lại các kết luận khám bệnh của bạn</p>
                             </div>
                         </div>
@@ -381,7 +381,7 @@ export default function MedicalRecordPage() {
                             <div className="bg-white rounded-3xl shadow-sm border border-blue-50 p-12 text-center">
                                 <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-blue-50 flex items-center justify-center text-4xl">📄</div>
                                 <p className="text-[#392E7B] font-semibold mb-1">Chưa có hồ sơ bệnh án nào</p>
-                                <p className="text-sm text-gray-400">Thông tin chỉ định xét nghiệm sẽ hiện ở đây sau khi bạn hoàn tất khám bệnh.</p>
+                                <p className="text-sm text-gray-400">Thông tin chẩn đoán sẽ hiện ở đây sau khi bạn hoàn tất khám bệnh.</p>
                             </div>
                         )}
 

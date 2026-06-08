@@ -13,7 +13,7 @@ class LlmServiceTest {
     @BeforeEach
     void setUp() {
         ObjectMapper objectMapper = new ObjectMapper();
-        llmService = new LlmService("dummy-token", objectMapper);
+        llmService = new LlmService("dummy-token", "dummy-groq-key", objectMapper);
     }
 
     @Test

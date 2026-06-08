@@ -10,6 +10,7 @@ import Link from "next/link";
 import { login, register, forgotPassword, resetPassword, LoginRequest, RegisterRequest, AuthResponse } from "../lib/api";
 import { useToast } from "../context/ToastContext";
 import { usePWA } from "../hooks/usePWA";
+import { usePathname } from "next/navigation";
 
 const socialLinks = [
     { name: "Tiktok", icon: "🎵" },
@@ -81,54 +82,47 @@ const menuItems: MenuItem[] = [
         name: "Tìm cơ sở y tế",
         href: "/nearest-clinic",
         hasDropdown: false
-    },
-    {
-        key: "yourInfo",
-        name: "Thông tin của bạn",
-        hasDropdown: true,
-        subItems: [
-            { key: "profile", name: "Hồ sơ cá nhân", href: "/ho-so-kham" },
-            { key: "history", name: "Lịch sử khám", href: "/lich-su-kham" },
-            { key: "prescriptions", name: "Đơn thuốc của tôi", href: "/don-thuoc" }
-        ]
     }
 ];
 
 type AuthTab = "login" | "register" | "forgot";
 
 export default function Navbar() {
+    const pathname = usePathname();
+    const isHomepage = pathname === "/";
+
     // --- 1. KHỞI TẠO HOOKS VÀ CÁC TRẠNG THÁI (STATE) CỦA COMPONENT ---
-    
+
     // Sử dụng context Toast để hiển thị các thông báo nổi ở góc màn hình (Thành công, Lỗi, Thông tin...)
-    const { showToast } = useToast(); 
-    
+    const { showToast } = useToast();
+
     // State dùng để theo dõi xem người dùng đã cuộn trang xuống chưa (scrollY > 50px) để thay đổi CSS (thêm shadow, đổi opacity)
-    const [isScrolled, setIsScrolled] = useState(false); 
-    
+    const [isScrolled, setIsScrolled] = useState(false);
+
     // Quản lý việc đóng/mở menu rút gọn khi hiển thị trên các thiết bị di động (Mobile Menu)
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false); 
-    
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
     // Trạng thái hiển thị (ẩn/hiện) của Modal chứa luồng xác thực Đăng nhập / Đăng ký / Quên mật khẩu
-    const [showAuthModal, setShowAuthModal] = useState(false); 
-    
+    const [showAuthModal, setShowAuthModal] = useState(false);
+
     // Phân loại giao diện đang hiển thị trong Modal xác thực: "login" (Đăng nhập), "register" (Đăng ký) hoặc "forgot" (Quên mật khẩu)
-    const [authTab, setAuthTab] = useState<AuthTab>("login"); 
-    
+    const [authTab, setAuthTab] = useState<AuthTab>("login");
+
     // Lưu trữ thông tin định danh của người dùng hiện tại (Họ tên, email, vai trò, token) sau khi đăng nhập thành công
-    const [user, setUser] = useState<AuthResponse | null>(null); 
-    
+    const [user, setUser] = useState<AuthResponse | null>(null);
+
     // Quản lý việc ẩn/hiện danh sách menu con khi người dùng nhấp vào ảnh đại diện (avatar) của mình
-    const [showUserMenu, setShowUserMenu] = useState(false); 
-    
+    const [showUserMenu, setShowUserMenu] = useState(false);
+
     // Xác định menu dropdown nào trên thanh điều hướng đang được rê chuột (hover) vào (Facilities, Services, Guide, Contact...)
-    const [activeDropdown, setActiveDropdown] = useState<string | null>(null); 
-    
+    const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
     // Lấy các thuộc tính và hàm từ Custom Hook PWA dùng cho việc cài đặt ứng dụng web thành ứng dụng di động/máy tính độc lập
-    const { isInstallable, isStandalone, isIOS, installApp } = usePWA(); 
+    const { isInstallable, isStandalone, isIOS, installApp } = usePWA();
 
     // Biến trạng thái lưu thông tin nhập liệu cho Form Đăng nhập (Email và Mật khẩu)
     const [loginForm, setLoginForm] = useState<LoginRequest>({ email: "", password: "" });
-    
+
     // Biến trạng thái lưu thông tin nhập liệu cho Form Đăng ký tài khoản mới của bệnh nhân
     const [registerForm, setRegisterForm] = useState<RegisterRequest>({
         email: "",
@@ -139,25 +133,25 @@ export default function Navbar() {
         dateOfBirth: "",
         address: "",
     });
-    
+
     // Trạng thái hiển thị hoạt ảnh tải dữ liệu (loading spinner) khi đang gọi các API xác thực lên máy chủ backend
-    const [authLoading, setAuthLoading] = useState(false); 
+    const [authLoading, setAuthLoading] = useState(false);
     const [authError, setAuthError] = useState<string | null>(null);
     const [authSuccess, setAuthSuccess] = useState<string | null>(null);
-    
+
     // Lưu email của người dùng khi họ cần khôi phục mật khẩu trong luồng Quên mật khẩu
-    const [forgotEmail, setForgotEmail] = useState(""); 
-    
+    const [forgotEmail, setForgotEmail] = useState("");
+
     // Mã Token xác thực (OTP) do hệ thống gửi về Email của bệnh nhân để xác thực danh tính
-    const [resetToken, setResetToken] = useState(""); 
+    const [resetToken, setResetToken] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    
+
     // Quản lý các bước trong luồng khôi phục mật khẩu: Bước 1 (Nhập Email gửi OTP), Bước 2 (Nhập OTP & Mật khẩu mới)
-    const [forgotStep, setForgotStep] = useState(1); 
-    
+    const [forgotStep, setForgotStep] = useState(1);
+
     // Bộ đếm ngược thời gian (đơn vị: giây) để giới hạn tần suất nhấn nút "Gửi lại mã OTP" nhằm chống spam mail
-    const [resendCountdown, setResendCountdown] = useState(0); 
+    const [resendCountdown, setResendCountdown] = useState(0);
 
     // Các tham chiếu Ref trỏ trực tiếp đến phần tử DOM giúp nhận diện sự kiện click ra ngoài vùng hiển thị để đóng popup tự động
     const modalRef = useRef<HTMLDivElement>(null); // Tham chiếu đến hộp thoại Modal
@@ -289,7 +283,7 @@ export default function Navbar() {
             setUser(res);
             localStorage.setItem("clinic_token", res.token);
             localStorage.setItem("clinic_user", JSON.stringify(res));
-            
+
             // Đóng Modal và làm sạch form
             setShowAuthModal(false);
             resetForm();
@@ -406,23 +400,20 @@ export default function Navbar() {
 
         setAuthLoading(true);
         try {
-            // Tiến hành gọi API đăng ký tài khoản mới kèm các giá trị mặc định cho hồ sơ bệnh nhân
             const res = await register({
                 ...registerForm,
-                dateOfBirth: "2000-01-01", // Đặt tạm ngày sinh mặc định
-                address: "Chưa cập nhật",   // Đặt tạm địa chỉ mặc định
+                dateOfBirth: "2000-01-01",
+                address: "Chưa cập nhật",
             });
-            
-            // Đăng nhập tự động cho người dùng ngay sau khi đăng ký thành công
+
             setUser(res);
             localStorage.setItem("clinic_token", res.token);
             localStorage.setItem("clinic_user", JSON.stringify(res));
             showToast("Đăng ký tài khoản thành công!", "success");
-            
+
             setTimeout(() => {
                 setShowAuthModal(false);
                 resetForm();
-                // Tải lại trang chủ
                 window.location.href = "/";
             }, 1000);
         } catch (err: unknown) {
@@ -433,11 +424,6 @@ export default function Navbar() {
         }
     };
 
-    /**
-     * HÀM: handleLogout
-     * Nhiệm vụ: Đăng xuất tài khoản bệnh nhân ra khỏi trình duyệt.
-     * Xóa sạch Token và thông tin lưu trữ trong localStorage, sau đó tải lại trang chủ.
-     */
     const handleLogout = () => {
         setUser(null);
         localStorage.removeItem("clinic_token");
@@ -450,69 +436,311 @@ export default function Navbar() {
 
     return (
         <>
-            {/* --- KHỐI THANH ĐIỀU HƯỚNG (HEADER) --- */}
             <header
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "shadow-md" : ""
+                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${!isHomepage || isScrolled
+                    ? "bg-[#042f2e]/95 backdrop-blur-md border-b border-white/10 shadow-lg"
+                    : "bg-transparent border-transparent"
                     }`}
             >
-                {/* --- 1. THANH PHỤ TRÊN CÙNG (TOP BAR) --- */}
-                <div className="bg-white/95 backdrop-blur-md border-b border-[#D6EAFE] relative z-[60]">
-                    <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-10">
-                        <div className="flex items-center gap-3 ml-auto">
-                            {/* NÚT CÀI ĐẶT ỨNG DỤNG (PWA) - Hiển thị nếu thiết bị hỗ trợ cài App */}
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex items-center justify-between h-20">
+                        {/* BRAND LOGO */}
+                        <a href="/" className="flex items-center gap-2 shrink-0">
+                            <Image
+                                src="/logo-medpro.png"
+                                alt="MedPro"
+                                width={130}
+                                height={40}
+                                className="h-16 w-auto object-contain brightness-0 invert"
+                            />
+                        </a>
+
+                        {/* DESKTOP NAVIGATION ITEMS */}
+                        <nav className="hidden lg:flex items-center gap-1.5 ml-auto mr-8">
+                            {menuItems.map((item) => (
+                                <div
+                                    key={item.key}
+                                    className="relative group"
+                                    onMouseEnter={() => setActiveDropdown(item.key)}
+                                    onMouseLeave={() => setActiveDropdown(null)}
+                                >
+                                    {item.hasDropdown ? (
+                                        <button
+                                            className={`flex items-center gap-1 px-4 py-2 text-sm transition-all duration-200 font-bold whitespace-nowrap text-white/90 hover:text-white relative`}
+                                        >
+                                            {item.name}
+                                            <svg
+                                                className={`w-3 h-3 transition-transform duration-200 ${activeDropdown === item.key ? "rotate-180" : ""
+                                                    }`}
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                            <div
+                                                className={`absolute bottom-0 left-4 right-4 h-0.5 bg-sky-300 transition-all duration-300 ${activeDropdown === item.key ? "opacity-100" : "opacity-0"
+                                                    }`}
+                                            />
+                                        </button>
+                                    ) : (
+                                        <Link
+                                            href={item.href || "#"}
+                                            className={`flex items-center gap-1 px-4 py-2 text-sm transition-all duration-200 font-bold whitespace-nowrap text-white/90 hover:text-white relative`}
+                                        >
+                                            {item.name}
+                                            <div
+                                                className={`absolute bottom-0 left-4 right-4 h-0.5 bg-sky-300 transition-all duration-300 ${activeDropdown === item.key ? "opacity-100" : "opacity-0"
+                                                    }`}
+                                            />
+                                        </Link>
+                                    )}
+
+                                    {/* SUB-MENU DROPDOWN */}
+                                    {item.hasDropdown && item.subItems && (
+                                        <div
+                                            className={`absolute top-full left-0 w-80 pt-2 z-50 transition-all duration-200 transform origin-top ${activeDropdown === item.key
+                                                ? "opacity-100 scale-100"
+                                                : "opacity-0 scale-95 pointer-events-none"
+                                                }`}
+                                        >
+                                            <div className="bg-white rounded-xl shadow-2xl border border-[#D6EAFE] py-1.5 overflow-hidden">
+                                                {item.key === "yourInfo" && user ? (
+                                                    <div className="flex flex-col">
+                                                        <div className="px-4 py-4 bg-[#F8FCFF] border-b border-[#D6EAFE]">
+                                                            <div className="flex items-center gap-2 mb-2">
+                                                                <span className="text-[10px] font-bold text-white bg-[#2563EB] px-2 py-0.5 rounded-md uppercase tracking-wider">
+                                                                    {user.role}
+                                                                </span>
+                                                            </div>
+                                                            <p className="text-sm font-bold text-[#102A56] truncate">
+                                                                {user.fullName || "Người dùng"}
+                                                            </p>
+                                                            <p className="text-[11px] text-[#5F789A] truncate">{user.email}</p>
+                                                        </div>
+                                                        <div className="py-1">
+                                                            {item.subItems.map((sub) => (
+                                                                <Link
+                                                                    key={sub.key}
+                                                                    href={sub.href}
+                                                                    className="w-full text-left px-4 py-2.5 text-sm text-[#102A56] hover:bg-[#EEF6FF] flex items-center gap-3 transition-colors group"
+                                                                >
+                                                                    <svg
+                                                                        className="w-4 h-4 text-[#2563EB]"
+                                                                        fill="none"
+                                                                        stroke="currentColor"
+                                                                        viewBox="0 0 24 24"
+                                                                    >
+                                                                        {sub.key === "profile" && (
+                                                                            <path
+                                                                                strokeLinecap="round"
+                                                                                strokeLinejoin="round"
+                                                                                strokeWidth={2}
+                                                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                                                            />
+                                                                        )}
+                                                                        {sub.key === "history" && (
+                                                                            <path
+                                                                                strokeLinecap="round"
+                                                                                strokeLinejoin="round"
+                                                                                strokeWidth={2}
+                                                                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                                                                            />
+                                                                        )}
+                                                                        {sub.key === "prescriptions" && (
+                                                                            <path
+                                                                                strokeLinecap="round"
+                                                                                strokeLinejoin="round"
+                                                                                strokeWidth={2}
+                                                                                d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                                                                            />
+                                                                        )}
+                                                                    </svg>
+                                                                    <span className="group-hover:text-[#2563EB]">{sub.name}</span>
+                                                                </Link>
+                                                            ))}
+                                                        </div>
+                                                        <div className="border-t border-[#D6EAFE] py-1">
+                                                            <button
+                                                                onClick={handleLogout}
+                                                                className="w-full text-left px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 flex items-center gap-2 transition-colors"
+                                                            >
+                                                                <svg
+                                                                    className="w-4 h-4"
+                                                                    fill="none"
+                                                                    stroke="currentColor"
+                                                                    viewBox="0 0 24 24"
+                                                                >
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        strokeWidth={2}
+                                                                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                                                                    />
+                                                                </svg>
+                                                                {"Đăng xuất"}
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div className="px-3 py-2">
+                                                        <p className="text-[10px] font-bold text-[#5F789A] uppercase tracking-widest px-3 mb-2">
+                                                            {item.name}
+                                                        </p>
+                                                        {item.subItems.map((sub) => (
+                                                            <Link
+                                                                key={sub.key}
+                                                                href={sub.href}
+                                                                className="flex items-start gap-2.5 px-3 py-2.5 text-sm text-[#102A56] hover:text-[#2563EB] hover:bg-[#EEF6FF] rounded-lg transition-all group"
+                                                                onClick={() => setActiveDropdown(null)}
+                                                            >
+                                                                <div className="w-1.5 h-1.5 rounded-full bg-[#D6EAFE] group-hover:bg-[#2563EB] mt-1.5 flex-shrink-0" />
+                                                                <span className="flex-1 leading-normal font-semibold">{sub.name}</span>
+                                                            </Link>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </nav>
+
+                        {/* DESKTOP USER/AUTH CONTROLS */}
+                        <div className="hidden lg:flex items-center gap-3">
+                            {/* PWA Download Button */}
                             {!isStandalone && (isInstallable || isIOS) && (
                                 <button
-                                    onClick={() => isIOS ? showToast("Hệ điều hành iOS/Mac hiện chưa được hỗ trợ tải ứng dụng này.", "error") : installApp()}
-                                    className="bg-[#EAF4FF] text-[#2563EB] text-[11px] font-bold px-4 py-1.5 rounded-full hover:bg-[#2563EB] hover:text-white transition-all flex items-center gap-1.5"
+                                    onClick={() =>
+                                        isIOS
+                                            ? showToast("Hệ điều hành iOS/Mac hiện chưa được hỗ trợ tải ứng dụng này.", "error")
+                                            : installApp()
+                                    }
+                                    className="bg-white/10 hover:bg-white/20 border border-white/20 text-white text-[11px] font-bold px-4 py-2 rounded-full transition-all flex items-center gap-1.5"
                                 >
-                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                                        />
+                                    </svg>
                                     {"Tải ứng dụng"}
                                 </button>
                             )}
 
-
-
-                            {/* KHU VỰC TÀI KHOẢN NGƯỜI DÙNG (AUTHENTICATION AREA) */}
                             {user ? (
                                 <div className="relative" ref={userMenuRef}>
                                     <button
                                         onClick={() => setShowUserMenu(!showUserMenu)}
-                                        className="flex items-center gap-2 bg-white border border-[#2563EB] text-[#2563EB] text-[11px] font-bold px-3 py-1.5 rounded-full hover:bg-[#F2FAFF] transition-all shadow-sm group"
+                                        className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold px-4 py-2 rounded-full transition-all shadow-sm group"
                                     >
                                         <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#2563EB] to-[#56CCF2] text-white flex items-center justify-center text-[10px] font-bold shadow-sm">
                                             {user.fullName?.charAt(0)?.toUpperCase() || user.email.charAt(0).toUpperCase()}
                                         </div>
                                         <span className="max-w-[120px] truncate">{user.fullName || user.email}</span>
-                                        <svg className={`w-3 h-3 transition-transform ${showUserMenu ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                                        <svg
+                                            className={`w-3 h-3 transition-transform ${showUserMenu ? "rotate-180" : ""}`}
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                        </svg>
                                     </button>
 
-                                    {/* MENU THẢ XUỐNG KHI ĐÃ ĐĂNG NHẬP */}
                                     {showUserMenu && (
-                                        <div className="absolute right-0 top-full w-64 bg-white rounded-xl shadow-2xl border border-[#D6EAFE] overflow-hidden z-50 animate-in fade-in slide-in-from-top-1">
+                                        <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-xl shadow-2xl border border-[#D6EAFE] overflow-hidden z-50 animate-in fade-in slide-in-from-top-1">
                                             <div className="px-4 py-4 bg-[#F8FCFF] border-b border-[#D6EAFE]">
                                                 <div className="flex items-center gap-2 mb-2">
-                                                    <span className="text-[10px] font-bold text-white bg-[#2563EB] px-2 py-0.5 rounded-md uppercase tracking-wider">{user.role}</span>
+                                                    <span className="text-[10px] font-bold text-white bg-[#2563EB] px-2 py-0.5 rounded-md uppercase tracking-wider">
+                                                        {user.role}
+                                                    </span>
                                                 </div>
-                                                <p className="text-sm font-bold text-[#102A56] truncate">{user.fullName || "Người dùng"}</p>
+                                                <p className="text-sm font-bold text-[#102A56] truncate">
+                                                    {user.fullName || "Người dùng"}
+                                                </p>
                                                 <p className="text-[11px] text-[#5F789A] truncate">{user.email}</p>
                                             </div>
                                             <div className="py-1">
-                                                <Link href="/ho-so-kham" className="w-full text-left px-4 py-2.5 text-sm text-[#102A56] hover:bg-[#EAF4FF] flex items-center gap-3 transition-colors group">
-                                                    <svg className="w-4 h-4 text-[#2563EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                                                <Link
+                                                    href="/ho-so-kham"
+                                                    className="w-full text-left px-4 py-2.5 text-sm text-[#102A56] hover:bg-[#EAF4FF] flex items-center gap-3 transition-colors group"
+                                                >
+                                                    <svg
+                                                        className="w-4 h-4 text-[#2563EB]"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                                        />
+                                                    </svg>
                                                     <span className="group-hover:text-[#2563EB]">{"Hồ sơ cá nhân"}</span>
                                                 </Link>
-                                                <Link href="/lich-su-kham" className="w-full text-left px-4 py-2.5 text-sm text-[#102A56] hover:bg-[#EAF4FF] flex items-center gap-3 transition-colors group">
-                                                    <svg className="w-4 h-4 text-[#2563EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                                                <Link
+                                                    href="/lich-su-kham"
+                                                    className="w-full text-left px-4 py-2.5 text-sm text-[#102A56] hover:bg-[#EAF4FF] flex items-center gap-3 transition-colors group"
+                                                >
+                                                    <svg
+                                                        className="w-4 h-4 text-[#2563EB]"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                                                        />
+                                                    </svg>
                                                     <span className="group-hover:text-[#2563EB]">{"Lịch sử khám"}</span>
                                                 </Link>
-                                                <Link href="/don-thuoc" className="w-full text-left px-4 py-2.5 text-sm text-[#102A56] hover:bg-[#EAF4FF] flex items-center gap-3 transition-colors group">
-                                                    <svg className="w-4 h-4 text-[#2563EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+                                                <Link
+                                                    href="/don-thuoc"
+                                                    className="w-full text-left px-4 py-2.5 text-sm text-[#102A56] hover:bg-[#EAF4FF] flex items-center gap-3 transition-colors group"
+                                                >
+                                                    <svg
+                                                        className="w-4 h-4 text-[#2563EB]"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                                                        />
+                                                    </svg>
                                                     <span className="group-hover:text-[#2563EB]">{"Đơn thuốc của tôi"}</span>
                                                 </Link>
                                             </div>
                                             <div className="border-t border-[#D6EAFE] py-1">
-                                                <button onClick={handleLogout} className="w-full text-left px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 flex items-center gap-2 transition-colors">
-                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                                                <button
+                                                    onClick={handleLogout}
+                                                    className="w-full text-left px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 flex items-center gap-2 transition-colors"
+                                                >
+                                                    <svg
+                                                        className="w-4 h-4"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                                                        />
+                                                    </svg>
                                                     {"Đăng xuất"}
                                                 </button>
                                             </div>
@@ -522,129 +750,94 @@ export default function Navbar() {
                             ) : (
                                 <button
                                     onClick={() => openAuthModal("login")}
-                                    className="btn-premium text-xs px-6 py-2 rounded-full"
+                                    className="px-6 py-2.5 rounded-full text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 shadow-md transition-all whitespace-nowrap active:scale-95"
                                 >
                                     Đăng nhập
                                 </button>
                             )}
-
                         </div>
-                    </div>
-                </div>
 
-                {/* --- 2. THANH MENU ĐIỀU HƯỚNG CHÍNH (MAIN NAV) --- */}
-                <div className="bg-[var(--background)]/90 backdrop-blur-lg shadow-sm border-b border-blue-50 relative z-[50]">
-                    <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
-                        {/* LOGO THƯƠNG HIỆU */}
-                        <a href="/" className="flex items-center gap-2 shrink-0">
-                            <Image src="/logo-medpro.png" alt="MedPro" width={120} height={40} className="h-10 w-auto object-contain" />
-                        </a>
-
-                        {/* DANH SÁCH MENU (CHO MÀN HÌNH MÁY TÍNH) */}
-                        <nav className="hidden lg:flex items-center gap-1 ml-auto">
-                            {menuItems.map((item) => (
-                                <div key={item.key} className="relative group" onMouseEnter={() => setActiveDropdown(item.key)} onMouseLeave={() => setActiveDropdown(null)}>
-                                    {item.hasDropdown ? (
-                                        <button className={`flex items-center gap-1 px-3 py-2 text-sm transition-all duration-200 font-bold whitespace-nowrap hover:text-[#2563EB] ${activeDropdown === item.key ? "text-[#2563EB]" : "text-[#102A56]"}`}>
-                                            {item.name}
-                                            <svg className={`w-3 h-3 transition-transform duration-200 ${activeDropdown === item.key ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                                            <div className={`absolute bottom-0 left-3 right-3 h-0.5 bg-[#2563EB] transition-all duration-300 ${activeDropdown === item.key ? "opacity-100" : "opacity-0"}`} />
-                                        </button>
-                                    ) : (
-                                        <Link href={item.href || "#"} className={`flex items-center gap-1 px-3 py-2 text-sm transition-all duration-200 font-bold whitespace-nowrap hover:text-[#2563EB] ${activeDropdown === item.key ? "text-[#2563EB]" : "text-[#102A56]"}`}>
-                                            {item.name}
-                                            <div className={`absolute bottom-0 left-3 right-3 h-0.5 bg-[#2563EB] transition-all duration-300 ${activeDropdown === item.key ? "opacity-100" : "opacity-0"}`} />
-                                        </Link>
-                                    )}
-
-                                    {/* DROPDOWN MENU CON */}
-                                    {item.hasDropdown && item.subItems && (
-                                        <div className={`absolute top-full left-0 w-64 bg-white rounded-xl shadow-2xl border border-[#D6EAFE] py-0 z-50 transition-all duration-200 transform origin-top ${activeDropdown === item.key ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"}`}>
-                                            {item.key === 'yourInfo' && user ? (
-                                                <div className="flex flex-col">
-                                                    <div className="px-4 py-4 bg-[#F8FCFF] border-b border-[#D6EAFE]">
-                                                        <div className="flex items-center gap-2 mb-2">
-                                                            <span className="text-[10px] font-bold text-white bg-[#2563EB] px-2 py-0.5 rounded-md uppercase tracking-wider">{user.role}</span>
-                                                        </div>
-                                                        <p className="text-sm font-bold text-[#102A56] truncate">{user.fullName || "Người dùng"}</p>
-                                                        <p className="text-[11px] text-[#5F789A] truncate">{user.email}</p>
-                                                    </div>
-                                                    <div className="py-1">
-                                                        {item.subItems.map((sub) => (
-                                                            <Link key={sub.key} href={sub.href} className="w-full text-left px-4 py-2.5 text-sm text-[#102A56] hover:bg-[#EEF6FF] flex items-center gap-3 transition-colors group">
-                                                                <svg className="w-4 h-4 text-[#2563EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                    {sub.key === 'profile' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />}
-                                                                    {sub.key === 'history' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />}
-                                                                    {sub.key === 'prescriptions' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />}
-                                                                </svg>
-                                                                <span className="group-hover:text-[#2563EB]">{sub.name}</span>
-                                                            </Link>
-                                                        ))}
-                                                    </div>
-                                                    <div className="border-t border-[#D6EAFE] py-1">
-                                                        <button onClick={handleLogout} className="w-full text-left px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 flex items-center gap-2 transition-colors">
-                                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
-                                                            {"Đăng xuất"}
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div className="px-3 py-2">
-                                                    <p className="text-[10px] font-bold text-[#5F789A] uppercase tracking-widest px-3 mb-1">
-                                                        {item.name}
-                                                    </p>
-                                                    {item.subItems.map((sub) => (
-                                                        <Link key={sub.key} href={sub.href} className="flex items-center gap-2 px-3 py-2.5 text-sm text-[#102A56] hover:text-[#2563EB] hover:bg-[#EEF6FF] rounded-lg transition-all" onClick={() => setActiveDropdown(null)}>
-                                                            <div className="w-1.5 h-1.5 rounded-full bg-[#D6EAFE] group-hover:bg-[#2563EB]" />
-                                                            {sub.name}
-                                                        </Link>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </nav>
-
-                        {/* NÚT MỞ MENU TRÊN ĐIỆN THOẠI */}
-                        <button className="lg:hidden p-2" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-                            <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                {mobileMenuOpen ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /> : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />}
+                        {/* MOBILE MENU TOGGLE BUTTON */}
+                        <button
+                            className="lg:hidden p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        >
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                {mobileMenuOpen ? (
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                ) : (
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                )}
                             </svg>
                         </button>
                     </div>
 
-                    {/* HIỂN THỊ MENU MOBILE */}
+                    {/* MOBILE NAV MENU */}
                     {mobileMenuOpen && (
-                        <div className="lg:hidden bg-white border-t border-gray-100 shadow-lg max-h-[80vh] overflow-y-auto">
-                            <div className="px-4 py-3 space-y-2">
+                        <div className="lg:hidden bg-[#042f2e] border-t border-white/10 shadow-2xl max-h-[80vh] overflow-y-auto rounded-b-2xl">
+                            <div className="px-4 py-4 space-y-2">
                                 {menuItems.map((item) => (
                                     <div key={item.key} className="space-y-1">
-                                        <div className="flex items-center justify-between px-3 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-100 hover:text-black rounded-lg transition-colors cursor-pointer" onClick={() => setActiveDropdown(activeDropdown === item.key ? null : item.key)}>
-                                            <Link href={item.href || "#"} className="flex-1">{item.name}</Link>
-                                            {item.hasDropdown && <svg className={`w-4 h-4 transition-transform ${activeDropdown === item.key ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>}
+                                        <div
+                                            className="flex items-center justify-between px-3 py-3 text-sm font-semibold text-white/90 hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
+                                            onClick={() => setActiveDropdown(activeDropdown === item.key ? null : item.key)}
+                                        >
+                                            <Link href={item.href || "#"} className="flex-1">
+                                                {item.name}
+                                            </Link>
+                                            {item.hasDropdown && (
+                                                <svg
+                                                    className={`w-4 h-4 transition-transform ${activeDropdown === item.key ? "rotate-180" : ""
+                                                        }`}
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth={2}
+                                                        d="M19 9l-7 7-7-7"
+                                                    />
+                                                </svg>
+                                            )}
                                         </div>
                                         {item.hasDropdown && activeDropdown === item.key && (
-                                            <div className="ml-4 pl-4 border-l-2 border-black/20 space-y-1">
+                                            <div className="ml-4 pl-4 border-l border-white/20 space-y-1">
                                                 {item.subItems?.map((sub) => (
-                                                    <Link key={sub.key} href={sub.href} className="block px-3 py-2.5 text-sm text-gray-600 hover:text-black" onClick={() => setMobileMenuOpen(false)}>{sub.name}</Link>
+                                                    <Link
+                                                        key={sub.key}
+                                                        href={sub.href}
+                                                        className="block px-3 py-2 text-sm text-white/70 hover:text-white"
+                                                        onClick={() => setMobileMenuOpen(false)}
+                                                    >
+                                                        {sub.name}
+                                                    </Link>
                                                 ))}
                                             </div>
                                         )}
                                     </div>
                                 ))}
                                 {!user && (
-                                    <div className="pt-4 mt-2 border-t border-gray-100 flex gap-2">
-                                        <button onClick={() => openAuthModal("login")} className="flex-1 text-center px-3 py-2.5 text-sm font-semibold text-black border border-black rounded-lg hover:bg-black hover:text-white transition-colors">{"Đăng nhập"}</button>
-                                        <button onClick={() => openAuthModal("register")} className="flex-1 text-center px-3 py-2.5 text-sm font-semibold text-white bg-black rounded-lg hover:bg-gray-800 transition-colors">{"Đăng ký"}</button>
+                                    <div className="pt-4 mt-2 border-t border-white/10 flex gap-2">
+                                        <button
+                                            onClick={() => openAuthModal("login")}
+                                            className="flex-1 text-center px-3 py-2.5 text-sm font-semibold text-white border border-white/30 rounded-lg hover:bg-white/10 transition-colors"
+                                        >
+                                            {"Đăng nhập"}
+                                        </button>
+                                        <button
+                                            onClick={() => openAuthModal("register")}
+                                            className="flex-1 text-center px-3 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-500 transition-colors"
+                                        >
+                                            {"Đăng ký"}
+                                        </button>
                                     </div>
                                 )}
                             </div>
                         </div>
                     )}
                 </div>
-
             </header>
 
             {/* --- KHỐI MODAL ĐĂNG NHẬP / ĐĂNG KÝ (AUTH MODAL) --- */}

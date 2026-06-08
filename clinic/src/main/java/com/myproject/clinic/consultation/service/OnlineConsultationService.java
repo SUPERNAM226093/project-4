@@ -5,9 +5,11 @@ import com.myproject.clinic.entity.*;
 import com.myproject.clinic.exception.ResourceNotFoundException;
 import com.myproject.clinic.repository.*;
 import com.myproject.clinic.utils.SecurityUtils;
+import com.myproject.clinic.utils.VnPayService;
 import com.myproject.clinic.validation.BookingValidationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import java.util.Map;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +34,7 @@ public class OnlineConsultationService {
     private final BookingValidationService bookingValidationService;
     private final SecurityUtils securityUtils;
     private final com.myproject.clinic.repository.AppointmentRepository appointmentRepository;
+    private final VnPayService vnPayService;
 
     /**
      * LOGIC: Khởi tạo đơn đăng ký tư vấn trực tuyến.
@@ -284,5 +287,51 @@ public class OnlineConsultationService {
                 .expiredAt(c.getExpiredAt())
                 .createdAt(c.getCreatedAt())
                 .build();
+    }
+
+    @Transactional
+    public String createVnPayPaymentUrl(Long id, String ipAddr) {
+        OnlineConsultation c = consultationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Đơn tư vấn", id));
+        if (!"PENDING".equals(c.getPaymentStatus())) {
+            throw new IllegalArgumentException("Đơn tư vấn không ở trạng thái chờ thanh toán.");
+        }
+        return vnPayService.createPaymentUrl(c.getAmount().longValue(), String.valueOf(c.getId()), ipAddr);
+    }
+
+    @Transactional
+    public boolean processVnPayCallback(Map<String, String> params) {
+        boolean isValidHash = vnPayService.verifyCallback(params);
+        if (!isValidHash) {
+            log.error("[VNPay Callback] Chữ ký hash không hợp lệ.");
+            return false;
+        }
+
+        String responseCode = params.get("vnp_ResponseCode");
+        String txnRef = params.get("vnp_TxnRef");
+        if (txnRef == null) {
+            log.error("[VNPay Callback] Không tìm thấy mã tham chiếu vnp_TxnRef.");
+            return false;
+        }
+
+        Long consultationId = Long.parseLong(txnRef);
+        OnlineConsultation c = consultationRepository.findById(consultationId).orElse(null);
+        if (c == null) {
+            log.error("[VNPay Callback] Không tìm thấy đơn tư vấn ID: {}", consultationId);
+            return false;
+        }
+
+        if ("00".equals(responseCode)) {
+            c.setPaymentStatus("PAID");
+            if (c.getMeetingLink() == null || c.getMeetingLink().isBlank()) {
+                c.setMeetingLink("https://meet.google.com/xvy-test-meet");
+            }
+            consultationRepository.save(c);
+            log.info("[VNPay Callback] Thanh toán thành công cho đơn tư vấn ID: {}", consultationId);
+            return true;
+        } else {
+            log.warn("[VNPay Callback] Giao dịch thất bại với mã lỗi: {} cho đơn tư vấn ID: {}", responseCode, consultationId);
+            return false;
+        }
     }
 }

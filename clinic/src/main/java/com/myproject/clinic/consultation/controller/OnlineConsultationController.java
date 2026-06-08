@@ -76,8 +76,27 @@ public class OnlineConsultationController {
 
     @PutMapping("/{id}")
     public ResponseEntity<OnlineConsultationResponse> update(
-            @PathVariable Long id,
-            @RequestBody OnlineConsultationRequest request) {
+        @PathVariable Long id,
+        @RequestBody OnlineConsultationRequest request) {
         return ResponseEntity.ok(consultationService.update(id, request));
+    }
+
+    @GetMapping("/{id}/vnpay-payment-url")
+    public ResponseEntity<java.util.Map<String, String>> getVnPayPaymentUrl(
+        @PathVariable Long id,
+        jakarta.servlet.http.HttpServletRequest request) {
+        String ipAddr = request.getRemoteAddr();
+        if ("0:0:0:0:0:0:0:1".equals(ipAddr)) {
+            ipAddr = "127.0.0.1";
+        }
+        String paymentUrl = consultationService.createVnPayPaymentUrl(id, ipAddr);
+        return ResponseEntity.ok(java.util.Map.of("paymentUrl", paymentUrl));
+    }
+
+    @GetMapping("/vnpay-callback")
+    public ResponseEntity<java.util.Map<String, Object>> vnpayCallback(
+        @RequestParam java.util.Map<String, String> params) {
+        boolean success = consultationService.processVnPayCallback(params);
+        return ResponseEntity.ok(java.util.Map.of("success", success));
     }
 }

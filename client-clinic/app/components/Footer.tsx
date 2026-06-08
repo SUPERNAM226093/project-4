@@ -37,7 +37,7 @@ const footerLinks = {
  * MÔ TẢ: Render toàn bộ giao diện chân trang bao gồm các cột thông tin và dòng bản quyền dưới cùng.
  */
 export default function Footer() {
-    
+
 
     return (
         <footer className="bg-[#1CA7EC] text-[#102A56] border-t border-white/20">

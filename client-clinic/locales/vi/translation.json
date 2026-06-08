@@ -224,7 +224,7 @@
         "recordPrefix": "Hồ sơ #",
         "appointmentPrefix": "Lịch hẹn #",
         "drPrefix": "BS.",
-        "diagnosis": "Chỉ định xét nghiệm (nếu có)",
+        "diagnosis": "Chẩn đoán",
         "conclusion": "Kết luận",
         "noInfo": "Chưa có thông tin"
     },

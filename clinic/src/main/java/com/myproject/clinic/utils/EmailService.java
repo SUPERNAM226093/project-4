@@ -104,7 +104,7 @@ public class EmailService {
                         "<p>Xin chào <b>%s</b>,</p>" +
                         "<p>Hồ sơ bệnh án của bạn đã được ghi nhận hoặc cập nhật.</p>" +
                         "<div><span class='label'>Bác sĩ khám: </span><span class='value'>%s</span></div>" +
-                        "<div><span class='label'>Chỉ định xét nghiệm (nếu có): </span><span class='value'>%s</span></div>" +
+                        "<div><span class='label'>Chẩn đoán: </span><span class='value'>%s</span></div>" +
                         "<div><span class='label'>Kết luận: </span><span class='value'>%s</span></div>" +
                         "<div class='footer'>Cảm ơn bạn đã thăm khám tại Clinic.</div>" +
                         "</div></body></html>",

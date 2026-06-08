@@ -7,16 +7,12 @@ import Footer from "../../../components/Footer";
 import {
     fetchOnlineConsultationById,
     cancelOnlineConsultation,
-    buildVietQRUrl,
+    fetchVnPayPaymentUrl,
     OnlineConsultationResponse,
     AuthResponse,
 } from "../../../lib/api";
 
-// ── Config (từ biến môi trường) ────────────────────────────────────────────────
-const BANK_ID = process.env.NEXT_PUBLIC_BANK_ID || "Vietinbank";
-const ACCOUNT_NO = process.env.NEXT_PUBLIC_BANK_ACCOUNT || "101885711760";
-const ACCOUNT_NAME = process.env.NEXT_PUBLIC_BANK_OWNER || "PHONG KHAM MEDPRO";
-const BANK_DISPLAY = process.env.NEXT_PUBLIC_BANK_DISPLAY || "Vietinbank";
+// ── Config ────────────────────────────────────────────────────────────────────
 
 function getLoggedInUser(): AuthResponse | null {
     if (typeof window === "undefined") return null;
@@ -41,9 +37,19 @@ export default function PaymentPage() {
     const [loading, setLoading] = useState(true); // Trạng thái đang tải dữ liệu
     const [error, setError] = useState<string | null>(null); // Lỗi khi tải dữ liệu
     const [countdown, setCountdown] = useState(""); // Chuỗi đếm ngược thời gian thanh toán
-    const [notified, setNotified] = useState(false); // Đã nhấn nút "Tôi đã chuyển khoản" chưa
     const [cancelling, setCancelling] = useState(false); // Đang xử lý hủy đơn
-    const [qrError, setQrError] = useState(false); // Lỗi khi tải mã QR VietQR
+    const [paying, setPaying] = useState(false); // Đang xử lý cổng VNPay
+
+    const handleVnPayPayment = async () => {
+        setPaying(true);
+        try {
+            const { paymentUrl } = await fetchVnPayPaymentUrl(consultationId);
+            window.location.href = paymentUrl;
+        } catch (e: any) {
+            alert(e.message || "Không thể khởi tạo liên kết thanh toán VNPay.");
+            setPaying(false);
+        }
+    };
 
     /**
      * HOOK: Lấy thông tin chi tiết đơn tư vấn khi vào trang
@@ -91,14 +97,7 @@ export default function PaymentPage() {
         }
     };
 
-    // Sinh URL mã QR thanh toán qua VietQR
-    const qrUrl = consultation ? buildVietQRUrl({
-        bankId: BANK_ID,
-        accountNo: ACCOUNT_NO,
-        accountName: ACCOUNT_NAME,
-        amount: consultation.amount,
-        orderId: consultation.id,
-    }) : null;
+
 
     if (loading) return (
         <>
@@ -211,12 +210,12 @@ export default function PaymentPage() {
                         </div>
                     </div>
 
-                    {/* QR Code */}
+                    {/* VNPay Payment Section */}
                     {!isPaid && !isCancelled && (
-                        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6">
-                            <div className="flex items-center justify-between mb-4">
+                        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 space-y-6">
+                            <div className="flex items-center justify-between">
                                 <h2 className="text-sm font-bold text-[#0d2d6b] flex items-center gap-2">
-                                    📱 Quét mã QR để thanh toán
+                                    💳 Thanh toán trực tuyến qua VNPay
                                 </h2>
                                 {countdown && (
                                     <div className="flex items-center gap-1.5 text-xs text-amber-600 bg-amber-50 border border-amber-100 rounded-lg px-3 py-1.5">
@@ -228,78 +227,43 @@ export default function PaymentPage() {
                                 )}
                             </div>
 
-                            <div className="flex flex-col items-center">
-                                {!qrError && qrUrl ? (
-                                    <div className="p-3 bg-white border-2 border-blue-100 rounded-2xl shadow-inner">
-                                        <img
-                                            src={qrUrl}
-                                            alt="VietQR Payment Code"
-                                            className="w-56 h-56 object-contain"
-                                            onError={() => setQrError(true)}
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className="w-56 h-56 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400 gap-2">
-                                        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                        </svg>
-                                        <p className="text-xs text-center px-4">Không tải được mã QR. Vui lòng dùng thông tin bên dưới.</p>
-                                    </div>
-                                )}
-
-                                {/* Bank Info */}
-                                <div className="mt-5 w-full bg-gray-50 rounded-2xl p-4 space-y-2 text-sm">
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-400">Ngân hàng</span>
-                                        <span className="font-semibold text-[#0d2d6b]">{BANK_DISPLAY}</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-400">Số tài khoản</span>
-                                        <span className="font-mono font-bold text-[#0d2d6b]">{ACCOUNT_NO}</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-400">Chủ tài khoản</span>
-                                        <span className="font-semibold text-[#0d2d6b]">{ACCOUNT_NAME}</span>
-                                    </div>
-                                    <div className="pt-2 border-t border-gray-200">
-                                        <div className="flex justify-between items-start gap-2">
-                                            <span className="text-gray-400 shrink-0">Nội dung CK</span>
-                                            <span className="font-bold text-[#1a8fe3] text-right">
-                                                THANH TOAN ONLINE {consultation.id}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-400">Số tiền</span>
-                                        <span className="font-bold text-[#f26522]">
-                                            {new Intl.NumberFormat("vi-VN").format(consultation.amount)}đ
-                                        </span>
-                                    </div>
+                            <div className="flex flex-col items-center py-6 px-4 bg-gradient-to-br from-blue-50/50 to-indigo-50/30 rounded-2xl border border-blue-100/40">
+                                <div className="h-14 flex items-center justify-center mb-4 px-6 py-2 bg-white rounded-xl shadow-sm border border-gray-100">
+                                    <img 
+                                        src="https://sandbox.vnpayment.vn/paymentv2/Images/brands/logo.svg" 
+                                        alt="VNPay Logo" 
+                                        className="h-8 object-contain"
+                                    />
                                 </div>
+                                <p className="text-xs text-gray-500 text-center max-w-sm mb-4 leading-relaxed">
+                                    Hệ thống sẽ chuyển hướng bạn đến cổng thanh toán bảo mật VNPay. Bạn có thể sử dụng Thẻ nội địa (ATM), Thẻ quốc tế (Visa/Mastercard) hoặc quét QR ứng dụng ngân hàng.
+                                </p>
                             </div>
 
-                            {/* Notify button */}
-                            {!notified ? (
-                                <button
-                                    onClick={() => setNotified(true)}
-                                    className="mt-5 w-full py-3.5 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 shadow-lg shadow-green-200 transition-all"
-                                >
-                                    ✅ Tôi đã chuyển khoản
-                                </button>
-                            ) : (
-                                <div className="mt-5 bg-green-50 border border-green-200 rounded-xl px-5 py-4 text-center">
-                                    <p className="font-semibold text-green-700 text-sm">⏳ Đang chờ nhân viên xác nhận</p>
-                                    <p className="text-xs text-green-600 mt-1">Nhân viên sẽ xác nhận trong vài phút. Bạn có thể xem trạng thái trong lịch sử khám.</p>
-                                </div>
-                            )}
+                            <button
+                                onClick={handleVnPayPayment}
+                                disabled={paying || cancelling}
+                                className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-blue-500 via-[#1a8fe3] to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-lg shadow-blue-200 transition-all hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none"
+                            >
+                                {paying ? (
+                                    <>
+                                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                        Đang kết nối cổng VNPay...
+                                    </>
+                                ) : (
+                                    <>
+                                        💳 Thanh toán ngay với VNPay
+                                    </>
+                                )}
+                            </button>
 
-                            {/* Cancel */}
+                            {/* Cancel Button */}
                             <button
                                 onClick={handleCancel}
-                                disabled={cancelling}
-                                className="mt-3 w-full py-2.5 rounded-xl text-sm text-red-400 border border-red-100 hover:bg-red-50 transition-colors disabled:opacity-50"
+                                disabled={paying || cancelling}
+                                className="w-full py-2.5 rounded-xl text-xs font-medium text-red-500 hover:text-red-600 hover:bg-red-50/50 transition-colors disabled:opacity-50"
                             >
-                                {cancelling ? "Đang hủy..." : "Hủy đơn này"}
+                                {cancelling ? "Đang hủy đơn..." : "Hủy đơn tư vấn này"}
                             </button>
                         </div>
                     )}

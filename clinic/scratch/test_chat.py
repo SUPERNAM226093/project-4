@@ -12,7 +12,7 @@ try:
     req.add_header('Content-Type', 'application/json')
     data = {
         "sessionId": "chat-" + str(uuid.uuid4()),
-        "message": "tôi bị ho ra máu khám ai",
+        "message": "cho tôi hỏi hotline và lịch làm việc của phòng khám nhé",
         "userId": None
     }
     jsondata = json.dumps(data).encode('utf-8')

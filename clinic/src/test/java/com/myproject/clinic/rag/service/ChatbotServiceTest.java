@@ -133,7 +133,7 @@ class ChatbotServiceTest {
         assertNotNull(response);
         assertEquals("STATISTICS", response.getIntent());
         // dataExtractionService.extract() được gọi vì "STATISTICS" intent
-        verify(dataExtractionService).extract(eq("Bao nhiêu bác sĩ?"), any());
+        verify(dataExtractionService).extract(eq("Bao nhiêu bác sĩ?"), any(), any());
     }
 
     // ---------------------------------------------------------------

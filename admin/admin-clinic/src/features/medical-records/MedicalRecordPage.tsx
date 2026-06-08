@@ -157,7 +157,7 @@ export default function MedicalRecordPage() {
                             <th>{"ID"}</th>
                             <th>{"Mã lịch hẹn"}</th>
                             <th>{"Bác sĩ"}</th>
-                            <th>{"Chỉ định xét nghiệm (nếu có)"}</th>
+                            <th>{"Chẩn đoán"}</th>
                             <th>{"Kết luận"}</th>
                             <th>{"Ngày tạo"}</th>
                             {!isAdmin && <th>{"Thao tác"}</th>}
@@ -218,7 +218,7 @@ export default function MedicalRecordPage() {
                         </div>
                     </div>
                     {/* Chi tiết Chẩn đoán và Kết luận y khoa */}
-                    <div className="form-group"><label>{"Chỉ định xét nghiệm (nếu có)"}</label><textarea name="diagnosis" className="form-control" value={form.diagnosis} onChange={handleChange} rows={3} placeholder="Nhập các chỉ định xét nghiệm (nếu có)..." /></div>
+                    <div className="form-group"><label>{"Chẩn đoán"}</label><textarea name="diagnosis" className="form-control" value={form.diagnosis} onChange={handleChange} rows={3} placeholder="Nhập tình trạng bệnh lý, triệu chứng ghi nhận được..." /></div>
                     <div className="form-group"><label>{"Kết luận"}</label><textarea name="conclusion" className="form-control" value={form.conclusion} onChange={handleChange} rows={3} placeholder="Hướng giải quyết, thuốc chỉ định hoặc lời dặn bác sĩ..." /></div>
                     
                     <div className="form-actions">

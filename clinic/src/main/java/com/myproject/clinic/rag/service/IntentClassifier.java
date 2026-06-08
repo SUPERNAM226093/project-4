@@ -62,6 +62,13 @@ public class IntentClassifier {
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE
     );
 
+    // --- Tầng 1: GENERAL (câu hỏi thông thường / liên hệ / lịch làm việc / hotline) ---
+    private static final Pattern GENERAL_PATTERN = Pattern.compile(
+            "(?U)\\b(hotline|sđt|số điện thoại|lịch làm việc|giờ làm việc|giờ mở cửa|thời gian làm việc|" +
+            "địa chỉ|ở đâu|vị trí|bản đồ|liên hệ|email|cskh|chào|hello|hi|xin chào|tạm biệt|bye)\\b",
+            Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE
+    );
+
     /**
      * Phân loại intent từ câu hỏi người dùng.
      * Trả về danh sách intent (primary intent ở index 0).
@@ -80,7 +87,13 @@ public class IntentClassifier {
             return List.of("UNKNOWN");
         }
 
-        // Tầng 1b: SYMPTOM — ưu tiên kiểm tra triệu chứng trước (tránh nhầm với STATISTICS "bác sĩ nào")
+        // Tầng 1b_1: GENERAL — câu hỏi liên hệ / thông tin chung
+        if (GENERAL_PATTERN.matcher(lower).find()) {
+            log.info("[IntentClassifier] Tầng 1 -> GENERAL: '{}'", truncate(message));
+            return List.of("GENERAL");
+        }
+
+        // Tầng 1b_2: SYMPTOM — ưu tiên kiểm tra triệu chứng trước (tránh nhầm với STATISTICS "bác sĩ nào")
         if (SYMPTOM_PATTERN.matcher(lower).find()) {
             log.info("[IntentClassifier] Tầng 1 -> SYMPTOM: '{}'", truncate(message));
             return List.of("SYMPTOM");

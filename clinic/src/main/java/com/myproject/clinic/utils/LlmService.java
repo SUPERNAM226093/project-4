@@ -25,14 +25,21 @@ public class LlmService {
     private final WebClient webClient;
     private final ObjectMapper objectMapper;
     private final String hfToken;
+    private final String groqApiKey;
 
     private static final String HF_CHAT_URL = "https://router.huggingface.co/v1/chat/completions";
     private static final String HF_MODEL = "Qwen/Qwen2.5-72B-Instruct";
+    
+    private static final String GROQ_CHAT_URL = "https://api.groq.com/openai/v1/chat/completions";
+    private static final String GROQ_MODEL = "llama-3.3-70b-versatile";
+
     private static final Pattern THINK_PATTERN = Pattern.compile("<think>.*?</think>", Pattern.DOTALL);
 
     public LlmService(@Value("${hf.token}") String hfToken, 
+                      @Value("${groq.api.key}") String groqApiKey,
                       ObjectMapper objectMapper) {
         this.hfToken = hfToken;
+        this.groqApiKey = groqApiKey;
         this.objectMapper = objectMapper;
         this.webClient = WebClient.builder()
                 .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(10 * 1024 * 1024))
@@ -53,8 +60,19 @@ public class LlmService {
     public static final String LLM_ERROR_SENTINEL = "__LLM_ERROR__";
 
     public String chat(List<ChatMessage> messages) {
-        // --- CHỈ SỬ DỤNG HUGGING FACE ---
-        if (hfToken != null && !hfToken.isBlank()) {
+        // --- ƯU TIÊN SỬ DỤNG GROQ ---
+        if (groqApiKey != null && !groqApiKey.isBlank() && !"your_groq_api_key_here".equals(groqApiKey)) {
+            try {
+                log.info("[LLM] Đang gọi Groq API với model: {}...", GROQ_MODEL);
+                String response = callGroq(messages);
+                if (response != null && !response.isBlank()) return response;
+            } catch (Exception e) {
+                log.error("[LLM] Groq API thất bại: {}", e.getMessage());
+            }
+        }
+
+        // --- HẬU BỊ: SỬ DỤNG HUGGING FACE ---
+        if (hfToken != null && !hfToken.isBlank() && !"your_hugging_face_token_here".equals(hfToken)) {
             try {
                 log.info("[LLM] Đang gọi Hugging Face Router...");
                 String response = callHuggingFace(messages);
@@ -65,12 +83,40 @@ public class LlmService {
         }
 
         // --- KẾT QUẢ CUỐI CÙNG: Trả sentinel để caller biết LLM lỗi ---
-        if (hfToken == null || hfToken.isBlank()) {
-            log.error("[LLM] Chưa cấu hình API Key cho Hugging Face.");
+        if ((groqApiKey == null || groqApiKey.isBlank() || "your_groq_api_key_here".equals(groqApiKey)) &&
+            (hfToken == null || hfToken.isBlank() || "your_hugging_face_token_here".equals(hfToken))) {
+            log.error("[LLM] Chưa cấu hình API Key cho Groq hoặc Hugging Face.");
         } else {
-            log.error("[LLM] LLM (Hugging Face) đã thất bại.");
+            log.error("[LLM] Cả Groq và Hugging Face đều thất bại.");
         }
         return LLM_ERROR_SENTINEL;
+    }
+
+    private String callGroq(List<ChatMessage> messages) throws Exception {
+        Map<String, Object> requestBody = Map.of(
+                "messages", messages,
+                "model", GROQ_MODEL,
+                "stream", false,
+                "max_tokens", 1024
+        );
+
+        String responseBody = webClient.post()
+                .uri(GROQ_CHAT_URL)
+                .header("Authorization", "Bearer " + groqApiKey)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(requestBody)
+                .retrieve()
+                .bodyToMono(String.class)
+                .timeout(Duration.ofSeconds(25))
+                .block();
+
+        JsonNode root = objectMapper.readTree(responseBody);
+        if (root.has("error")) {
+            log.error("Groq Error Body: {}", root.get("error"));
+            return null;
+        }
+        String content = root.path("choices").get(0).path("message").path("content").asText();
+        return stripThinkTags(content);
     }
 
     private String callHuggingFace(List<ChatMessage> messages) throws Exception {

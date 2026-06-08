@@ -878,6 +878,36 @@ export async function cancelOnlineConsultation(
     if (!res.ok) throw new Error("Hủy đơn tư vấn thất bại");
 }
 
+/**
+ * HÀM: fetchVnPayPaymentUrl
+ * MÔ TẢ: Lấy đường dẫn cổng thanh toán VNPay cho đơn tư vấn trực tuyến.
+ */
+export async function fetchVnPayPaymentUrl(
+    id: number
+): Promise<{ paymentUrl: string }> {
+    const res = await fetch(`${API_BASE_URL}/api/online-consultations/${id}/vnpay-payment-url`, {
+        cache: "no-store",
+        headers: getAuthHeaders(),
+    });
+    if (!res.ok) throw new Error("Không thể lấy liên kết thanh toán VNPay");
+    return res.json();
+}
+
+/**
+ * HÀM: verifyVnPayCallback
+ * MÔ TẢ: Gửi tham số callback từ VNPay để backend kiểm tra chữ ký và cập nhật trạng thái đơn.
+ */
+export async function verifyVnPayCallback(
+    queryParams: string
+): Promise<{ success: boolean }> {
+    const res = await fetch(`${API_BASE_URL}/api/online-consultations/vnpay-callback${queryParams}`, {
+        cache: "no-store",
+        headers: getAuthHeaders(),
+    });
+    if (!res.ok) throw new Error("Không thể xác thực kết quả thanh toán từ máy chủ");
+    return res.json();
+}
+
 // ─── Tạo mã VietQR tự động (VietQR Helper) ───────────────────────────────────
 
 /**

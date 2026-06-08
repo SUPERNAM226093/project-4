@@ -41,6 +41,18 @@ public class DataExtractionService {
      * @return ExtractionResult với các tham số đã được chuẩn hóa
      */
     public ExtractionResult extract(String message, List<String> intents) {
+        return extract(message, intents, null);
+    }
+
+    /**
+     * Trích xuất tham số từ câu hỏi người dùng, có sử dụng lịch sử trò chuyện để giải quyết đại từ chỉ định/tham chiếu (như 'khoa này', 'bác sĩ đó').
+     *
+     * @param message     câu hỏi gốc của người dùng
+     * @param intents     danh sách intent đã xác định
+     * @param chatHistory lịch sử các tin nhắn gần nhất
+     * @return ExtractionResult với các tham số đã được chuẩn hóa
+     */
+    public ExtractionResult extract(String message, List<String> intents, List<java.util.Map<String, String>> chatHistory) {
         String today = LocalDate.now().format(DATE_FORMATTER);
         String tomorrow = LocalDate.now().plusDays(1).format(DATE_FORMATTER);
         String dayOfWeek = getDayOfWeekVi(LocalDate.now());
@@ -49,10 +61,10 @@ public class DataExtractionService {
         messages.add(new LlmService.ChatMessage("system",
                 "Bạn là hệ thống trích xuất tham số cho chatbot phòng khám. " +
                 "Hôm nay là " + dayOfWeek + " ngày " + today + ". Ngày mai là " + tomorrow + ".\n\n" +
-                "Từ câu hỏi của người dùng, hãy trích xuất các tham số sau và trả về ĐÚNG JSON schema này:\n" +
+                "Từ câu hỏi của người dùng và lịch sử trò chuyện gần nhất, hãy trích xuất các tham số sau và trả về ĐÚNG JSON schema này:\n" +
                 "{\n" +
-                "  \"specialization\": \"<tên chuyên khoa, null nếu không đề cập>\",\n" +
-                "  \"doctorName\": \"<tên bác sĩ, null nếu không đề cập>\",\n" +
+                "  \"specialization\": \"<tên chuyên khoa, tự động suy luận từ lịch sử trò chuyện nếu người dùng dùng từ thay thế như 'khoa này', 'khoa đó' để chỉ chuyên khoa được đề cập gần nhất trước đó, hoặc null nếu không thể xác định>\",\n" +
+                "  \"doctorName\": \"<tên bác sĩ, tự động suy luận từ lịch sử trò chuyện nếu người dùng dùng 'bác sĩ này', 'bác sĩ đó', hoặc null nếu không đề cập>\",\n" +
                 "  \"date\": \"<ngày theo định dạng yyyy-MM-dd, mặc định " + today + " nếu không nói rõ>\",\n" +
                 "  \"type\": \"<ONLINE|OFFLINE|ALL, mặc định ALL>\",\n" +
                 "  \"timeRange\": \"<MORNING|AFTERNOON|ALL, mặc định ALL>\"\n" +
@@ -61,9 +73,23 @@ public class DataExtractionService {
                 "- 'hôm nay' = " + today + ", 'ngày mai' = " + tomorrow + "\n" +
                 "- 'sáng' = MORNING (trước 12h), 'chiều' = AFTERNOON (từ 12h trở đi), 'tối' = AFTERNOON\n" +
                 "- 'online', 'trực tuyến', 'từ xa' = ONLINE\n" +
-                "- Nếu không đề cập specialization thì để null (tìm tất cả), không được bịa\n" +
+                "- Phân tích kỹ lịch sử trò chuyện để tìm ra chuyên khoa/bác sĩ được đề cập gần nhất trước đó nếu câu hỏi hiện tại có tính chất tham chiếu (ví dụ: 'khoa này', 'bác sĩ đó').\n" +
                 "- Chỉ trả về JSON thuần túy, không giải thích gì thêm"
         ));
+
+        // Thêm lịch sử chat để LLM hiểu ngữ cảnh của từ "khoa này", "bác sĩ này"
+        if (chatHistory != null) {
+            int startIdx = Math.max(0, chatHistory.size() - 5);
+            for (int i = startIdx; i < chatHistory.size(); i++) {
+                java.util.Map<String, String> msg = chatHistory.get(i);
+                // Bỏ qua tin nhắn user cuối cùng nếu nó trùng với message đầu vào
+                if (i == chatHistory.size() - 1 && "user".equals(msg.get("role"))) {
+                    continue;
+                }
+                messages.add(new LlmService.ChatMessage(msg.get("role"), msg.get("content")));
+            }
+        }
+
         messages.add(new LlmService.ChatMessage("user", message));
 
         String rawJson = llmService.chat(messages).trim();

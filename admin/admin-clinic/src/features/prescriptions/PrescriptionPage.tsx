@@ -235,7 +235,7 @@ export default function PrescriptionPage() {
                                 <option value="">--- Chọn bệnh án để kê đơn ---</option>
                                 {medicalRecords.map(mr => (
                                     <option key={mr.id} value={mr.id}>
-                                        #{mr.id} - BS {mr.doctorName} - {mr.diagnosis ? mr.diagnosis.substring(0, 50) + '...' : 'Không có chỉ định xét nghiệm'}
+                                        #{mr.id} - BS {mr.doctorName} - {mr.diagnosis ? mr.diagnosis.substring(0, 50) + '...' : 'Không có chẩn đoán'}
                                     </option>
                                 ))}
                             </select>

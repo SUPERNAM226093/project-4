@@ -62,7 +62,7 @@ const clinics = [
  * @returns Khoảng cách tính bằng Kilômét (km)
  */
 function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
-  const R = 6371; // Bán kính của Trái Đất tính bằng km
+  const R = 6371;
   const dLat = ((lat2 - lat1) * Math.PI) / 180; // Đổi độ chênh lệch vĩ độ sang Radian
   const dLon = ((lon2 - lon1) * Math.PI) / 180; // Đổi độ chênh lệch kinh độ sang Radian
 
@@ -70,8 +70,8 @@ function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
   const a =
     Math.sin(dLat / 2) ** 2 +
     Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLon / 2) ** 2;
+    Math.cos((lat2 * Math.PI) / 180) *
+    Math.sin(dLon / 2) ** 2;
 
   // Tính khoảng cách cuối cùng dựa trên góc cung (a) và bán kính Trái Đất (R)
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
@@ -103,7 +103,7 @@ async function getRealRoadDistance(fromLat: number, fromLng: number, toLat: numb
   }
 
   const route = data.routes[0]; // Lấy lộ trình tối ưu nhất (nằm ở index 0)
-  
+
   // OSRM trả về mảng tọa độ vẽ đường đi (polyline) dưới dạng [Lng, Lat]
   // Nhưng React-Leaflet yêu cầu tọa độ vẽ phải là [Lat, Lng], nên ta map lại để đảo ngược vị trí
   const polylinePositions = route.geometry.coordinates.map(([lng, lat]: [number, number]) => [
@@ -237,8 +237,8 @@ export default function NearestClinicContent() {
           }}
         />
 
-        <button 
-          onClick={handleSearch} 
+        <button
+          onClick={handleSearch}
           className="w-full md:w-auto px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-300"
         >
           Tìm cơ sở gần nhất
@@ -252,7 +252,7 @@ export default function NearestClinicContent() {
             <span className="font-bold text-green-900">{nearestClinic.name}</span>
           </p>
           <p className="text-md text-green-800 mb-2">
-            Quãng đường di chuyển: <span className="font-bold">{nearestClinic.distance} km</span> 
+            Quãng đường di chuyển: <span className="font-bold">{nearestClinic.distance} km</span>
             {nearestClinic.distanceType === "ROAD" ? " (Đường bộ)" : " (Đường chim bay)"}
             {nearestClinic.duration !== null && (
               <> | Thời gian ước tính: <span className="font-bold">{nearestClinic.duration} phút</span></>
@@ -291,7 +291,7 @@ export default function NearestClinicContent() {
           )}
 
           {clinics.map((clinic) => (
-            <Marker key={clinic.id} position={[clinic.lat, clinic.lng]}>
+            <Marker key={clinic.lat} position={[clinic.lat, clinic.lng]}>
               <Popup>
                 <div className="text-center">
                   <p className="font-bold text-blue-800 mb-1">{clinic.name}</p>
@@ -310,7 +310,7 @@ export default function NearestClinicContent() {
               </Popup>
             </Marker>
           ))}
-          
+
           {/* Vẽ polyline lộ trình đến cơ sở gần nhất nếu có */}
           {nearestClinic?.polyline && (
             <Polyline positions={nearestClinic.polyline} color="blue" weight={4} opacity={0.6} />
@@ -323,7 +323,7 @@ export default function NearestClinicContent() {
           <div className="bg-blue-600 px-6 py-4">
             <h3 className="text-xl font-bold text-white">So sánh khoảng cách các cơ sở</h3>
           </div>
-          
+
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
