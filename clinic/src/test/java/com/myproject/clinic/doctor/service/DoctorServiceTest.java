@@ -53,7 +53,7 @@ class DoctorServiceTest {
         User user = User.builder().id(1L).email("doc@test.com").fullName("Dr. Test").build();
         Specialization spec = Specialization.builder().id(1L).name("Cardiology").build();
         return Doctor.builder().id(1L).user(user).specialization(spec)
-                .licenseNumber("LIC001").experienceYears(10).build();
+                .clinicId(1L).experienceYears(10).build();
     }
 
     @Test
@@ -88,9 +88,9 @@ class DoctorServiceTest {
         when(doctorRepository.save(any())).thenReturn(createDoctor());
 
         DoctorRequest request = DoctorRequest.builder().userId(1L).specializationId(1L)
-                .licenseNumber("LIC001").experienceYears(10).build();
+                .clinicId(1L).experienceYears(10).build();
         DoctorResponse result = doctorService.create(request);
-        assertEquals("LIC001", result.getLicenseNumber());
+        assertEquals(1L, result.getClinicId());
     }
 
     @Test

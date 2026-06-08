@@ -29,9 +29,9 @@ public class Doctor {
     @JoinColumn(name = "specialization_id")
     private Specialization specialization;
 
-    /** Số giấy phép hành nghề y khoa. */
-    @Column(name = "license_number", length = 100)
-    private String licenseNumber;
+    /** Cơ sở y tế (1, 2, 3, 4) */
+    @Column(name = "clinic_id")
+    private Long clinicId;
 
     /** Số năm kinh nghiệm hành nghề. */
     @Column(name = "experience_years")

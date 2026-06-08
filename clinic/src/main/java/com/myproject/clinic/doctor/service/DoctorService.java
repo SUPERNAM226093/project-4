@@ -84,7 +84,7 @@ public class DoctorService {
         Doctor doctor = Doctor.builder()
                 .user(user)
                 .specialization(specialization)
-                .licenseNumber(request.getLicenseNumber())
+                .clinicId(request.getClinicId())
                 .experienceYears(request.getExperienceYears())
                 .bio(request.getBio())
                 .build();
@@ -104,8 +104,8 @@ public class DoctorService {
                     .orElseThrow(() -> new ResourceNotFoundException("Specialization", request.getSpecializationId()));
             doctor.setSpecialization(specialization);
         }
-        if (request.getLicenseNumber() != null)
-            doctor.setLicenseNumber(request.getLicenseNumber());
+        if (request.getClinicId() != null)
+            doctor.setClinicId(request.getClinicId());
         if (request.getExperienceYears() != null)
             doctor.setExperienceYears(request.getExperienceYears());
         if (request.getBio() != null)
@@ -192,7 +192,7 @@ public class DoctorService {
                 .fullName(doctor.getUser().getFullName())
                 .email(doctor.getUser().getEmail())
                 .specializationName(doctor.getSpecialization() != null ? doctor.getSpecialization().getName() : null)
-                .licenseNumber(doctor.getLicenseNumber())
+                .clinicId(doctor.getClinicId())
                 .experienceYears(doctor.getExperienceYears())
                 .bio(doctor.getBio())
                 .status(doctor.getUser().getStatus())

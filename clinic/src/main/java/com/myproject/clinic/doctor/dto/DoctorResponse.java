@@ -15,7 +15,7 @@ public class DoctorResponse {
     private String fullName;
     private String email;
     private String specializationName;
-    private String licenseNumber;
+    private Long clinicId;
     private Integer experienceYears;
     private String bio;
     private String featureImageUrl;

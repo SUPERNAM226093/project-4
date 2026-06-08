@@ -41,13 +41,6 @@ const clinics = [
     address: "10 Hoàng Quốc Việt, Cầu Giấy, Hà Nội",
     lat: 21.0462,
     lng: 105.7937
-  },
-  {
-    id: 5,
-    name: "CS5 - Bệnh viện Phùng, Đan Phượng",
-    address: "Bệnh viện Phùng, Đan Phượng, Hà Nội",
-    lat: 21.0885,
-    lng: 105.6705
   }
 ];
 

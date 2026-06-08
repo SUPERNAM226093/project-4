@@ -12,7 +12,7 @@ import lombok.*;
 public class DoctorRequest {
     private Long userId;
     private Long specializationId;
-    private String licenseNumber;
+    private Long clinicId;
     private Integer experienceYears;
     private String bio;
 }

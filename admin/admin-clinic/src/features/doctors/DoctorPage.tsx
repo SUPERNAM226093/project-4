@@ -19,7 +19,7 @@ interface Doctor {
     fullName: string; 
     email: string; 
     specializationName: string; 
-    licenseNumber: string; 
+    clinicId: number; 
     experienceYears: number; 
     bio: string; 
     status: string;
@@ -29,7 +29,7 @@ interface UserOption { id: number; fullName: string; email: string; roleName: st
 interface SpecOption { id: number; name: string; }
 
 // Khởi tạo form trống
-const emptyForm = { userId: '', specializationId: '', licenseNumber: '', experienceYears: '', bio: '' };
+const emptyForm = { userId: '', specializationId: '', clinicId: '', experienceYears: '', bio: '' };
 
 export default function DoctorPage() {
     // --- 1. KHỞI TẠO STATE ---
@@ -79,7 +79,7 @@ export default function DoctorPage() {
         setForm({
             userId: String(d.userId),
             specializationId: spec ? String(spec.id) : '',
-            licenseNumber: d.licenseNumber || '',
+            clinicId: d.clinicId ? String(d.clinicId) : '',
             experienceYears: d.experienceYears ? String(d.experienceYears) : '',
             bio: d.bio || ''
         });
@@ -92,7 +92,7 @@ export default function DoctorPage() {
      */
     const handleSubmit = async () => {
         try {
-            const payload = { userId: Number(form.userId), specializationId: form.specializationId ? Number(form.specializationId) : undefined, licenseNumber: form.licenseNumber, experienceYears: form.experienceYears ? Number(form.experienceYears) : undefined, bio: form.bio };
+            const payload = { userId: Number(form.userId), specializationId: form.specializationId ? Number(form.specializationId) : undefined, clinicId: form.clinicId ? Number(form.clinicId) : undefined, experienceYears: form.experienceYears ? Number(form.experienceYears) : undefined, bio: form.bio };
             if (editingId) {
                 await api.put(`/doctors/${editingId}`, payload);
                 toast.success('Cập nhật thông tin bác sĩ thành công');
@@ -186,7 +186,7 @@ export default function DoctorPage() {
                             <th>{"Tên bác sĩ"}</th>
                             <th>{"Email"}</th>
                             <th>{"Chuyên khoa"}</th>
-                            <th>{"Giấy phép"}</th>
+                            <th>{"Cơ sở"}</th>
                             <th>{"Kinh nghiệm"}</th>
                             <th>{"Trạng thái"}</th>
                             <th>{"Thao tác"}</th>
@@ -208,7 +208,7 @@ export default function DoctorPage() {
                                 <td style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{d.fullName}</td>
                                 <td>{d.email}</td>
                                 <td><span className="badge badge-primary">{d.specializationName || '—'}</span></td>
-                                <td>{d.licenseNumber || '—'}</td>
+                                <td>{d.clinicId ? `CS${d.clinicId}` : '—'}</td>
                                 <td>{d.experienceYears ? `${d.experienceYears} năm` : '—'}</td>
                                 <td>
                                     <select
@@ -273,8 +273,16 @@ export default function DoctorPage() {
                         </select>
                     </div>
                     <div className="form-row">
-                        {/* Số hiệu bằng cấp và số năm kinh nghiệm */}
-                        <div className="form-group"><label>{"Số giấy phép"}</label><input name="licenseNumber" className="form-control" value={form.licenseNumber} onChange={handleChange} placeholder="Ví dụ: CCHN-12345" /></div>
+                        {/* Cơ sở y tế và số năm kinh nghiệm */}
+                        <div className="form-group"><label>{"Cơ sở"}</label>
+                            <select name="clinicId" className="form-control" value={form.clinicId} onChange={handleChange}>
+                                <option value="">--- Chọn cơ sở ---</option>
+                                <option value="1">Cơ sở 1</option>
+                                <option value="2">Cơ sở 2</option>
+                                <option value="3">Cơ sở 3</option>
+                                <option value="4">Cơ sở 4</option>
+                            </select>
+                        </div>
                         <div className="form-group"><label>{"Năm kinh nghiệm"}</label><input name="experienceYears" type="number" className="form-control" value={form.experienceYears} onChange={handleChange} /></div>
                     </div>
                     {/* Tiểu sử bác sĩ */}
