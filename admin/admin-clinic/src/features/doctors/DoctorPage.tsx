@@ -240,12 +240,8 @@ export default function DoctorPage() {
                                             <HiOutlinePhoto />
                                             <input type="file" accept="image/*" hidden onChange={e => { if (e.target.files?.[0]) handleImageUpload(d.id, e.target.files[0]); }} />
                                         </label>
-                                        {!isAdmin && (
-                                            <button className="btn-icon" onClick={() => openEdit(d)} title="Sửa thông tin bác sĩ"><HiOutlinePencil /></button>
-                                        )}
-                                        {!isAdmin && (
-                                            <button className="btn-icon" onClick={() => setDeleteId(d.id)} title="Xóa bác sĩ"><HiOutlineTrash /></button>
-                                        )}
+                                        <button className="btn-icon" onClick={() => openEdit(d)} title="Sửa thông tin bác sĩ"><HiOutlinePencil /></button>
+                                        <button className="btn-icon" onClick={() => setDeleteId(d.id)} title="Xóa bác sĩ"><HiOutlineTrash /></button>
                                     </div>
                                 </td>
                             </tr>
@@ -267,7 +263,7 @@ export default function DoctorPage() {
                     </div>
                     {/* Chọn Chuyên khoa */}
                     <div className="form-group"><label>{"Chuyên khoa"}</label>
-                        <select name="specializationId" className="form-control" value={form.specializationId} onChange={handleChange}>
+                        <select name="specializationId" className="form-control" value={form.specializationId} onChange={handleChange} disabled={!!editingId}>
                             <option value="">--- Chọn chuyên khoa ---</option>
                             {specs.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
                         </select>
