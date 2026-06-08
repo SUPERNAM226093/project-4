@@ -40,6 +40,7 @@ const menuItems: MenuItem[] = [
         name: "Cơ sở y tế",
         hasDropdown: true,
         subItems: [
+            { key: "nearestClinic", name: "Tìm cơ sở y tế", href: "/nearest-clinic" },
             { key: "allHospitals", name: "Tất cả cơ sở y tế", href: "/hospitals" },
             { key: "priorityBooking", name: "Đặt lịch khám ưu tiên", href: "/priority-booking" }
         ]
@@ -51,7 +52,8 @@ const menuItems: MenuItem[] = [
         subItems: [
             { key: "facilityRegistration", name: "Đăng ký khám tại cơ sở", href: "/service-registration" },
             { key: "specializationBooking", name: "Đặt lịch khám theo chuyên khoa", href: "/specialization" },
-            { key: "healthPackage", name: "Gói khám sức khỏe toàn diện", href: "/health-package" }
+            { key: "healthPackage", name: "Gói khám sức khỏe toàn diện", href: "/health-package" },
+            { key: "onlineConsultation", name: "Khám tư vấn từ xa", href: "/video-call" }
         ]
     },
     {
@@ -76,12 +78,6 @@ const menuItems: MenuItem[] = [
         subItems: [
             { key: "contactAll", name: "Thông tin liên hệ", href: "/contact" }
         ]
-    },
-    {
-        key: "nearestClinic",
-        name: "Tìm cơ sở y tế",
-        href: "/nearest-clinic",
-        hasDropdown: false
     }
 ];
 
@@ -466,7 +462,7 @@ export default function Navbar() {
                                 >
                                     {item.hasDropdown ? (
                                         <button
-                                            className={`flex items-center gap-1 px-4 py-2 text-sm transition-all duration-200 font-bold whitespace-nowrap text-white/90 hover:text-white relative`}
+                                            className={`flex items-center gap-1 px-4 py-2 text-sm transition-all duration-200 font-bold whitespace-nowrap !text-white relative`}
                                         >
                                             {item.name}
                                             <svg
@@ -486,7 +482,7 @@ export default function Navbar() {
                                     ) : (
                                         <Link
                                             href={item.href || "#"}
-                                            className={`flex items-center gap-1 px-4 py-2 text-sm transition-all duration-200 font-bold whitespace-nowrap text-white/90 hover:text-white relative`}
+                                            className={`flex items-center gap-1 px-4 py-2 text-sm transition-all duration-200 font-bold whitespace-nowrap !text-white relative`}
                                         >
                                             {item.name}
                                             <div
