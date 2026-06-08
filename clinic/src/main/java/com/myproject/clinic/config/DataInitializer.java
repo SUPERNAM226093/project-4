@@ -76,19 +76,15 @@ public class DataInitializer implements CommandLineRunner {
             // Lịch hẹn: xem + sửa (appointments)
             new String[]{"appointments", "view"},
             new String[]{"appointments", "edit"},
-            // Tư vấn trực tuyến: xem + thêm + sửa (online-consultations)
+            // Tư vấn trực tuyến: xem + sửa (online-consultations)
             new String[]{"online-consultations", "view"},
-            new String[]{"online-consultations", "create"},
             new String[]{"online-consultations", "edit"},
-            // Hồ sơ bệnh án: xem + thêm + sửa (medical-records)
+            // Hồ sơ bệnh án: xem + sửa (medical-records)
             new String[]{"medical-records", "view"},
-            new String[]{"medical-records", "create"},
             new String[]{"medical-records", "edit"},
-            // Đơn thuốc: toàn quyền (prescriptions)
+            // Đơn thuốc: xem + sửa (prescriptions)
             new String[]{"prescriptions", "view"},
-            new String[]{"prescriptions", "create"},
-            new String[]{"prescriptions", "edit"},
-            new String[]{"prescriptions", "delete"}
+            new String[]{"prescriptions", "edit"}
     );
 
     @Override
