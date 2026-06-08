@@ -140,10 +140,10 @@ export default function HealthPackages() {
             <div className="max-w-7xl mx-auto px-4">
                 {/* Tiêu đề mục Gói khám - Modern Navy Style */}
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-extrabold text-[#102A56] tracking-tight">
+                    <h2 className="text-3xl md:text-4xl font-extrabold text-[#0a3d2e] tracking-tight">
                         {"CHĂM SÓC SỨC KHỎE TOÀN DIỆN"}
                     </h2>
-                    <div className="w-16 h-1.5 bg-[#2563EB] mx-auto mt-4 rounded-full opacity-20"></div>
+                    <div className="w-16 h-1.5 bg-[#0d6b52] mx-auto mt-4 rounded-full opacity-20"></div>
                 </div>
 
                 {/* Cards */}

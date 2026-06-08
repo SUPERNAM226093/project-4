@@ -121,13 +121,13 @@ export default function HeroBanner() {
                     {/* LEFT COLUMN: TEXT, SEARCH, BENEFITS */}
                     <div className="lg:col-span-7 text-left space-y-8 relative z-20">
                         <div className="space-y-4">
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/20">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-emerald-300 border border-sky-500/20">
                                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                                 Đặt khám trực tuyến nhanh chóng
                             </span>
                             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight tracking-tight">
                                 Kết nối Người Dân với<br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-sky-300 to-emerald-400">
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-emerald-300 to-emerald-400">
                                     Cơ sở & Dịch vụ Y tế hàng đầu
                                 </span>
                             </h1>
@@ -140,7 +140,7 @@ export default function HeroBanner() {
                         <div className="relative max-w-xl" ref={searchRef}>
                             <div className="relative flex items-center bg-white rounded-full shadow-2xl p-1.5 border border-white/10 transition-all focus-within:ring-2 focus-within:ring-sky-500/50">
                                 <div className="flex items-center flex-1 px-4">
-                                    <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
                                     <input
@@ -149,67 +149,67 @@ export default function HeroBanner() {
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                         onFocus={() => searchQuery && setShowSuggestions(true)}
-                                        className="w-full px-3 py-3.5 text-[15px] text-[#102A56] placeholder-[#5F789A] bg-transparent outline-none font-semibold"
+                                        className="w-full px-3 py-3.5 text-[15px] text-[#0a3d2e] placeholder-[#4d8871] bg-transparent outline-none font-semibold"
                                     />
                                 </div>
-                                <button className="px-6 py-3.5 rounded-full text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-500 hover:to-blue-700 active:scale-95 transition-all shadow-md">
+                                <button className="px-6 py-3.5 rounded-full text-sm font-bold text-white bg-gradient-to-r from-emerald-600 to-emerald-800 hover:from-emerald-500 hover:to-emerald-700 active:scale-95 transition-all shadow-md">
                                     Tìm kiếm
                                 </button>
                             </div>
 
                             {/* Suggestions Dropdown */}
                             {showSuggestions && suggestions.length > 0 && (
-                                <div className="absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-2xl border border-[#D6EAFE] overflow-hidden z-[60] animate-in fade-in slide-in-from-top-2 duration-200">
+                                <div className="absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-2xl border border-[#b2e8d9] overflow-hidden z-[60] animate-in fade-in slide-in-from-top-2 duration-200">
                                     <div className="py-2">
-                                        <p className="px-5 py-3 text-[10px] font-bold text-[#5F789A] uppercase tracking-[0.2em] border-b border-[#F2FAFF]">
+                                        <p className="px-5 py-3 text-[10px] font-bold text-[#4d8871] uppercase tracking-[0.2em] border-b border-[#F2FAFF]">
                                             Bác sĩ tìm thấy ({suggestions.length})
                                         </p>
                                         {suggestions.map((doctor) => (
                                             <button
                                                 key={doctor.id}
                                                 onClick={() => handleSelectDoctor(doctor.id)}
-                                                className="w-full px-5 py-4 flex items-center gap-4 hover:bg-[#F8FCFF] transition-all text-left group"
+                                                className="w-full px-5 py-4 flex items-center gap-4 hover:bg-[#f0fdf8] transition-all text-left group"
                                             >
-                                                <div className="w-12 h-12 rounded-full overflow-hidden bg-[#F2FAFF] border border-[#D6EAFE] flex-shrink-0 shadow-sm">
+                                                <div className="w-12 h-12 rounded-full overflow-hidden bg-[#F2FAFF] border border-[#b2e8d9] flex-shrink-0 shadow-sm">
                                                     {doctor.featureImageUrl ? (
                                                         <img src={getImageUrl(doctor.featureImageUrl)} alt={doctor.fullName} className="w-full h-full object-cover" />
                                                     ) : (
-                                                        <div className="w-full h-full flex items-center justify-center text-[#2563EB] font-bold text-lg">
+                                                        <div className="w-full h-full flex items-center justify-center text-[#0d6b52] font-bold text-lg">
                                                             {doctor.fullName.charAt(0)}
                                                         </div>
                                                     )}
                                                 </div>
                                                 <div className="flex-1 min-w-0">
-                                                    <p className="text-sm font-bold text-[#102A56] group-hover:text-[#2563EB] transition-colors truncate">
+                                                    <p className="text-sm font-bold text-[#0a3d2e] group-hover:text-[#0d6b52] transition-colors truncate">
                                                         {doctor.fullName}
                                                     </p>
-                                                    <p className="text-[11px] font-medium text-[#5F789A] truncate uppercase tracking-wide">
+                                                    <p className="text-[11px] font-medium text-[#4d8871] truncate uppercase tracking-wide">
                                                         {doctor.specializationName}
                                                     </p>
                                                 </div>
                                                 <div className="w-8 h-8 rounded-full bg-[#F2FAFF] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
-                                                    <svg className="w-4 h-4 text-[#2563EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg className="w-4 h-4 text-[#0d6b52]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                                     </svg>
                                                 </div>
                                             </button>
                                         ))}
                                     </div>
-                                    <div className="bg-[#F8FCFF] px-4 py-2.5 text-center border-t border-[#D6EAFE]">
-                                        <p className="text-[11px] text-[#5F789A] font-medium italic">Nhấn để xem hồ sơ và đặt lịch khám ngay</p>
+                                    <div className="bg-[#f0fdf8] px-4 py-2.5 text-center border-t border-[#b2e8d9]">
+                                        <p className="text-[11px] text-[#4d8871] font-medium italic">Nhấn để xem hồ sơ và đặt lịch khám ngay</p>
                                     </div>
                                 </div>
                             )}
 
                             {showSuggestions && searchQuery.trim().length > 0 && suggestions.length === 0 && (
-                                <div className="absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-2xl border border-[#D6EAFE] p-10 text-center z-[60]">
+                                <div className="absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-2xl border border-[#b2e8d9] p-10 text-center z-[60]">
                                     <div className="w-16 h-16 bg-[#F2FAFF] rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <svg className="w-8 h-8 text-[#D6EAFE]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="w-8 h-8 text-[#b2e8d9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                         </svg>
                                     </div>
-                                    <p className="text-sm text-[#102A56] font-bold">Không tìm thấy bác sĩ nào</p>
-                                    <p className="text-xs text-[#5F789A] mt-1">Vui lòng thử tìm kiếm theo tên hoặc chuyên khoa khác</p>
+                                    <p className="text-sm text-[#0a3d2e] font-bold">Không tìm thấy bác sĩ nào</p>
+                                    <p className="text-xs text-[#4d8871] mt-1">Vui lòng thử tìm kiếm theo tên hoặc chuyên khoa khác</p>
                                 </div>
                             )}
                         </div>

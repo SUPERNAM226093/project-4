@@ -14,7 +14,7 @@ const PACKAGES = [
         price: 890000,
         perEmployee: true,
         badge: "Phổ biến",
-        badgeColor: "bg-blue-100 text-blue-700",
+        badgeColor: "bg-emerald-100 text-emerald-700",
         features: [
             "Khám sức khỏe định kỳ 1 lần/năm",
             "Xét nghiệm máu cơ bản",

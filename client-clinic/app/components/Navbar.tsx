@@ -479,7 +479,7 @@ export default function Navbar() {
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                             </svg>
                                             <div
-                                                className={`absolute bottom-0 left-4 right-4 h-0.5 bg-sky-300 transition-all duration-300 ${activeDropdown === item.key ? "opacity-100" : "opacity-0"
+                                                className={`absolute bottom-0 left-4 right-4 h-0.5 bg-emerald-300 transition-all duration-300 ${activeDropdown === item.key ? "opacity-100" : "opacity-0"
                                                     }`}
                                             />
                                         </button>
@@ -490,7 +490,7 @@ export default function Navbar() {
                                         >
                                             {item.name}
                                             <div
-                                                className={`absolute bottom-0 left-4 right-4 h-0.5 bg-sky-300 transition-all duration-300 ${activeDropdown === item.key ? "opacity-100" : "opacity-0"
+                                                className={`absolute bottom-0 left-4 right-4 h-0.5 bg-emerald-300 transition-all duration-300 ${activeDropdown === item.key ? "opacity-100" : "opacity-0"
                                                     }`}
                                             />
                                         </Link>
@@ -504,29 +504,29 @@ export default function Navbar() {
                                                 : "opacity-0 scale-95 pointer-events-none"
                                                 }`}
                                         >
-                                            <div className="bg-white rounded-xl shadow-2xl border border-[#D6EAFE] py-1.5 overflow-hidden">
+                                            <div className="bg-white rounded-xl shadow-2xl border border-[#b2e8d9] py-1.5 overflow-hidden">
                                                 {item.key === "yourInfo" && user ? (
                                                     <div className="flex flex-col">
-                                                        <div className="px-4 py-4 bg-[#F8FCFF] border-b border-[#D6EAFE]">
+                                                        <div className="px-4 py-4 bg-[#f0fdf8] border-b border-[#b2e8d9]">
                                                             <div className="flex items-center gap-2 mb-2">
-                                                                <span className="text-[10px] font-bold text-white bg-[#2563EB] px-2 py-0.5 rounded-md uppercase tracking-wider">
+                                                                <span className="text-[10px] font-bold text-white bg-[#0d6b52] px-2 py-0.5 rounded-md uppercase tracking-wider">
                                                                     {user.role}
                                                                 </span>
                                                             </div>
-                                                            <p className="text-sm font-bold text-[#102A56] truncate">
+                                                            <p className="text-sm font-bold text-[#0a3d2e] truncate">
                                                                 {user.fullName || "Người dùng"}
                                                             </p>
-                                                            <p className="text-[11px] text-[#5F789A] truncate">{user.email}</p>
+                                                            <p className="text-[11px] text-[#4d8871] truncate">{user.email}</p>
                                                         </div>
                                                         <div className="py-1">
                                                             {item.subItems.map((sub) => (
                                                                 <Link
                                                                     key={sub.key}
                                                                     href={sub.href}
-                                                                    className="w-full text-left px-4 py-2.5 text-sm text-[#102A56] hover:bg-[#EEF6FF] flex items-center gap-3 transition-colors group"
+                                                                    className="w-full text-left px-4 py-2.5 text-sm text-[#0a3d2e] hover:bg-[#e8f9f4] flex items-center gap-3 transition-colors group"
                                                                 >
                                                                     <svg
-                                                                        className="w-4 h-4 text-[#2563EB]"
+                                                                        className="w-4 h-4 text-[#0d6b52]"
                                                                         fill="none"
                                                                         stroke="currentColor"
                                                                         viewBox="0 0 24 24"
@@ -556,11 +556,11 @@ export default function Navbar() {
                                                                             />
                                                                         )}
                                                                     </svg>
-                                                                    <span className="group-hover:text-[#2563EB]">{sub.name}</span>
+                                                                    <span className="group-hover:text-[#0d6b52]">{sub.name}</span>
                                                                 </Link>
                                                             ))}
                                                         </div>
-                                                        <div className="border-t border-[#D6EAFE] py-1">
+                                                        <div className="border-t border-[#b2e8d9] py-1">
                                                             <button
                                                                 onClick={handleLogout}
                                                                 className="w-full text-left px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 flex items-center gap-2 transition-colors"
@@ -584,17 +584,17 @@ export default function Navbar() {
                                                     </div>
                                                 ) : (
                                                     <div className="px-3 py-2">
-                                                        <p className="text-[10px] font-bold text-[#5F789A] uppercase tracking-widest px-3 mb-2">
+                                                        <p className="text-[10px] font-bold text-[#4d8871] uppercase tracking-widest px-3 mb-2">
                                                             {item.name}
                                                         </p>
                                                         {item.subItems.map((sub) => (
                                                             <Link
                                                                 key={sub.key}
                                                                 href={sub.href}
-                                                                className="flex items-start gap-2.5 px-3 py-2.5 text-sm text-[#102A56] hover:text-[#2563EB] hover:bg-[#EEF6FF] rounded-lg transition-all group"
+                                                                className="flex items-start gap-2.5 px-3 py-2.5 text-sm text-[#0a3d2e] hover:text-[#0d6b52] hover:bg-[#e8f9f4] rounded-lg transition-all group"
                                                                 onClick={() => setActiveDropdown(null)}
                                                             >
-                                                                <div className="w-1.5 h-1.5 rounded-full bg-[#D6EAFE] group-hover:bg-[#2563EB] mt-1.5 flex-shrink-0" />
+                                                                <div className="w-1.5 h-1.5 rounded-full bg-[#b2e8d9] group-hover:bg-[#0d6b52] mt-1.5 flex-shrink-0" />
                                                                 <span className="flex-1 leading-normal font-semibold">{sub.name}</span>
                                                             </Link>
                                                         ))}
@@ -637,7 +637,7 @@ export default function Navbar() {
                                         onClick={() => setShowUserMenu(!showUserMenu)}
                                         className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold px-4 py-2 rounded-full transition-all shadow-sm group"
                                     >
-                                        <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#2563EB] to-[#56CCF2] text-white flex items-center justify-center text-[10px] font-bold shadow-sm">
+                                        <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#0d6b52] to-[#0ea882] text-white flex items-center justify-center text-[10px] font-bold shadow-sm">
                                             {user.fullName?.charAt(0)?.toUpperCase() || user.email.charAt(0).toUpperCase()}
                                         </div>
                                         <span className="max-w-[120px] truncate">{user.fullName || user.email}</span>
@@ -652,25 +652,25 @@ export default function Navbar() {
                                     </button>
 
                                     {showUserMenu && (
-                                        <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-xl shadow-2xl border border-[#D6EAFE] overflow-hidden z-50 animate-in fade-in slide-in-from-top-1">
-                                            <div className="px-4 py-4 bg-[#F8FCFF] border-b border-[#D6EAFE]">
+                                        <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-xl shadow-2xl border border-[#b2e8d9] overflow-hidden z-50 animate-in fade-in slide-in-from-top-1">
+                                            <div className="px-4 py-4 bg-[#f0fdf8] border-b border-[#b2e8d9]">
                                                 <div className="flex items-center gap-2 mb-2">
-                                                    <span className="text-[10px] font-bold text-white bg-[#2563EB] px-2 py-0.5 rounded-md uppercase tracking-wider">
+                                                    <span className="text-[10px] font-bold text-white bg-[#0d6b52] px-2 py-0.5 rounded-md uppercase tracking-wider">
                                                         {user.role}
                                                     </span>
                                                 </div>
-                                                <p className="text-sm font-bold text-[#102A56] truncate">
+                                                <p className="text-sm font-bold text-[#0a3d2e] truncate">
                                                     {user.fullName || "Người dùng"}
                                                 </p>
-                                                <p className="text-[11px] text-[#5F789A] truncate">{user.email}</p>
+                                                <p className="text-[11px] text-[#4d8871] truncate">{user.email}</p>
                                             </div>
                                             <div className="py-1">
                                                 <Link
                                                     href="/ho-so-kham"
-                                                    className="w-full text-left px-4 py-2.5 text-sm text-[#102A56] hover:bg-[#EAF4FF] flex items-center gap-3 transition-colors group"
+                                                    className="w-full text-left px-4 py-2.5 text-sm text-[#0a3d2e] hover:bg-[#e8f9f4] flex items-center gap-3 transition-colors group"
                                                 >
                                                     <svg
-                                                        className="w-4 h-4 text-[#2563EB]"
+                                                        className="w-4 h-4 text-[#0d6b52]"
                                                         fill="none"
                                                         stroke="currentColor"
                                                         viewBox="0 0 24 24"
@@ -682,14 +682,14 @@ export default function Navbar() {
                                                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                                                         />
                                                     </svg>
-                                                    <span className="group-hover:text-[#2563EB]">{"Hồ sơ cá nhân"}</span>
+                                                    <span className="group-hover:text-[#0d6b52]">{"Hồ sơ cá nhân"}</span>
                                                 </Link>
                                                 <Link
                                                     href="/lich-su-kham"
-                                                    className="w-full text-left px-4 py-2.5 text-sm text-[#102A56] hover:bg-[#EAF4FF] flex items-center gap-3 transition-colors group"
+                                                    className="w-full text-left px-4 py-2.5 text-sm text-[#0a3d2e] hover:bg-[#e8f9f4] flex items-center gap-3 transition-colors group"
                                                 >
                                                     <svg
-                                                        className="w-4 h-4 text-[#2563EB]"
+                                                        className="w-4 h-4 text-[#0d6b52]"
                                                         fill="none"
                                                         stroke="currentColor"
                                                         viewBox="0 0 24 24"
@@ -701,14 +701,14 @@ export default function Navbar() {
                                                             d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
                                                         />
                                                     </svg>
-                                                    <span className="group-hover:text-[#2563EB]">{"Lịch sử khám"}</span>
+                                                    <span className="group-hover:text-[#0d6b52]">{"Lịch sử khám"}</span>
                                                 </Link>
                                                 <Link
                                                     href="/don-thuoc"
-                                                    className="w-full text-left px-4 py-2.5 text-sm text-[#102A56] hover:bg-[#EAF4FF] flex items-center gap-3 transition-colors group"
+                                                    className="w-full text-left px-4 py-2.5 text-sm text-[#0a3d2e] hover:bg-[#e8f9f4] flex items-center gap-3 transition-colors group"
                                                 >
                                                     <svg
-                                                        className="w-4 h-4 text-[#2563EB]"
+                                                        className="w-4 h-4 text-[#0d6b52]"
                                                         fill="none"
                                                         stroke="currentColor"
                                                         viewBox="0 0 24 24"
@@ -720,10 +720,10 @@ export default function Navbar() {
                                                             d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
                                                         />
                                                     </svg>
-                                                    <span className="group-hover:text-[#2563EB]">{"Đơn thuốc của tôi"}</span>
+                                                    <span className="group-hover:text-[#0d6b52]">{"Đơn thuốc của tôi"}</span>
                                                 </Link>
                                             </div>
-                                            <div className="border-t border-[#D6EAFE] py-1">
+                                            <div className="border-t border-[#b2e8d9] py-1">
                                                 <button
                                                     onClick={handleLogout}
                                                     className="w-full text-left px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 flex items-center gap-2 transition-colors"
@@ -750,7 +750,7 @@ export default function Navbar() {
                             ) : (
                                 <button
                                     onClick={() => openAuthModal("login")}
-                                    className="px-6 py-2.5 rounded-full text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 shadow-md transition-all whitespace-nowrap active:scale-95"
+                                    className="px-6 py-2.5 rounded-full text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 shadow-md transition-all whitespace-nowrap active:scale-95"
                                 >
                                     Đăng nhập
                                 </button>
@@ -828,7 +828,7 @@ export default function Navbar() {
                                         </button>
                                         <button
                                             onClick={() => openAuthModal("register")}
-                                            className="flex-1 text-center px-3 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-500 transition-colors"
+                                            className="flex-1 text-center px-3 py-2.5 text-sm font-semibold text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 transition-colors"
                                         >
                                             {"Đăng ký"}
                                         </button>

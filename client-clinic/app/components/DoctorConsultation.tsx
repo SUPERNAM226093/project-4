@@ -70,10 +70,10 @@ export default function DoctorConsultation() {
         <section className="py-14 bg-transparent">
                 <div className="max-w-6xl mx-auto px-4">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-extrabold text-[#102A56] tracking-tight">
+                        <h2 className="text-3xl md:text-4xl font-extrabold text-[#0a3d2e] tracking-tight">
                             {"ĐẶT LỊCH KHÁM VỚI BÁC SĨ"}
                         </h2>
-                        <div className="w-16 h-1.5 bg-[#2563EB] mx-auto mt-4 rounded-full opacity-20"></div>
+                        <div className="w-16 h-1.5 bg-[#0d6b52] mx-auto mt-4 rounded-full opacity-20"></div>
                     </div>
                     <div className="flex gap-5 overflow-hidden">
                         {[1, 2, 3, 4].map((i) => (
@@ -104,10 +104,10 @@ export default function DoctorConsultation() {
         <section className="py-14 bg-transparent">
                 <div className="max-w-6xl mx-auto px-4 text-center">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-extrabold text-[#102A56] tracking-tight">
+                        <h2 className="text-3xl md:text-4xl font-extrabold text-[#0a3d2e] tracking-tight">
                             {"ĐẶT LỊCH KHÁM VỚI BÁC SĨ"}
                         </h2>
-                        <div className="w-16 h-1.5 bg-[#2563EB] mx-auto mt-4 rounded-full opacity-20"></div>
+                        <div className="w-16 h-1.5 bg-[#0d6b52] mx-auto mt-4 rounded-full opacity-20"></div>
                     </div>
                     <div className="bg-red-50 border border-red-200 rounded-2xl p-8 inline-block">
                         <svg className="w-10 h-10 text-red-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -132,10 +132,10 @@ export default function DoctorConsultation() {
         <section className="py-14 bg-transparent">
                 <div className="max-w-6xl mx-auto px-4 text-center">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-extrabold text-[#102A56] tracking-tight">
+                        <h2 className="text-3xl md:text-4xl font-extrabold text-[#0a3d2e] tracking-tight">
                             {"ĐẶT LỊCH KHÁM VỚI BÁC SĨ"}
                         </h2>
-                        <div className="w-16 h-1.5 bg-[#2563EB] mx-auto mt-4 rounded-full opacity-20"></div>
+                        <div className="w-16 h-1.5 bg-[#0d6b52] mx-auto mt-4 rounded-full opacity-20"></div>
                     </div>
                     <p className="text-gray-500 text-sm">{"Hiện chưa có bác sĩ nào."}</p>
                 </div>
@@ -147,10 +147,10 @@ export default function DoctorConsultation() {
         <section className="py-14 bg-transparent">
             <div className="max-w-6xl mx-auto px-4">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-extrabold text-[#102A56] tracking-tight">
+                    <h2 className="text-3xl md:text-4xl font-extrabold text-[#0a3d2e] tracking-tight">
                         {"ĐẶT LỊCH KHÁM VỚI BÁC SĨ"}
                     </h2>
-                    <div className="w-16 h-1.5 bg-[#2563EB] mx-auto mt-4 rounded-full opacity-20"></div>
+                    <div className="w-16 h-1.5 bg-[#0d6b52] mx-auto mt-4 rounded-full opacity-20"></div>
                 </div>
 
                 <div className="relative group">

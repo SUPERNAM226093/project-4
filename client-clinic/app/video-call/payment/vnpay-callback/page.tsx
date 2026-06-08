@@ -38,7 +38,7 @@ function CallbackContent() {
     if (status === "loading") {
         return (
             <div className="flex flex-col items-center justify-center space-y-4 py-12">
-                <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin" />
+                <div className="w-16 h-16 border-4 border-emerald-200 border-t-emerald-500 rounded-full animate-spin" />
                 <h2 className="text-xl font-bold text-gray-800">Đang kiểm tra kết quả thanh toán...</h2>
                 <p className="text-sm text-gray-500">Vui lòng không đóng hoặc tải lại trang này.</p>
             </div>
@@ -83,7 +83,7 @@ function CallbackContent() {
             <div className="flex flex-col gap-2">
                 <button
                     onClick={() => router.push("/lich-su-kham")}
-                    className="w-full py-3.5 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-[#1a8fe3] to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-lg shadow-blue-200 transition-all hover:scale-[1.01]"
+                    className="w-full py-3.5 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-[#1a8fe3] to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 shadow-lg shadow-emerald-200 transition-all hover:scale-[1.01]"
                 >
                     Quay lại lịch sử khám
                 </button>
@@ -102,11 +102,11 @@ export default function VnPayCallbackPage() {
     return (
         <>
             <Navbar />
-            <div className="min-h-screen bg-gradient-to-br from-[#eaf4ff] via-white to-[#f0f8ff] pt-36 pb-16 flex items-center justify-center">
+            <div className="min-h-screen bg-gradient-to-br from-[#e8f9f4] via-white to-[#f0f8ff] pt-36 pb-16 flex items-center justify-center">
                 <div className="w-full max-w-lg px-4">
                     <Suspense fallback={
                         <div className="flex flex-col items-center justify-center space-y-4 py-12">
-                            <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin" />
+                            <div className="w-16 h-16 border-4 border-emerald-200 border-t-emerald-500 rounded-full animate-spin" />
                             <h2 className="text-xl font-bold text-gray-800">Đang chuẩn bị...</h2>
                         </div>
                     }>

@@ -202,7 +202,7 @@ export default function MedicalRecordPage() {
                     </div>
 
                     {/* Profile Section */}
-                    <div className="bg-white rounded-3xl shadow-xl shadow-blue-100/50 overflow-hidden mb-12 border border-blue-50">
+                    <div className="bg-white rounded-3xl shadow-xl shadow-emerald-100/50 overflow-hidden mb-12 border border-emerald-50">
                         <div className="bg-gradient-to-r from-[#7C6EE6] to-[#6D5DD3] p-8 text-white">
                             <div className="flex items-center gap-6">
                                 <div className="w-24 h-24 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-4xl font-bold shadow-inner">
@@ -242,7 +242,7 @@ export default function MedicalRecordPage() {
                                         <div className="pt-2">
                                             <button 
                                                 onClick={() => setIsEditing(true)}
-                                                className="px-6 py-2.5 rounded-xl bg-[#7C6EE6] text-white font-bold text-sm shadow-lg shadow-blue-200 hover:scale-105 transition-all"
+                                                className="px-6 py-2.5 rounded-xl bg-[#7C6EE6] text-white font-bold text-sm shadow-lg shadow-emerald-200 hover:scale-105 transition-all"
                                             >
                                                 Thay đổi thông tin
                                             </button>
@@ -342,7 +342,7 @@ export default function MedicalRecordPage() {
                     {/* Medical Records Section */}
                     <div className="mt-16">
                         <div className="flex items-center gap-3 mb-8">
-                            <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center text-2xl">📋</div>
+                            <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-2xl">📋</div>
                             <div>
                                 <h2 className="text-2xl font-bold text-[#392E7B]">Lịch sử chẩn đoán của bác sĩ</h2>
                                 <p className="text-sm text-gray-400">Xem lại các kết luận khám bệnh của bạn</p>
@@ -378,8 +378,8 @@ export default function MedicalRecordPage() {
 
                         {/* Empty Records */}
                         {!loading && !error && records.length === 0 && (
-                            <div className="bg-white rounded-3xl shadow-sm border border-blue-50 p-12 text-center">
-                                <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-blue-50 flex items-center justify-center text-4xl">📄</div>
+                            <div className="bg-white rounded-3xl shadow-sm border border-emerald-50 p-12 text-center">
+                                <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-emerald-50 flex items-center justify-center text-4xl">📄</div>
                                 <p className="text-[#392E7B] font-semibold mb-1">Chưa có hồ sơ bệnh án nào</p>
                                 <p className="text-sm text-gray-400">Thông tin chẩn đoán sẽ hiện ở đây sau khi bạn hoàn tất khám bệnh.</p>
                             </div>
@@ -393,7 +393,7 @@ export default function MedicalRecordPage() {
                                     return (
                                         <div
                                             key={record.id}
-                                            className="bg-white rounded-3xl shadow-md shadow-blue-50/50 border border-blue-50 overflow-hidden hover:border-[#7C6EE6]/30 transition-all"
+                                            className="bg-white rounded-3xl shadow-md shadow-emerald-50/50 border border-emerald-50 overflow-hidden hover:border-[#7C6EE6]/30 transition-all"
                                         >
                                             <button
                                                 onClick={() => setExpandedId(isExpanded ? null : record.id)}
@@ -401,7 +401,7 @@ export default function MedicalRecordPage() {
                                             >
                                                 <div className="flex-1 min-w-0">
                                                     <div className="flex items-center gap-4 mb-4">
-                                                        <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center text-2xl shadow-inner">
+                                                        <div className="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center text-2xl shadow-inner">
                                                             📑
                                                         </div>
                                                         <div>
@@ -414,7 +414,7 @@ export default function MedicalRecordPage() {
                                                         </div>
                                                     </div>
                                                     <div className="flex flex-wrap gap-2">
-                                                        <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-50 text-[#7C6EE6] text-sm font-bold">
+                                                        <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-50 text-[#7C6EE6] text-sm font-bold">
                                                             👨‍⚕️ Bác sĩ: {record.doctorName}
                                                         </span>
                                                         <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gray-50 text-gray-500 text-sm font-bold">
@@ -432,9 +432,9 @@ export default function MedicalRecordPage() {
                                             {isExpanded && (
                                                 <div className="px-8 pb-8 pt-2 border-t border-gray-50 bg-gray-50/30">
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                        <div className="bg-white rounded-2xl p-6 shadow-sm border border-blue-50">
+                                                        <div className="bg-white rounded-2xl p-6 shadow-sm border border-emerald-50">
                                                             <div className="flex items-center gap-2 mb-4">
-                                                                <span className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-sm">🩺</span>
+                                                                <span className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-sm">🩺</span>
                                                                 <h3 className="text-xs font-black text-[#7C6EE6] uppercase tracking-widest">
                                                                     Chuẩn đoán của bác sĩ
                                                                 </h3>

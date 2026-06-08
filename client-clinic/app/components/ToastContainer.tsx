@@ -53,9 +53,9 @@ function ToastItem({ toast, onClose }: { toast: any, onClose: () => void }) {
             default:
                 return {
                     bg: 'bg-white',
-                    border: 'border-blue-100',
-                    icon: <Info className="w-5 h-5 text-blue-500" />,
-                    bar: 'bg-blue-500'
+                    border: 'border-emerald-100',
+                    icon: <Info className="w-5 h-5 text-emerald-500" />,
+                    bar: 'bg-emerald-500'
                 };
         }
     };

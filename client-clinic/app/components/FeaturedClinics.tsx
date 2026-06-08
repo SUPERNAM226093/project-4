@@ -63,15 +63,15 @@ export default function FeaturedClinics() {
                 <div className="flex justify-between items-end mb-12">
                     {/* Phần tiêu đề của mục Chỗ ở - Modern Navy Style */}
                     <div>
-                        <h2 className="text-3xl md:text-4xl font-extrabold text-[#102A56] tracking-tight">
+                        <h2 className="text-3xl md:text-4xl font-extrabold text-[#0a3d2e] tracking-tight">
                             Phòng bệnh
                         </h2>
-                        <div className="w-16 h-1.5 bg-[#2563EB] mt-4 rounded-full opacity-20"></div>
+                        <div className="w-16 h-1.5 bg-[#0d6b52] mt-4 rounded-full opacity-20"></div>
                     </div>
                     {/* Nút xem tất cả - Premium Blue */}
                     <button 
                         onClick={() => router.push("/rooms")}
-                        className="text-sm font-bold text-[#2563EB] hover:text-[#1E40AF] transition-all flex items-center gap-2 group"
+                        className="text-sm font-bold text-[#0d6b52] hover:text-[#1E40AF] transition-all flex items-center gap-2 group"
                     >
                         Xem tất cả phòng
                         <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -84,7 +84,7 @@ export default function FeaturedClinics() {
                     {/* NÚT ĐIỀU HƯỚNG TRÁI/PHẢI - Premium Style */}
                     <button
                         onClick={() => scroll("left")}
-                        className="absolute -left-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-[#2563EB] hover:bg-[#2563EB] hover:text-white transition-all opacity-0 group-hover/carousel:opacity-100"
+                        className="absolute -left-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-[#0d6b52] hover:bg-[#0d6b52] hover:text-white transition-all opacity-0 group-hover/carousel:opacity-100"
                     >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
@@ -93,7 +93,7 @@ export default function FeaturedClinics() {
 
                     <button
                         onClick={() => scroll("right")}
-                        className="absolute -right-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-[#2563EB] hover:bg-[#2563EB] hover:text-white transition-all opacity-0 group-hover/carousel:opacity-100"
+                        className="absolute -right-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-[#0d6b52] hover:bg-[#0d6b52] hover:text-white transition-all opacity-0 group-hover/carousel:opacity-100"
                     >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
@@ -108,7 +108,7 @@ export default function FeaturedClinics() {
                         {rooms.map((room) => (
                             <div 
                                 key={room.id}
-                                className="flex-shrink-0 w-[300px] md:w-[320px] snap-start bg-white rounded-[2.5rem] overflow-hidden shadow-[0_15px_35px_-10px_rgba(0,0,0,0.05)] border border-[#D6EAFE] group hover:translate-y-[-8px] transition-all duration-500 hover:shadow-[0_20px_45px_-10px_rgba(37,99,235,0.15)] hover:border-[#2563EB]/30"
+                                className="flex-shrink-0 w-[300px] md:w-[320px] snap-start bg-white rounded-[2.5rem] overflow-hidden shadow-[0_15px_35px_-10px_rgba(0,0,0,0.05)] border border-[#b2e8d9] group hover:translate-y-[-8px] transition-all duration-500 hover:shadow-[0_20px_45px_-10px_rgba(37,99,235,0.15)] hover:border-[#0d6b52]/30"
                             >
                                 {/* PHẦN TRÊN THẺ: Hình ảnh và Trạng thái phòng */}
                                 <div className="relative h-60 overflow-hidden">
@@ -120,13 +120,13 @@ export default function FeaturedClinics() {
                                         />
                                     ) : (
                                         <div className="w-full h-full bg-[#F2FAFF] flex items-center justify-center">
-                                            <span className="text-4xl font-black text-[#D6EAFE]">{room.roomCode}</span>
+                                            <span className="text-4xl font-black text-[#b2e8d9]">{room.roomCode}</span>
                                         </div>
                                     )}
                                     {/* Nhãn trạng thái - Modern style */}
                                     <div className="absolute top-5 right-5">
                                         <span className={`px-4 py-1.5 rounded-full text-[10px] font-extrabold tracking-widest shadow-lg ${
-                                            room.status === 'AVAILABLE' ? 'bg-[#2563EB] text-white' : 
+                                            room.status === 'AVAILABLE' ? 'bg-[#0d6b52] text-white' : 
                                             room.status === 'MAINTENANCE' ? 'bg-amber-500 text-white' :
                                             'bg-red-500 text-white'
                                         }`}>
@@ -137,11 +137,11 @@ export default function FeaturedClinics() {
 
                                 {/* THÂN THẺ: Tên, Mô tả và Giá phòng */}
                                 <div className="p-8 text-center">
-                                    <h3 className="text-xl font-extrabold text-[#102A56] mb-3 uppercase tracking-tight group-hover:text-[#2563EB] transition-colors">{room.name}</h3>
-                                    <p className="text-[#5F789A] text-[13px] font-medium leading-relaxed mb-6 line-clamp-2 min-h-[40px]">
+                                    <h3 className="text-xl font-extrabold text-[#0a3d2e] mb-3 uppercase tracking-tight group-hover:text-[#0d6b52] transition-colors">{room.name}</h3>
+                                    <p className="text-[#4d8871] text-[13px] font-medium leading-relaxed mb-6 line-clamp-2 min-h-[40px]">
                                         {room.description || "Phòng nghỉ hiện đại, tiện nghi dành cho bệnh nhân nội trú với sự theo dõi y tế 24/7."}
                                     </p>
-                                    <div className="text-[#102A56] font-extrabold text-lg mb-8">
+                                    <div className="text-[#0a3d2e] font-extrabold text-lg mb-8">
                                         {formatPrice(room.pricePerNight)}
                                     </div>
                                     <button 
@@ -149,7 +149,7 @@ export default function FeaturedClinics() {
                                         disabled={room.status === 'MAINTENANCE'}
                                         className={`w-full font-bold py-4 rounded-2xl transition-all duration-300 ${
                                             room.status !== 'MAINTENANCE' 
-                                            ? 'bg-[#F2FAFF] text-[#2563EB] border border-[#D6EAFE] hover:bg-[#2563EB] hover:text-white hover:border-[#2563EB] hover:shadow-lg hover:shadow-blue-100' 
+                                            ? 'bg-[#F2FAFF] text-[#0d6b52] border border-[#b2e8d9] hover:bg-[#0d6b52] hover:text-white hover:border-[#0d6b52] hover:shadow-lg hover:shadow-emerald-100' 
                                             : 'bg-gray-50 text-gray-400 cursor-not-allowed border border-gray-100'
                                         }`}
                                     >

@@ -145,17 +145,17 @@ export default function Specializations() {
             <div className="max-w-7xl mx-auto px-4">
                 {/* Tiêu đề mục Chuyên khoa - Modern Navy Style */}
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-extrabold text-[#102A56] tracking-tight">
+                    <h2 className="text-3xl md:text-4xl font-extrabold text-[#0a3d2e] tracking-tight">
                         CHUYÊN KHOA
                     </h2>
-                    <div className="w-16 h-1.5 bg-[#2563EB] mx-auto mt-4 rounded-full opacity-20"></div>
+                    <div className="w-16 h-1.5 bg-[#0d6b52] mx-auto mt-4 rounded-full opacity-20"></div>
                 </div>
 
                 <div className="relative group/carousel">
                     {/* NÚT ĐIỀU HƯỚNG TRÁI/PHẢI - Premium Style */}
                     <button
                         onClick={() => scroll("left")}
-                        className="absolute -left-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-[#2563EB] hover:bg-[#2563EB] hover:text-white transition-all opacity-0 group-hover/carousel:opacity-100"
+                        className="absolute -left-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-[#0d6b52] hover:bg-[#0d6b52] hover:text-white transition-all opacity-0 group-hover/carousel:opacity-100"
                     >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
@@ -164,7 +164,7 @@ export default function Specializations() {
 
                     <button
                         onClick={() => scroll("right")}
-                        className="absolute -right-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-[#2563EB] hover:bg-[#2563EB] hover:text-white transition-all opacity-0 group-hover/carousel:opacity-100"
+                        className="absolute -right-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-[#0d6b52] hover:bg-[#0d6b52] hover:text-white transition-all opacity-0 group-hover/carousel:opacity-100"
                     >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
@@ -184,9 +184,9 @@ export default function Specializations() {
                                 title={spec.description || spec.name}
                             >
                                 <div className="w-20 h-20 rounded-[1.5rem] bg-white flex items-center justify-center overflow-hidden
-                                                shadow-[0_10px_25px_-10px_rgba(0,0,0,0.05)] border border-[#D6EAFE] 
+                                                shadow-[0_10px_25px_-10px_rgba(0,0,0,0.05)] border border-[#b2e8d9] 
                                                 group-hover:shadow-[0_15px_30px_-10px_rgba(37,99,235,0.2)] 
-                                                group-hover:border-[#2563EB]/40 transition-all duration-500 relative">
+                                                group-hover:border-[#0d6b52]/40 transition-all duration-500 relative">
                                     <div className="absolute inset-0 bg-gradient-to-br from-[#F2FAFF] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                     {spec.featureImageUrl ? (
                                         <img
@@ -195,14 +195,14 @@ export default function Specializations() {
                                             className="w-10 h-10 object-contain relative z-10 transition-transform group-hover:scale-110"
                                         />
                                     ) : (
-                                        <svg className="w-9 h-9 relative z-10" viewBox="0 0 20 20" fill="#2563EB" stroke="none">
+                                        <svg className="w-9 h-9 relative z-10" viewBox="0 0 20 20" fill="#0d6b52" stroke="none">
                                             {getFallbackIcon(spec.name)}
                                         </svg>
                                     )}
                                 </div>
 
-                                <span className="text-sm text-center text-[#102A56] font-bold leading-tight max-w-[100px]
-                                                 group-hover:text-[#2563EB] transition-colors line-clamp-2">
+                                <span className="text-sm text-center text-[#0a3d2e] font-bold leading-tight max-w-[100px]
+                                                 group-hover:text-[#0d6b52] transition-colors line-clamp-2">
                                     {spec.name}
                                 </span>
                             </div>

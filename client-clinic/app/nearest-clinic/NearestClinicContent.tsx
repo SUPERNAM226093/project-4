@@ -217,14 +217,14 @@ export default function NearestClinicContent() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <h2 className="text-3xl font-bold text-blue-800 mb-6 text-center">Tìm cơ sở y tế gần bạn</h2>
+      <h2 className="text-3xl font-bold text-emerald-800 mb-6 text-center">Tìm cơ sở y tế gần bạn</h2>
 
       <div className="flex flex-col md:flex-row justify-center items-center gap-4 mb-8">
         <input
           value={address}
           onChange={(e) => setAddress(e.target.value)}
           placeholder="Nhập địa chỉ của bạn, ví dụ: Nguyễn Trãi, Hà Đông"
-          className="w-full md:w-96 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full md:w-96 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
           onKeyDown={(e) => {
             if (e.key === "Enter") handleSearch();
           }}
@@ -232,7 +232,7 @@ export default function NearestClinicContent() {
 
         <button
           onClick={handleSearch}
-          className="w-full md:w-auto px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-300"
+          className="w-full md:w-auto px-6 py-2 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 transition duration-300"
         >
           Tìm cơ sở gần nhất
         </button>
@@ -287,14 +287,14 @@ export default function NearestClinicContent() {
             <Marker key={clinic.lat} position={[clinic.lat, clinic.lng]}>
               <Popup>
                 <div className="text-center">
-                  <p className="font-bold text-blue-800 mb-1">{clinic.name}</p>
+                  <p className="font-bold text-emerald-800 mb-1">{clinic.name}</p>
                   <p className="text-sm mb-2">{clinic.address}</p>
                   {results.length > 0 && (
                     <a
                       href={`https://www.google.com/maps/dir/?api=1&origin=${userLocation?.lat},${userLocation?.lng}&destination=${clinic.lat},${clinic.lng}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block px-3 py-1 bg-blue-100 text-blue-700 text-xs rounded hover:bg-blue-200"
+                      className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 text-xs rounded hover:bg-emerald-200"
                     >
                       Chỉ đường
                     </a>
@@ -313,7 +313,7 @@ export default function NearestClinicContent() {
 
       {results.length > 0 && (
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="bg-blue-600 px-6 py-4">
+          <div className="bg-emerald-600 px-6 py-4">
             <h3 className="text-xl font-bold text-white">So sánh khoảng cách các cơ sở</h3>
           </div>
 
@@ -359,7 +359,7 @@ export default function NearestClinicContent() {
                         href={`https://www.google.com/maps/dir/?api=1&origin=${userLocation?.lat},${userLocation?.lng}&destination=${clinic.lat},${clinic.lng}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center px-4 py-2 bg-blue-50 text-blue-600 text-sm font-medium rounded-md hover:bg-blue-100 transition-colors"
+                        className="inline-flex items-center justify-center px-4 py-2 bg-emerald-50 text-emerald-600 text-sm font-medium rounded-md hover:bg-emerald-100 transition-colors"
                       >
                         Mở Google Maps
                       </a>

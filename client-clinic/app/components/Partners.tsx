@@ -40,10 +40,10 @@ export default function Partners() {
             <div className="max-w-7xl mx-auto px-4">
                 {/* Tiêu đề mục Đối tác - Modern Navy Style */}
                 <div className="text-center mb-12">
-                    <h2 className="text-2xl md:text-[28px] font-extrabold text-[#102A56] tracking-tight">
+                    <h2 className="text-2xl md:text-[28px] font-extrabold text-[#0a3d2e] tracking-tight">
                         {"ĐƯỢC TIN TƯỞNG HỢP TÁC VÀ ĐỒNG HÀNH"}
                     </h2>
-                    <div className="w-16 h-1 bg-[#2563EB] mx-auto mt-4 rounded-full opacity-20" />
+                    <div className="w-16 h-1 bg-[#0d6b52] mx-auto mt-4 rounded-full opacity-20" />
                 </div>
 
                 <div className="relative group/carousel">
@@ -51,7 +51,7 @@ export default function Partners() {
                     <button
                         onClick={goPrev}
                         disabled={currentIndex === 0}
-                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-[#2563EB] hover:bg-[#2563EB] hover:text-white transition-all opacity-0 group-hover/carousel:opacity-100 disabled:opacity-0"
+                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-[#0d6b52] hover:bg-[#0d6b52] hover:text-white transition-all opacity-0 group-hover/carousel:opacity-100 disabled:opacity-0"
                     >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
@@ -61,7 +61,7 @@ export default function Partners() {
                     <button
                         onClick={goNext}
                         disabled={currentIndex >= maxIndex}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-[#2563EB] hover:bg-[#2563EB] hover:text-white transition-all opacity-0 group-hover/carousel:opacity-100 disabled:opacity-0"
+                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 z-10 w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center text-[#0d6b52] hover:bg-[#0d6b52] hover:text-white transition-all opacity-0 group-hover/carousel:opacity-100 disabled:opacity-0"
                     >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
@@ -85,10 +85,10 @@ export default function Partners() {
                                         className="flex flex-col items-center gap-4 group/card w-full cursor-pointer py-4"
                                     >
                                         <div
-                                            className="w-24 h-24 rounded-[2rem] bg-white border border-[#D6EAFE]
-                                                flex items-center justify-center text-[#102A56] text-3xl font-bold
+                                            className="w-24 h-24 rounded-[2rem] bg-white border border-[#b2e8d9]
+                                                flex items-center justify-center text-[#0a3d2e] text-3xl font-bold
                                                 shadow-sm group-hover/card:shadow-[0_15px_30px_-10px_rgba(37,99,235,0.2)] 
-                                                transition-all duration-500 group-hover/card:border-[#2563EB]
+                                                transition-all duration-500 group-hover/card:border-[#0d6b52]
                                                 group-hover/card:scale-105 group-hover/card:-translate-y-2 relative overflow-hidden"
                                         >
                                             {hospital.image ? (
@@ -98,10 +98,10 @@ export default function Partners() {
                                             )}
                                         </div>
                                         <div className="text-center px-2">
-                                            <p className="text-xs text-[#5F789A] font-bold leading-relaxed group-hover/card:text-[#2563EB] transition-colors line-clamp-2">
+                                            <p className="text-xs text-[#4d8871] font-bold leading-relaxed group-hover/card:text-[#0d6b52] transition-colors line-clamp-2">
                                                 {hospital.name}
                                                 {hospital.verified && (
-                                                    <span className="inline-block ml-1 text-[#2563EB]">
+                                                    <span className="inline-block ml-1 text-[#0d6b52]">
                                                         <svg className="w-3.5 h-3.5 inline" fill="currentColor" viewBox="0 0 20 20">
                                                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                                         </svg>
@@ -119,12 +119,12 @@ export default function Partners() {
                                     onClick={() => router.push("/hospitals")}
                                     className="flex flex-col items-center gap-4 group/card w-full cursor-pointer py-4"
                                 >
-                                    <div className="w-24 h-24 rounded-[2rem] bg-[#F2FAFF] border-2 border-dashed border-[#D6EAFE] flex items-center justify-center group-hover/card:border-[#2563EB] group-hover/card:bg-white transition-all duration-500 group-hover/card:-translate-y-2 group-hover/card:shadow-[0_15px_30px_-10px_rgba(37,99,235,0.2)]">
-                                        <svg className="w-10 h-10 text-[#5F789A] group-hover/card:text-[#2563EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div className="w-24 h-24 rounded-[2rem] bg-[#F2FAFF] border-2 border-dashed border-[#b2e8d9] flex items-center justify-center group-hover/card:border-[#0d6b52] group-hover/card:bg-white transition-all duration-500 group-hover/card:-translate-y-2 group-hover/card:shadow-[0_15px_30px_-10px_rgba(37,99,235,0.2)]">
+                                        <svg className="w-10 h-10 text-[#4d8871] group-hover/card:text-[#0d6b52] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                         </svg>
                                     </div>
-                                    <p className="text-xs text-[#5F789A] font-bold group-hover/card:text-[#102A56] transition-colors uppercase tracking-wider">
+                                    <p className="text-xs text-[#4d8871] font-bold group-hover/card:text-[#0a3d2e] transition-colors uppercase tracking-wider">
                                         {"Xem tất cả"}
                                     </p>
                                 </button>
@@ -139,7 +139,7 @@ export default function Partners() {
                                 key={i}
                                 onClick={() => setCurrentIndex(i)}
                                 className={`h-2 rounded-full transition-all duration-500 ${
-                                    i === currentIndex ? "w-10 bg-[#2563EB]" : "w-2 bg-[#D6EAFE] hover:bg-[#2563EB]/40"
+                                    i === currentIndex ? "w-10 bg-[#0d6b52]" : "w-2 bg-[#b2e8d9] hover:bg-[#0d6b52]/40"
                                 }`}
                             />
                         ))}

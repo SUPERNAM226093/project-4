@@ -104,7 +104,7 @@ export default function PaymentPage() {
             <Navbar />
             <div className="min-h-screen flex items-center justify-center pt-36">
                 <div className="text-center space-y-3">
-                    <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin mx-auto" />
+                    <div className="w-12 h-12 border-4 border-emerald-200 border-t-emerald-500 rounded-full animate-spin mx-auto" />
                     <p className="text-sm text-gray-500">Đang tải thông tin thanh toán...</p>
                 </div>
             </div>
@@ -124,7 +124,7 @@ export default function PaymentPage() {
                     </div>
                     <p className="font-semibold text-gray-800 mb-1">Không thể tải thông tin</p>
                     <p className="text-sm text-gray-500 mb-4">{error}</p>
-                    <button onClick={() => router.push("/")} className="text-blue-500 text-sm hover:underline">← Về trang chủ</button>
+                    <button onClick={() => router.push("/")} className="text-emerald-500 text-sm hover:underline">← Về trang chủ</button>
                 </div>
             </div>
             <Footer />
@@ -137,7 +137,7 @@ export default function PaymentPage() {
     return (
         <>
             <Navbar />
-            <div className="min-h-screen bg-gradient-to-br from-[#eaf4ff] via-white to-[#f0f8ff] pt-36 pb-16">
+            <div className="min-h-screen bg-gradient-to-br from-[#e8f9f4] via-white to-[#f0f8ff] pt-36 pb-16">
                 <div className="max-w-2xl mx-auto px-4 space-y-4">
 
                     {/* Step indicator - Containerized */}
@@ -146,7 +146,7 @@ export default function PaymentPage() {
                             {["Thông tin", "Thanh toán", "Tư vấn"].map((step, i) => (
                                 <div key={i} className="flex items-center gap-2">
                                     <div className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold
-                                        ${i === 1 ? "bg-[#1a8fe3] text-white shadow-md shadow-blue-200"
+                                        ${i === 1 ? "bg-[#1a8fe3] text-white shadow-md shadow-emerald-200"
                                             : i < 1 ? "bg-green-400 text-white" : "bg-gray-100 text-gray-400"}`}>
                                         {i < 1 ? "✓" : i + 1}
                                     </div>
@@ -202,7 +202,7 @@ export default function PaymentPage() {
                                 <p className="font-semibold text-[#0d2d6b]">{consultation.phoneNumber}</p>
                             </div>
                         </div>
-                        <div className="mt-4 flex items-center justify-between bg-blue-50 rounded-xl px-4 py-3">
+                        <div className="mt-4 flex items-center justify-between bg-emerald-50 rounded-xl px-4 py-3">
                             <span className="text-sm text-gray-600">Số tiền cần thanh toán</span>
                             <span className="text-xl font-bold text-[#f26522]">
                                 {new Intl.NumberFormat("vi-VN").format(consultation.amount)}đ
@@ -227,7 +227,7 @@ export default function PaymentPage() {
                                 )}
                             </div>
 
-                            <div className="flex flex-col items-center py-6 px-4 bg-gradient-to-br from-blue-50/50 to-indigo-50/30 rounded-2xl border border-blue-100/40">
+                            <div className="flex flex-col items-center py-6 px-4 bg-gradient-to-br from-emerald-50/50 to-indigo-50/30 rounded-2xl border border-emerald-100/40">
                                 <div className="h-14 flex items-center justify-center mb-4 px-6 py-2 bg-white rounded-xl shadow-sm border border-gray-100">
                                     <img 
                                         src="https://sandbox.vnpayment.vn/paymentv2/Images/brands/logo.svg" 
@@ -243,7 +243,7 @@ export default function PaymentPage() {
                             <button
                                 onClick={handleVnPayPayment}
                                 disabled={paying || cancelling}
-                                className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-blue-500 via-[#1a8fe3] to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-lg shadow-blue-200 transition-all hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none"
+                                className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-emerald-500 via-[#1a8fe3] to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 shadow-lg shadow-emerald-200 transition-all hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none"
                             >
                                 {paying ? (
                                     <>
@@ -282,7 +282,7 @@ export default function PaymentPage() {
                                 href={consultation.meetingLink}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-block w-full py-3.5 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-[#1a8fe3] to-[#0d6cbf] shadow-lg shadow-blue-200 transition-all hover:shadow-xl"
+                                className="inline-block w-full py-3.5 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-[#1a8fe3] to-[#0d6cbf] shadow-lg shadow-emerald-200 transition-all hover:shadow-xl"
                             >
                                 🎥 Vào phòng họp ngay
                             </a>

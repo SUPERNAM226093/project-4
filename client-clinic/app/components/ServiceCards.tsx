@@ -91,10 +91,10 @@ export default function ServiceCards() {
                         <button
                             key={index}
                             onClick={() => service.href && router.push(service.href)}
-                            className="group flex flex-col items-center gap-4 p-5 bg-white border border-slate-100 rounded-2xl w-[145px] h-[160px] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-blue-500/10 hover:border-blue-100"
+                            className="group flex flex-col items-center gap-4 p-5 bg-white border border-slate-100 rounded-2xl w-[145px] h-[160px] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-emerald-500/10 hover:border-emerald-100"
                         >
                             {/* ICON CONTAINER */}
-                            <div className="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center transition-all duration-300 group-hover:bg-[#2e5bff]">
+                            <div className="w-16 h-16 rounded-2xl bg-emerald-50 flex items-center justify-center transition-all duration-300 group-hover:bg-[#2e5bff]">
                                 <div className="transition-all duration-300 text-[#2e5bff] group-hover:text-white">
                                     {/* Clone SVG and apply current color */}
                                     {service.icon}

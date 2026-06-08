@@ -40,7 +40,7 @@ export default function Footer() {
 
 
     return (
-        <footer className="bg-[#1CA7EC] text-[#102A56] border-t border-white/20">
+        <footer className="bg-[#1CA7EC] text-[#0a3d2e] border-t border-white/20">
             {/* --- 1. PHẦN CHÍNH CỦA CHÂN TRANG (MAIN FOOTER) --- */}
             <div className="max-w-6xl mx-auto px-4 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
@@ -57,20 +57,20 @@ export default function Footer() {
                             />
                         </div>
                         {/* Đoạn mô tả ngắn về sứ mệnh của phòng khám */}
-                        <p className="text-sm text-[#102A56]/90 leading-relaxed mb-4">
+                        <p className="text-sm text-[#0a3d2e]/90 leading-relaxed mb-4">
                             {"Kết nối người dân với cơ sở và dịch vụ y tế hàng đầu Việt Nam"}
                         </p>
 
                         {/* Thông tin Hotline và Email hỗ trợ */}
                         <div className="mt-6 space-y-2">
                             <div className="flex items-center gap-2 text-sm">
-                                <svg className="w-4 h-4 text-[#102A56]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-4 h-4 text-[#0a3d2e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                 </svg>
-                                <span className="text-[#102A56] font-bold">1900 2115</span>
+                                <span className="text-[#0a3d2e] font-bold">1900 2115</span>
                             </div>
-                            <div className="flex items-center gap-2 text-sm text-[#102A56]/85">
-                                <svg className="w-4 h-4 text-[#102A56]/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="flex items-center gap-2 text-sm text-[#0a3d2e]/85">
+                                <svg className="w-4 h-4 text-[#0a3d2e]/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
                                 cskh@medpro.vn
@@ -81,13 +81,13 @@ export default function Footer() {
                     {/* CÁC CỘT LIÊN KẾT NHANH (Dịch vụ, Cơ sở y tế, Hướng dẫn) */}
                     {Object.entries(footerLinks).map(([title, links]) => (
                         <div key={title}>
-                            <h3 className="text-sm font-bold mb-4 text-[#102A56] uppercase tracking-wider">{title}</h3>
+                            <h3 className="text-sm font-bold mb-4 text-[#0a3d2e] uppercase tracking-wider">{title}</h3>
                             <ul className="space-y-2.5">
                                 {links.map((linkName) => (
                                     <li key={linkName}>
                                         <a
                                             href="#"
-                                            className="text-sm text-[#102A56]/80 hover:text-white transition-colors"
+                                            className="text-sm text-[#0a3d2e]/80 hover:text-white transition-colors"
                                         >
                                             {linkName}
                                         </a>
@@ -100,12 +100,12 @@ export default function Footer() {
             </div>
 
             {/* Dòng dưới cùng hiển thị bản quyền và chính sách */}
-            <div className="border-t border-[#102A56]/15">
+            <div className="border-t border-[#0a3d2e]/15">
                 <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-between gap-2">
-                    <p className="text-[10px] text-[#102A56]/70 uppercase tracking-widest font-medium">
+                    <p className="text-[10px] text-[#0a3d2e]/70 uppercase tracking-widest font-medium">
                         {"© 2024 MedPro. Tất cả quyền được bảo lưu."}
                     </p>
-                    <div className="flex gap-4 text-xs text-[#102A56]/80">
+                    <div className="flex gap-4 text-xs text-[#0a3d2e]/80">
                         <a href="#" className="hover:text-white transition-colors">
                             {"Chính sách bảo mật"}
                         </a>

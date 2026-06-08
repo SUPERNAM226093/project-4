@@ -140,7 +140,7 @@ export default function AppointmentHistoryPage() {
                             {"Quay lại"}
                         </button>
 
-                        <div className="bg-gradient-to-r from-[#2e5bff] to-[#1d4ed8] rounded-2xl p-6 text-white relative overflow-hidden">
+                        <div className="bg-gradient-to-r from-[#2e5bff] to-[#0a5241] rounded-2xl p-6 text-white relative overflow-hidden">
                             <div className="absolute -top-12 -right-12 w-40 h-40 bg-white/10 rounded-full" />
                             <div className="absolute -bottom-8 -left-8 w-28 h-28 bg-white/5 rounded-full" />
                             <div className="relative z-10">
@@ -274,7 +274,7 @@ export default function AppointmentHistoryPage() {
                                             >
                                                 <div className="flex flex-col md:flex-row md:items-center gap-4">
                                                     {/* Date box */}
-                                                    <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-gradient-to-br from-[#2e5bff] to-[#1d4ed8] text-white flex flex-col items-center justify-center">
+                                                    <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-gradient-to-br from-[#2e5bff] to-[#0a5241] text-white flex flex-col items-center justify-center">
                                                         <span className="text-lg font-bold leading-none">
                                                             {new Date(apt.appointmentDate).getDate()}
                                                         </span>
@@ -426,7 +426,7 @@ export default function AppointmentHistoryPage() {
                                         {onlineConsultations.map((c) => {
                                             const statusMap: Record<string, { label: string; color: string; bg: string; icon: string }> = {
                                                 PENDING: { label: "Chờ xác nhận", color: "text-amber-700", bg: "bg-amber-50 border-amber-200", icon: "⏳" },
-                                                PAID:    { label: "Đã thanh toán", color: "text-blue-700", bg: "bg-blue-50 border-blue-200", icon: "✅" },
+                                                PAID:    { label: "Đã thanh toán", color: "text-emerald-700", bg: "bg-emerald-50 border-emerald-200", icon: "✅" },
                                                 CANCELLED: { label: "Đã hủy", color: "text-red-700", bg: "bg-red-50 border-red-200", icon: "✗" },
                                             };
                                             const st = statusMap[c.paymentStatus] || statusMap.PENDING;
@@ -443,7 +443,7 @@ export default function AppointmentHistoryPage() {
                                                             <p className="font-semibold text-[#0d2d6b] text-sm mb-1">{c.doctorName}</p>
                                                             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500">
                                                                 {c.consultationDate && (
-                                                                    <span className="font-bold text-blue-600">
+                                                                    <span className="font-bold text-emerald-600">
                                                                         🗓️ {new Date(c.consultationDate).toLocaleDateString("vi-VN")} • {c.consultationTime}
                                                                     </span>
                                                                 )}
@@ -468,7 +468,7 @@ export default function AppointmentHistoryPage() {
                                                                     href={c.meetingLink}
                                                                     target="_blank"
                                                                     rel="noopener noreferrer"
-                                                                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-[#2e5bff] text-white hover:bg-[#1d4ed8] transition-colors shadow-md"
+                                                                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-[#2e5bff] text-white hover:bg-[#0a5241] transition-colors shadow-md"
                                                                 >
                                                                     🎥 Vào phòng họp
                                                                 </a>
@@ -493,7 +493,7 @@ export default function AppointmentHistoryPage() {
                                                             {c.paymentStatus === "PENDING" && (
                                                                 <button
                                                                     onClick={() => router.push(`/video-call/payment/${c.id}`)}
-                                                                    className="text-xs text-[#1a8fe3] border border-blue-100 hover:bg-blue-50 px-3 py-1 rounded-full transition-all"
+                                                                    className="text-xs text-[#1a8fe3] border border-emerald-100 hover:bg-emerald-50 px-3 py-1 rounded-full transition-all"
                                                                 >
                                                                     Xem QR thanh toán
                                                                 </button>
