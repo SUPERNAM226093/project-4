@@ -39,33 +39,28 @@ public class DataInitializer implements CommandLineRunner {
      * edit   → sẽ tạo ra cả PUT và PATCH
      */
     private static final List<String[]> STAFF_PERMISSIONS = List.of(
-            // Dịch vụ & Phòng: toàn quyền (rooms)
+            // Dịch vụ & Phòng: Xem, Thêm, Sửa
             new String[]{"rooms", "view"},
             new String[]{"rooms", "create"},
             new String[]{"rooms", "edit"},
-            new String[]{"rooms", "delete"},
-            // Đăng ký dịch vụ: toàn quyền (room-bookings)
+            // Đăng ký dịch vụ: Xem, Thêm, Sửa
             new String[]{"room-bookings", "view"},
             new String[]{"room-bookings", "create"},
             new String[]{"room-bookings", "edit"},
-            new String[]{"room-bookings", "delete"},
-            // Lịch hẹn: toàn quyền (appointments)
-            new String[]{"appointments", "view"},
-            new String[]{"appointments", "create"},
-            new String[]{"appointments", "edit"},
-            new String[]{"appointments", "delete"},
-            // Đăng ký gói khám: toàn quyền (health-package-bookings)
+            // Gói khám sức khỏe: Xem, Thêm, Sửa
+            new String[]{"health-packages", "view"},
+            new String[]{"health-packages", "create"},
+            new String[]{"health-packages", "edit"},
+            // Đăng ký gói khám: Xem, Thêm, Sửa
             new String[]{"health-package-bookings", "view"},
             new String[]{"health-package-bookings", "create"},
             new String[]{"health-package-bookings", "edit"},
-            new String[]{"health-package-bookings", "delete"},
-            // Tư vấn trực tuyến: toàn quyền (online-consultations)
+            // Tư vấn trực tuyến: Xem, Sửa
             new String[]{"online-consultations", "view"},
-            new String[]{"online-consultations", "create"},
             new String[]{"online-consultations", "edit"},
-            new String[]{"online-consultations", "delete"},
-            // Gói khám sức khỏe: chỉ xem (health-packages)
-            new String[]{"health-packages", "view"}
+            // Lịch hẹn: Xem, Sửa
+            new String[]{"appointments", "view"},
+            new String[]{"appointments", "edit"}
     );
 
     /**
