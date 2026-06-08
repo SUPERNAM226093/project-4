@@ -41,7 +41,7 @@ export default function Partners() {
                 {/* Tiêu đề mục Đối tác - Modern Navy Style */}
                 <div className="text-center mb-12">
                     <h2 className="text-2xl md:text-[28px] font-extrabold text-[#0a3d2e] tracking-tight">
-                        {"ĐƯỢC TIN TƯỞNG HỢP TÁC VÀ ĐỒNG HÀNH"}
+                        {"CƠ SỞ Y TẾ"}
                     </h2>
                     <div className="w-16 h-1 bg-[#0d6b52] mx-auto mt-4 rounded-full opacity-20" />
                 </div>

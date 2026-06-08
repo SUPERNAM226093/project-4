@@ -72,7 +72,7 @@ export default function AllHospitalsPage() {
 
                     {/* Hospital Grid */}
                     <h2 className="text-xl font-black text-black mb-8 uppercase tracking-wider text-center">
-                        Được tin tưởng hợp tác và đồng hành
+                        CƠ SỞ Y TẾ
                     </h2>
 
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
