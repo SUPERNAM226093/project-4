@@ -11,8 +11,11 @@ import java.util.List;
  */
 @Repository
 public interface HealthPackageBookingRepository extends JpaRepository<HealthPackageBooking, Long> {
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"patient", "healthPackage"})
     List<HealthPackageBooking> findByPatientIdOrderByCreatedAtDesc(Long patientId);
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"patient", "healthPackage"})
     List<HealthPackageBooking> findByHealthPackageIdOrderByBookingDateAscBookingTimeAsc(Long healthPackageId);
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"patient", "healthPackage"})
     List<HealthPackageBooking> findByCreatedAtBetween(java.time.LocalDateTime start, java.time.LocalDateTime end);
 
     boolean existsByPatientIdAndBookingDateAndBookingTimeAndStatusNotIn(

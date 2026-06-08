@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
+        @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"patient", "doctor", "service", "schedule", "healthPackage"})
         List<Appointment> findByPatientId(Long patientId);
 
         /**
@@ -20,15 +21,19 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
          * bệnh.
          * Lệnh SQL ngầm định: SELECT * FROM appointments WHERE doctor_id = ?
          */
+        @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"patient", "doctor", "service", "schedule", "healthPackage"})
         List<Appointment> findByDoctorId(Long doctorId);
 
         /** Lấy toàn bộ danh sách lịch hẹn thuộc về một Khung giờ cụ thể */
+        @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"patient", "doctor", "service", "schedule", "healthPackage"})
         List<Appointment> findByScheduleId(Long scheduleId);
 
         /** Lấy toàn bộ danh sách lịch hẹn thuộc về một Gói khám sức khỏe cụ thể */
+        @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"patient", "doctor", "service", "schedule", "healthPackage"})
         List<Appointment> findByHealthPackageId(Long healthPackageId);
 
         /** Lấy danh sách lịch hẹn trong một ngày cụ thể */
+        @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"patient", "doctor", "service", "schedule", "healthPackage"})
         List<Appointment> findByAppointmentDate(java.time.LocalDate date);
 
         // =========================================================================
@@ -93,6 +98,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
                         java.time.LocalDateTime end);
 
         /** Lấy danh sách lịch hẹn theo trạng thái trong khoảng thời gian */
+        @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"patient", "doctor", "service", "schedule", "healthPackage"})
         java.util.List<Appointment> findByStatusAndCreatedAtBetween(String status, java.time.LocalDateTime start,
                         java.time.LocalDateTime end);
 
@@ -100,6 +106,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
          * Lấy danh sách lịch hẹn theo trạng thái (không phân biệt chữ hoa thường) trong
          * khoảng thời gian
          */
+        @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"patient", "doctor", "service", "schedule", "healthPackage"})
         java.util.List<Appointment> findByStatusIgnoreCaseAndCreatedAtBetween(String status,
                         java.time.LocalDateTime start, java.time.LocalDateTime end);
 
@@ -110,6 +117,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
         long countByCreatedAtBetween(java.time.LocalDateTime start, java.time.LocalDateTime end);
 
         /** Lấy danh sách tất cả lịch hẹn trong một khoảng thời gian */
+        @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"patient", "doctor", "service", "schedule", "healthPackage"})
         java.util.List<Appointment> findByCreatedAtBetween(java.time.LocalDateTime start, java.time.LocalDateTime end);
 
         /**

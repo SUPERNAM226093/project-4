@@ -17,12 +17,16 @@ import java.util.List;
 @Repository
 public interface OnlineConsultationRepository extends JpaRepository<OnlineConsultation, Long> {
 
+        @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"patient", "doctor", "specialization", "service"})
         List<OnlineConsultation> findByPatientIdOrderByCreatedAtDesc(Long patientId);
 
+        @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"patient", "doctor", "specialization", "service"})
         List<OnlineConsultation> findByPaymentStatusOrderByCreatedAtDesc(String paymentStatus);
 
+        @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"patient", "doctor", "specialization", "service"})
         List<OnlineConsultation> findBySpecializationId(Long specializationId);
 
+        @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"patient", "doctor", "specialization", "service"})
         List<OnlineConsultation> findByDoctorId(Long doctorId);
 
         boolean existsByDoctorId(Long doctorId);
@@ -60,13 +64,16 @@ public interface OnlineConsultationRepository extends JpaRepository<OnlineConsul
                         @org.springframework.data.repository.query.Param("nowTimeStr") String nowTimeStr,
                         @org.springframework.data.repository.query.Param("doneStatuses") java.util.Collection<String> doneStatuses);
 
+        @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"patient", "doctor", "specialization", "service"})
         List<OnlineConsultation> findByConsultationDate(java.time.LocalDate date);
 
         long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
 
         long countByPaymentStatusIgnoreCaseAndCreatedAtBetween(String paymentStatus, LocalDateTime start, LocalDateTime end);
 
+        @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"patient", "doctor", "specialization", "service"})
         List<OnlineConsultation> findByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
 
+        @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"patient", "doctor", "specialization", "service"})
         List<OnlineConsultation> findByPaymentStatusIgnoreCaseAndCreatedAtBetween(String paymentStatus, LocalDateTime start, LocalDateTime end);
 }
