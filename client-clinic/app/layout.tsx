@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "./theme.css"; // File theme màu chung của toàn bộ ứng dụng MedPro
 
 import ChatWidget from "./components/ChatWidget";
 
