@@ -11,7 +11,7 @@ export interface DoctorResponse {
     fullName: string;
     email: string;
     specializationName: string;
-    licenseNumber: string;
+    clinicId: number;
     experienceYears: number;
     bio: string;
     featureImageUrl: string | null;

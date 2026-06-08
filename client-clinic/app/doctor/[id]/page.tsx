@@ -46,6 +46,16 @@ function getLoggedInUser(): AuthResponse | null {
     }
 }
 
+function getClinicInfo(id?: number) {
+    switch (id) {
+        case 1: return "CS1 - 32 Đại Từ, Hoàng Mai, HN";
+        case 2: return "CS2 - 226 Ngô Quyền, Hà Đông, HN";
+        case 3: return "CS3 - 82 Kim Mã, Ba Đình, HN";
+        case 4: return "CS4 - 10 Hoàng Quốc Việt, Cầu Giấy, HN";
+        default: return id ? `Cơ sở ${id}` : "";
+    }
+}
+
 export default function DoctorDetailPage() {
     
     const params = useParams();
@@ -269,9 +279,9 @@ export default function DoctorDetailPage() {
                                                 ⭐ {doctor.experienceYears} {"năm kinh nghiệm"}
                                             </span>
                                         )}
-                                        {doctor.licenseNumber && (
+                                        {doctor.clinicId && (
                                             <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-50 text-green-600 text-xs font-semibold">
-                                                ✓ {doctor.licenseNumber}
+                                                ✓ {getClinicInfo(doctor.clinicId)}
                                             </span>
                                         )}
                                     </div>
