@@ -43,58 +43,45 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [allowedPaths, setAllowedPaths] = useState<Set<string>>(new Set());
     const [isPermissionsLoaded, setIsPermissionsLoaded] = useState<boolean>(false);
 
+    // ── Quyền cố định (hardcode) cho từng vai trò ──────────────────────────
+    // STAFF: Dịch vụ & Phòng, Đăng ký dịch vụ, Gói khám sức khỏe,
+    //        Đăng ký gói khám → Xem/Thêm/Sửa  |  Tư vấn, Lịch hẹn → Xem/Sửa
+    const STAFF_PATHS = new Set([
+        '/rooms',
+        '/room-bookings',
+        '/health-packages',
+        '/health-package-bookings',
+        '/online-consultations',
+        '/appointments',
+    ]);
+
+    // DOCTOR: Tư vấn trực tuyến, Lịch hẹn, Hồ sơ bệnh án, Đơn thuốc → Xem/Sửa
+    const DOCTOR_PATHS = new Set([
+        '/online-consultations',
+        '/appointments',
+        '/medical-records',
+        '/prescriptions',
+    ]);
+
     const fetchAllowedPaths = useCallback(async (roleName: string) => {
         if (roleName === 'ADMIN') {
             setAllowedPaths(new Set(['*']));
             setIsPermissionsLoaded(true);
             return;
         }
-        try {
-            const res = await api.get('/role-urls/my-permissions');
-            const entries = res.data;
-
-            if (!entries || entries.length === 0) {
-                setAllowedPaths(new Set(['__no_permission__']));
-                return;
-            }
-
-            const methodsByPattern: Record<string, Set<string>> = {};
-            for (const entry of entries) {
-                if (!methodsByPattern[entry.urlPattern]) {
-                    methodsByPattern[entry.urlPattern] = new Set();
-                }
-                methodsByPattern[entry.urlPattern].add(entry.httpMethod?.toUpperCase());
-            }
-
-            const allowedPathsSet = new Set<string>();
-            for (const [pattern, methods] of Object.entries(methodsByPattern)) {
-                if (methods.has('GET')) {
-                    if (pattern === '/**') {
-                        allowedPathsSet.add('*');
-                    } else {
-                        let basePath = pattern.replace('/**', '');
-                        if (basePath.startsWith('/api')) {
-                            basePath = basePath.substring(4);
-                        }
-                        // Loại bỏ dấu gạch chéo ở cuối (trailing slash) để match chính xác
-                        if (basePath.endsWith('/')) {
-                            basePath = basePath.slice(0, -1);
-                        }
-                        allowedPathsSet.add(basePath);
-                    }
-                }
-            }
-            if (allowedPathsSet.size === 0) {
-                setAllowedPaths(new Set(['__no_permission__']));
-            } else {
-                setAllowedPaths(allowedPathsSet);
-            }
-        } catch {
-            console.error('Failed to load role URLs');
-            setAllowedPaths(new Set(['__no_permission__']));
-        } finally {
+        if (roleName === 'STAFF') {
+            setAllowedPaths(STAFF_PATHS);
             setIsPermissionsLoaded(true);
+            return;
         }
+        if (roleName === 'DOCTOR') {
+            setAllowedPaths(DOCTOR_PATHS);
+            setIsPermissionsLoaded(true);
+            return;
+        }
+        // Mọi vai trò không xác định → không cấp quyền
+        setAllowedPaths(new Set(['__no_permission__']));
+        setIsPermissionsLoaded(true);
     }, []);
 
     useEffect(() => {
@@ -106,12 +93,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         setIsPermissionsLoaded(false);
         fetchAllowedPaths(user.role);
-
-        const interval = setInterval(() => {
-            fetchAllowedPaths(user.role);
-        }, 5000);
-
-        return () => clearInterval(interval);
     }, [user?.role, fetchAllowedPaths]);
 
     const isPathAllowed = useCallback((path: string) => {

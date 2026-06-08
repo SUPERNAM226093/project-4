@@ -52,7 +52,6 @@ export const navItems: NavItem[] = [
     { path: '/appointments', label: 'menu.appointments', icon: <HiOutlineCalendar /> },
     { path: '/medical-records', label: 'menu.medicalRecords', icon: <HiOutlineClipboardDocument /> },
     { path: '/prescriptions', label: 'menu.prescriptions', icon: <HiOutlineDocumentText /> },
-    { path: '/role-urls', label: 'menu.roleUrls', icon: <HiOutlineLink />, adminOnly: true },
     { path: '/profile', label: 'menu.profile', icon: <HiOutlineUserCircle />, alwaysVisible: true },
 ];
 
