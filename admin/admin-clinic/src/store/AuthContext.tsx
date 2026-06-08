@@ -49,7 +49,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // DOCTOR: Tư vấn, Lịch hẹn, Hồ sơ bệnh án, Đơn thuốc → Xem/Sửa (không Thêm/Xóa)
     //         Dịch vụ & Phòng (rooms) → Xem/Thêm/Sửa (không Xóa)
 
-    const fetchAllowedPaths = useCallback((roleName: string) => {
+    const fetchAllowedPaths = useCallback((rawRoleName: string) => {
+        // Chuẩn hóa role, loại bỏ tiền tố ROLE_ nếu có (ví dụ: ROLE_STAFF -> STAFF)
+        const roleName = rawRoleName.replace(/^ROLE_/, '').toUpperCase();
+
         if (roleName === 'ADMIN') {
             setAllowedPaths(new Set(['*']));
             setIsPermissionsLoaded(true);
