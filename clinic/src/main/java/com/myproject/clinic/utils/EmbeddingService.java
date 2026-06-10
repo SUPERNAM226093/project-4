@@ -24,6 +24,10 @@ public class EmbeddingService {
     private static final String EMBEDDING_URL =
             "https://router.huggingface.co/hf-inference/models/dangvantuan/vietnamese-embedding/pipeline/feature-extraction";
 
+    /**
+     * Khởi tạo WebClient gọi Hugging Face embedding model bằng token cấu hình trong backend.
+     * Service này phục vụ tìm kiếm ngữ nghĩa cho bác sĩ, chuyên khoa và gói khám.
+     */
     public EmbeddingService(@Value("${hf.token}") String hfToken, ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
         this.webClient = WebClient.builder()
@@ -34,6 +38,10 @@ public class EmbeddingService {
 
     /**
      * Phương thức: Lấy embedding.
+     */
+    /**
+     * Gửi văn bản lên model embedding tiếng Việt và nhận về vector số.
+     * Vector này được dùng để so sánh câu hỏi người dùng với dữ liệu trong database.
      */
     public List<Double> getEmbedding(String text) {
         try {
@@ -68,6 +76,10 @@ public class EmbeddingService {
     /**
      * Phương thức: Embedding sang json.
      */
+    /**
+     * Chuyển vector embedding sang JSON để lưu vào các cột embedding trong database.
+     * Dùng khi reindex dữ liệu chuyên khoa, bác sĩ hoặc gói khám.
+     */
     public String embeddingToJson(List<Double> embedding) {
         try {
             return objectMapper.writeValueAsString(embedding);
@@ -79,6 +91,10 @@ public class EmbeddingService {
 
     /**
      * Phương thức: Json sang embedding.
+     */
+    /**
+     * Đọc chuỗi JSON embedding từ database và chuyển lại thành danh sách số.
+     * Nếu dữ liệu lỗi hoặc rỗng thì trả về danh sách rỗng để tránh làm hỏng luồng tìm kiếm.
      */
     public List<Double> jsonToEmbedding(String json) {
         if (json == null || json.isBlank()) return List.of();
@@ -92,6 +108,10 @@ public class EmbeddingService {
 
     /**
      * Phương thức: Cosine similarity.
+     */
+    /**
+     * Tính độ tương đồng cosine giữa hai vector embedding.
+     * Giá trị càng cao thì câu hỏi và dữ liệu càng gần nghĩa với nhau.
      */
     public double cosineSimilarity(List<Double> a, List<Double> b) {
         if (a.isEmpty() || b.isEmpty() || a.size() != b.size()) return 0.0;

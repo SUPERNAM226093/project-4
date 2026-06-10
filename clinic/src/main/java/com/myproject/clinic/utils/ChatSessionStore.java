@@ -30,6 +30,10 @@ public class ChatSessionStore {
     @Value("${chat.session.ttl-minutes:30}")
     private long ttlMinutes;
 
+    /**
+     * Lưu trạng thái phiên chat vào database dưới dạng JSON và gia hạn thời gian sống của phiên.
+     * State thường chứa lịch sử hội thoại gần nhất để chatbot hiểu các câu hỏi nối tiếp.
+     */
     @Transactional
     public void saveState(String sessionId, Long userId, Map<String, Object> state) {
         validateSessionId(sessionId);
@@ -57,6 +61,10 @@ public class ChatSessionStore {
         }
     }
 
+    /**
+     * Lấy lại trạng thái phiên chat nếu sessionId còn hạn.
+     * Nếu phiên không tồn tại hoặc đã hết hạn thì trả về null để tạo phiên mới.
+     */
     @Transactional(readOnly = true)
     public Map<String, Object> getState(String sessionId) {
         if (sessionId == null || sessionId.isBlank()) {
@@ -67,6 +75,10 @@ public class ChatSessionStore {
                 .orElse(null);
     }
 
+    /**
+     * Xóa thủ công một phiên chat khỏi database.
+     * Dùng khi cần dọn session cụ thể hoặc người dùng kết thúc phiên.
+     */
     @Transactional
     public void deleteState(String sessionId) {
         if (sessionId != null && !sessionId.isBlank()) {
@@ -74,6 +86,10 @@ public class ChatSessionStore {
         }
     }
 
+    /**
+     * Chuyển stateJson trong bảng chat_sessions thành Map để service đọc và cập nhật.
+     * Nếu JSON lỗi thì ghi log và bỏ phiên đó thay vì làm gián đoạn toàn bộ chatbot.
+     */
     private Map<String, Object> deserializeState(ChatSession session) {
         try {
             return objectMapper.readValue(session.getStateJson(), new TypeReference<>() {});
@@ -83,6 +99,10 @@ public class ChatSessionStore {
         }
     }
 
+    /**
+     * Kiểm tra sessionId chỉ chứa ký tự an toàn trước khi lưu xuống database.
+     * Bước này tránh sessionId rỗng, quá ngắn hoặc chứa ký tự bất thường.
+     */
     private void validateSessionId(String sessionId) {
         if (sessionId == null || !SESSION_ID_PATTERN.matcher(sessionId).matches()) {
             throw new ChatSessionPersistenceException("sessionId không hợp lệ");

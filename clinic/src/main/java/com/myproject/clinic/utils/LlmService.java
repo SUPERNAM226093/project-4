@@ -59,6 +59,10 @@ public class LlmService {
     // Sentinel dùng để phát hiện khi LLM thất bại (không phải câu trả lời hợp lệ)
     public static final String LLM_ERROR_SENTINEL = "__LLM_ERROR__";
 
+    /**
+     * Gửi danh sách prompt/tin nhắn lên LLM để lấy câu trả lời cho chatbot.
+     * Ưu tiên Groq trước để phản hồi nhanh; nếu Groq lỗi thì tự động chuyển sang Hugging Face.
+     */
     public String chat(List<ChatMessage> messages) {
         // --- ƯU TIÊN SỬ DỤNG GROQ ---
         if (groqApiKey != null && !groqApiKey.isBlank() && !"your_groq_api_key_here".equals(groqApiKey)) {
@@ -92,6 +96,10 @@ public class LlmService {
         return LLM_ERROR_SENTINEL;
     }
 
+    /**
+     * Gọi Groq Chat Completions API với model cấu hình sẵn và trả về nội dung câu trả lời.
+     * Đây là nơi payload gồm messages, model, max_tokens được gửi thật sang Groq.
+     */
     private String callGroq(List<ChatMessage> messages) throws Exception {
         Map<String, Object> requestBody = Map.of(
                 "messages", messages,
@@ -119,6 +127,10 @@ public class LlmService {
         return stripThinkTags(content);
     }
 
+    /**
+     * Gọi Hugging Face Router như phương án dự phòng khi Groq không khả dụng.
+     * Hàm dùng cùng định dạng messages để chatbot vẫn trả lời được khi provider chính lỗi.
+     */
     private String callHuggingFace(List<ChatMessage> messages) throws Exception {
         // max_tokens=512 đủ cho chatbot y tế, nhanh hơn đáng kể so với 2048
         Map<String, Object> requestBody = Map.of(
@@ -152,6 +164,10 @@ public class LlmService {
     /**
      * Phân loại intent nhanh — dùng max_tokens=10 vì chỉ cần 1 từ.
      */
+    /**
+     * Phân loại intent nhanh bằng LLM cho các luồng cũ cần một nhãn đơn giản.
+     * Module RAG hiện tại chủ yếu dùng IntentClassifier, hàm này giữ vai trò tiện ích dùng lại.
+     */
     public String classifyIntent(String userMessage) {
         List<ChatMessage> messages = new ArrayList<>();
         messages.add(new ChatMessage("system",
@@ -166,6 +182,10 @@ public class LlmService {
         return "GENERAL";
     }
 
+    /**
+     * Sinh lời giải thích thân thiện cho kết quả dự đoán bệnh tim từ module machine learning.
+     * LLM nhận mức độ rủi ro và các chỉ số y tế, sau đó viết phần tư vấn ngắn cho người dùng.
+     */
     public String generateHeartDiseaseExplanation(int level, Map<String, Double> features) {
         StringBuilder prompt = new StringBuilder();
         prompt.append("Bạn là một chuyên gia tư vấn sức khỏe AI. Hệ thống Machine Learning vừa phân tích chỉ số người dùng và đưa ra ")
@@ -186,6 +206,10 @@ public class LlmService {
         return chat(messages);
     }
 
+    /**
+     * Loại bỏ các đoạn suy luận nội bộ dạng <think>...</think> nếu model trả về.
+     * Chỉ giữ nội dung cuối cùng phù hợp để hiển thị cho người dùng.
+     */
     private String stripThinkTags(String text) {
         if (text == null) return "";
         return THINK_PATTERN.matcher(text).replaceAll("").trim();
