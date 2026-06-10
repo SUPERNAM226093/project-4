@@ -8,6 +8,7 @@ import Image from "next/image";
 
 import { useRouter } from "next/navigation";
 import { fetchDoctors, DoctorResponse, getImageUrl } from "../lib/api";
+import PWAInstallButton from "./PWA/PWAInstallButton";
 
 export default function HeroBanner() {
     const router = useRouter();
@@ -132,6 +133,11 @@ export default function HeroBanner() {
                             <p className="text-slate-300 text-sm md:text-base max-w-xl font-medium leading-relaxed">
                                 Đặt lịch hẹn khám bệnh dễ dàng tại các phòng khám uy tín, khám từ xa qua video call hoặc đặt dịch vụ chăm sóc sức khoe chỉ với vài bước chạm.
                             </p>
+
+                            {/* Nút tải ứng dụng PWA - chỉ hiện khi trình duyệt hỗ trợ */}
+                            <div className="pt-1">
+                                <PWAInstallButton />
+                            </div>
                         </div>
 
                         {/* Search Bar */}
