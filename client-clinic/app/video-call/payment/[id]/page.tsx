@@ -12,7 +12,6 @@ import {
     AuthResponse,
 } from "../../../lib/api";
 
-// ── Config ────────────────────────────────────────────────────────────────────
 
 function getLoggedInUser(): AuthResponse | null {
     if (typeof window === "undefined") return null;
@@ -229,9 +228,9 @@ export default function PaymentPage() {
 
                             <div className="flex flex-col items-center py-6 px-4 bg-gradient-to-br from-emerald-50/50 to-indigo-50/30 rounded-2xl border border-emerald-100/40">
                                 <div className="h-14 flex items-center justify-center mb-4 px-6 py-2 bg-white rounded-xl shadow-sm border border-gray-100">
-                                    <img 
-                                        src="https://sandbox.vnpayment.vn/paymentv2/Images/brands/logo.svg" 
-                                        alt="VNPay Logo" 
+                                    <img
+                                        src="https://sandbox.vnpayment.vn/paymentv2/Images/brands/logo.svg"
+                                        alt="VNPay Logo"
                                         className="h-8 object-contain"
                                     />
                                 </div>
