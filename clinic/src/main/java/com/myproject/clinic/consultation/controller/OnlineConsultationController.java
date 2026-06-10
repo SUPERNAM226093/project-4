@@ -81,6 +81,7 @@ public class OnlineConsultationController {
         return ResponseEntity.ok(consultationService.update(id, request));
     }
 
+    /** Tạo link thanh toán VNPay cho đơn tư vấn đang chờ thanh toán. */
     @GetMapping("/{id}/vnpay-payment-url")
     public ResponseEntity<java.util.Map<String, String>> getVnPayPaymentUrl(
         @PathVariable Long id,
@@ -93,6 +94,7 @@ public class OnlineConsultationController {
         return ResponseEntity.ok(java.util.Map.of("paymentUrl", paymentUrl));
     }
 
+    /** Nhận bộ tham số callback VNPay từ frontend và chuyển xuống service để xác thực chữ ký. */
     @GetMapping("/vnpay-callback")
     public ResponseEntity<java.util.Map<String, Object>> vnpayCallback(
         @RequestParam java.util.Map<String, String> params) {

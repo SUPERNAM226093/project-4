@@ -29,6 +29,10 @@ public class IntentStrategyFactory {
      * Spring inject toàn bộ implementation của ChatbotIntentStrategy.
      * Factory tự build strategyMap từ getSupportedIntent() của mỗi strategy.
      */
+    /**
+     * Gom toàn bộ strategy do Spring inject thành Map theo intent để tra cứu nhanh.
+     * Nhờ vậy ChatbotService không cần if/else lớn cho từng loại câu hỏi.
+     */
     public IntentStrategyFactory(List<ChatbotIntentStrategy> strategies) {
         this.strategyMap = new HashMap<>();
 

@@ -120,6 +120,10 @@ public class IntentClassifier {
      * Tầng 2: Dùng LLM để phân loại chính xác hơn.
      * Prompt yêu cầu chỉ trả về 1 intent duy nhất để Factory resolve nhanh.
      */
+    /**
+     * Gọi LLM để phân loại câu hỏi khi các regex nhanh không nhận diện chắc chắn.
+     * Prompt bắt model chỉ trả về một nhãn intent để Factory chọn đúng handler.
+     */
     private List<String> classifyWithLlm(String message) {
         List<LlmService.ChatMessage> messages = new ArrayList<>();
         messages.add(new LlmService.ChatMessage("system",
@@ -153,10 +157,17 @@ public class IntentClassifier {
      * Kiểm tra intent có thuộc nhóm Structured DB (không cần LLM) hay không.
      * Dùng để quyết định extract params trước khi gọi Strategy.
      */
+    /**
+     * Xác định intent có cần trích xuất tham số có cấu trúc trước khi xử lý hay không.
+     * Hiện chỉ STATISTICS cần bước extract để lấy chuyên khoa, ngày, loại hình khám.
+     */
     public boolean isStructuredIntent(String intent) {
         return "STATISTICS".equals(intent);
     }
 
+    /**
+     * Rút gọn câu hỏi khi ghi log để log dễ đọc và không quá dài.
+     */
     private String truncate(String s) {
         return s.length() > 60 ? s.substring(0, 60) + "..." : s;
     }

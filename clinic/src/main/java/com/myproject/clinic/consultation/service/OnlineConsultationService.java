@@ -289,6 +289,10 @@ public class OnlineConsultationService {
                 .build();
     }
 
+    /**
+     * Kiểm tra đơn tư vấn còn PENDING rồi tạo URL thanh toán VNPay.
+     * ID đơn được truyền sang VNPay qua vnp_TxnRef để callback có thể tìm lại đúng bản ghi.
+     */
     @Transactional
     public String createVnPayPaymentUrl(Long id, String ipAddr) {
         OnlineConsultation c = consultationRepository.findById(id)
@@ -299,6 +303,10 @@ public class OnlineConsultationService {
         return vnPayService.createPaymentUrl(c.getAmount().longValue(), String.valueOf(c.getId()), ipAddr);
     }
 
+    /**
+     * Xử lý callback VNPay sau thanh toán: xác thực chữ ký, lấy mã đơn từ vnp_TxnRef,
+     * kiểm tra vnp_ResponseCode và cập nhật trạng thái đơn sang PAID nếu giao dịch thành công.
+     */
     @Transactional
     public boolean processVnPayCallback(Map<String, String> params) {
         boolean isValidHash = vnPayService.verifyCallback(params);

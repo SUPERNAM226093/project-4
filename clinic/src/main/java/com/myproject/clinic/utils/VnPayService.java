@@ -64,6 +64,10 @@ public class VnPayService {
      * @param ipAddr địa chỉ IP của người dùng
      * @return URL
      */
+    /**
+     * Tạo URL thanh toán VNPay cho một đơn tư vấn.
+     * Hàm dựng bộ tham số vnp_*, sắp xếp theo alphabet, ký bằng HMAC-SHA512 rồi gắn vnp_SecureHash vào URL.
+     */
     public String createPaymentUrl(long amount, String txnRef, String ipAddr) {
 
         // Phiên bản API VNPay.
@@ -208,6 +212,10 @@ public class VnPayService {
      * @param fields toàn bộ tham số callback VNPay gửi về
      * @return true nếu chữ ký hợp lệ, false nếu callback không hợp lệ
      */
+    /**
+     * Xác thực callback VNPay bằng cách tự tính lại vnp_SecureHash từ các tham số trả về.
+     * Chỉ khi chữ ký tự tính trùng chữ ký VNPay gửi về thì dữ liệu callback mới được xem là hợp lệ.
+     */
     public boolean verifyCallback(Map<String, String> fields) {
 
         // Lấy chữ ký VNPay gửi về trong callback.
@@ -293,6 +301,10 @@ public class VnPayService {
      * @param key  khóa bí mật VNPay, tức vnp_HashSecret
      * @param data chuỗi dữ liệu cần ký
      * @return chuỗi hash dạng hexadecimal
+     */
+    /**
+     * Tạo chữ ký HMAC-SHA512 từ hashSecret và chuỗi dữ liệu giao dịch.
+     * Kết quả byte được đổi sang chuỗi hex để dùng làm vnp_SecureHash.
      */
     private String hmacSHA512(final String key, final String data) {
         try {
