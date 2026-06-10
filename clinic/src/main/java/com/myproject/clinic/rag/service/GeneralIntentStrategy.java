@@ -23,6 +23,7 @@ public class GeneralIntentStrategy implements ChatbotIntentStrategy {
 
     private final LlmService llmService;
 
+    /** Trả về nhãn intent mà strategy này phụ trách để Factory đăng ký vào map. */
     @Override
     public String getSupportedIntent() {
         return "GENERAL";

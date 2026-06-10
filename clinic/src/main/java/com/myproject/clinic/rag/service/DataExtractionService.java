@@ -181,6 +181,10 @@ public class DataExtractionService {
      * Trích xuất giá trị Text từ JSON Node, nếu rỗng hoặc chữ "null" thì trả về null thực sự.
      * Tránh lỗi LLM trả về chuỗi "null" thay vì null value trong JSON.
      */
+    /**
+     * Lấy một field dạng text từ JSON LLM trả về và chuẩn hóa chuỗi rỗng/"null" thành null thật.
+     * Cách này giúp các handler phía sau không phải xử lý nhiều biến thể dữ liệu bẩn.
+     */
     private String getTextOrNull(JsonNode node, String field) {
         if (node.has(field) && !node.get(field).isNull()) {
             String val = node.get(field).asText().trim();
@@ -191,6 +195,10 @@ public class DataExtractionService {
 
     /**
      * Tương tự getTextOrNull nhưng có hỗ trợ trả về giá trị mặc định nếu null.
+     */
+    /**
+     * Lấy field text từ JSON, nếu thiếu thì dùng giá trị mặc định.
+     * Dùng cho các trường có default rõ ràng như type hoặc timeRange.
      */
     private String getTextOrDefault(JsonNode node, String field, String defaultValue) {
         String val = getTextOrNull(node, field);

@@ -39,6 +39,7 @@ public class StatisticsIntentHandler implements ChatbotIntentStrategy {
 
     // === STRATEGY PATTERN: implement ChatbotIntentStrategy ===
 
+    /** Trả về intent STATISTICS để xử lý các câu hỏi thống kê, danh sách bác sĩ/chuyên khoa. */
     @Override
     public String getSupportedIntent() {
         return "STATISTICS";
@@ -221,6 +222,10 @@ public class StatisticsIntentHandler implements ChatbotIntentStrategy {
 
     /**
      * Hàm tiện ích tạo thẻ UI Bác sĩ từ entity Doctor.
+     */
+    /**
+     * Chuyển entity Doctor thành DoctorCard để frontend hiển thị dưới dạng thẻ kết quả.
+     * Chỉ lấy các trường cần thiết cho UI, tránh trả toàn bộ entity ra ngoài.
      */
     private ChatResponse.DoctorCard buildDoctorCard(Doctor d) {
         return ChatResponse.DoctorCard.builder()

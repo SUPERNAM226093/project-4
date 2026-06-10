@@ -32,11 +32,13 @@ public class SymptomIntentHandler implements ChatbotIntentStrategy {
 
     // === STRATEGY PATTERN ===
 
+    /** Trả về intent SYMPTOM để các câu hỏi mô tả triệu chứng được chuyển vào handler này. */
     @Override
     public String getSupportedIntent() {
         return "SYMPTOM";
     }
 
+    /** Nhận ChatRequest từ luồng chung và chuyển sang xử lý phân tích triệu chứng. */
     @Override
     public ChatResponse handle(ChatRequest request, java.util.Map<String, Object> state) {
         return handle(request.getMessage(), state);

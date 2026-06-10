@@ -37,11 +37,13 @@ public class SearchIntentHandler implements ChatbotIntentStrategy {
 
     // === STRATEGY PATTERN ===
 
+    /** Trả về intent SEARCH để Factory điều hướng các câu hỏi tìm kiếm vào handler này. */
     @Override
     public String getSupportedIntent() {
         return "SEARCH";
     }
 
+    /** Nhận ChatRequest từ ChatbotService và chuyển sang hàm xử lý tìm kiếm cốt lõi. */
     @Override
     public ChatResponse handle(ChatRequest request, java.util.Map<String, Object> state) {
         return handle(request.getMessage(), state);

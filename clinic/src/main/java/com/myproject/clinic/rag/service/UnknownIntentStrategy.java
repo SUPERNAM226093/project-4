@@ -15,6 +15,7 @@ import java.util.Map;
 @Slf4j
 public class UnknownIntentStrategy implements ChatbotIntentStrategy {
 
+    /** Trả về intent UNKNOWN cho các câu hỏi ngoài phạm vi y tế/phòng khám. */
     @Override
     public String getSupportedIntent() {
         return "UNKNOWN";
