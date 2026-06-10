@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../../services/api';
 import { toast } from 'react-toastify';
-
+import { useAuth } from '../../store/AuthContext';
 import { HiOutlinePlus, HiOutlinePencil, HiOutlineTrash } from 'react-icons/hi2';
 import Modal from '../../components/ui/Modal';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
@@ -54,6 +54,10 @@ const emptyForm = {
 
 export default function RoomBookingPage() {
     // --- 1. KHỞI TẠO STATE ---
+    const { isAdmin, isStaff } = useAuth();
+    // Phân quyền: ADMIN + STAFF full CRUD đơn đặt phòng
+    const canAdd = isAdmin || isStaff;
+    const canDelete = isAdmin || isStaff;
     const [items, setItems] = useState<RoomBooking[]>([]); // Danh sách đơn đặt phòng
     const [patients, setPatients] = useState<UserOpt[]>([]); // Danh sách người dùng để gán làm người đặt
     const [rooms, setRooms] = useState<RoomOpt[]>([]); // Danh sách phòng hiện có
@@ -199,9 +203,11 @@ export default function RoomBookingPage() {
                     <h1>{"Đơn đặt phòng"}</h1>
                     <p>{"Quản lý yêu cầu đặt phòng của bệnh nhân"}</p>
                 </div>
-                <button className="btn btn-primary" onClick={openCreate}>
-                    <HiOutlinePlus /> Tạo đơn đặt phòng mới
-                </button>
+                {canAdd && (
+                    <button className="btn btn-primary" onClick={openCreate}>
+                        <HiOutlinePlus /> Tạo đơn đặt phòng mới
+                    </button>
+                )}
             </div>
 
             {/* BẢNG DANH SÁCH ĐƠN ĐẶT PHÒNG */}
@@ -252,7 +258,9 @@ export default function RoomBookingPage() {
                                         <td>
                                             <div className="table-actions">
                                                 <button className="btn-icon" onClick={() => openEdit(b)} title="Cập nhật"><HiOutlinePencil /></button>
-                                                <button className="btn-icon" onClick={() => setDeleteId(b.id)} title="Xóa hồ sơ"><HiOutlineTrash /></button>
+                                                {canDelete && (
+                                                    <button className="btn-icon" onClick={() => setDeleteId(b.id)} title="Xóa hồ sơ"><HiOutlineTrash /></button>
+                                                )}
                                             </div>
                                         </td>
                                     </tr>

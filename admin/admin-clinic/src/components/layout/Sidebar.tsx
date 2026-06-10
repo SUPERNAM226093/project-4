@@ -32,6 +32,7 @@ interface NavItem {
     icon: React.ReactNode;
     alwaysVisible?: boolean;
     adminOnly?: boolean;
+    hidden?: boolean; // Ẩn khỏi sidebar nhưng route vẫn hoạt động
 }
 
 /**
@@ -45,7 +46,7 @@ export const navItems: NavItem[] = [
     { path: '/specializations', label: 'menu.specializations', icon: <HiOutlineAcademicCap /> },
     { path: '/rooms', label: 'menu.services', icon: <HiOutlineCube /> },
     { path: '/room-bookings', label: 'menu.registrations', icon: <HiOutlineClipboardDocumentList /> },
-    { path: '/service-registrations', label: 'menu.serviceRegistrations', icon: <HiOutlineLink /> },
+    { path: '/service-registrations', label: 'menu.serviceRegistrations', icon: <HiOutlineLink />, hidden: true },
     { path: '/health-packages', label: 'menu.healthPackages', icon: <HiOutlineHeart /> },
     { path: '/health-package-bookings', label: 'menu.healthPackageBookings', icon: <HiOutlineClipboardDocumentList /> },
     { path: '/online-consultations', label: 'menu.onlineConsultations', icon: <HiOutlineVideoCamera /> },
@@ -110,6 +111,8 @@ export default function Sidebar() {
 
     // Lọc danh sách menu mà người dùng có quyền nhìn thấy
     const visibleItems = navItems.filter(item => {
+        // Bỏ qua mục bị ẩn (hidden: true) — route vẫn hoạt động, chỉ không hiện trên menu
+        if (item.hidden) return false;
         if (item.alwaysVisible) return true;
         if (item.adminOnly) return user?.role === 'ADMIN';
 

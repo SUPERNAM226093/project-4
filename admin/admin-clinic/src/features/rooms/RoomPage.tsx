@@ -42,10 +42,10 @@ const emptyForm = {
 };
 
 export default function RoomPage() {
-    const { isAdmin, isDoctor } = useAuth();
-    // Phân quyền cứng: DOCTOR được Xem/Thêm/Sửa Phòng, KHÔNG Xóa; ADMIN toàn quyền
-    const canAdd = isAdmin || isDoctor;
-    const canDelete = isAdmin;
+    const { isAdmin, isStaff } = useAuth();
+    // Phân quyền: ADMIN + STAFF full CRUD phòng bệnh
+    const canAdd = isAdmin || isStaff;
+    const canDelete = isAdmin || isStaff;
     const [items, setItems] = useState<Room[]>([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);

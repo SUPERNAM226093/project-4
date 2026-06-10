@@ -59,9 +59,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             return;
         }
         if (roleName === 'STAFF') {
-            // STAFF được truy cập: Đăng ký dịch vụ, Gói khám, Đăng ký gói khám, Tư vấn, Lịch hẹn
+            // STAFF được truy cập: Phòng bệnh, Đặt phòng, Gói khám, Đăng ký gói khám, Tư vấn, Lịch hẹn
+            // /service-registrations ẩn khỏi menu nên cũng xóa khỏi quyền STAFF
             setAllowedPaths(new Set([
-                '/service-registrations',
+                '/rooms',
+                '/room-bookings',
                 '/health-packages',
                 '/health-package-bookings',
                 '/online-consultations',
@@ -71,13 +73,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             return;
         }
         if (roleName === 'DOCTOR') {
-            // DOCTOR được truy cập: Tư vấn, Lịch hẹn, Hồ sơ bệnh án, Đơn thuốc, Dịch vụ & Phòng
+            // DOCTOR được truy cập: Tư vấn, Lịch hẹn, Hồ sơ bệnh án, Đơn thuốc
+            // DOCTOR không có quyền vào /rooms
             setAllowedPaths(new Set([
                 '/online-consultations',
                 '/appointments',
                 '/medical-records',
                 '/prescriptions',
-                '/rooms',
             ]));
             setIsPermissionsLoaded(true);
             return;
