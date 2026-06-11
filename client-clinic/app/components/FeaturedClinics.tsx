@@ -1,6 +1,5 @@
 "use client";
 /**
- * FILE: FeaturedClinics.tsx
  * MÔ TẢ: Thành phần hiển thị danh sách các phòng bệnh/chỗ ở nội trú của phòng khám.
  */
 import { useEffect, useState, useRef } from "react";
@@ -11,8 +10,7 @@ import RoomDetailModal from "./RoomDetailModal";
 import RoomBookingModal from "./RoomBookingModal";
 
 export default function FeaturedClinics() {
-    // --- KHAI BÁO CÁC HOOK VÀ STATE ---
-    
+
     const router = useRouter();
     const [rooms, setRooms] = useState<RoomResponse[]>([]); // Lưu danh sách các phòng lấy từ API
     const [loading, setLoading] = useState(true); // Trạng thái đang tải dữ liệu
@@ -69,7 +67,7 @@ export default function FeaturedClinics() {
                         <div className="w-16 h-1.5 bg-[#0d6b52] mt-4 rounded-full opacity-20"></div>
                     </div>
                     {/* Nút xem tất cả - Premium Blue */}
-                    <button 
+                    <button
                         onClick={() => router.push("/rooms")}
                         className="text-sm font-bold text-[#0d6b52] hover:text-[#1E40AF] transition-all flex items-center gap-2 group"
                     >
@@ -100,23 +98,23 @@ export default function FeaturedClinics() {
                         </svg>
                     </button>
 
-                    <div 
+                    <div
                         ref={scrollRef}
                         className="flex gap-8 overflow-x-auto pb-10 px-2 no-scrollbar snap-x snap-mandatory"
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                     >
                         {rooms.map((room) => (
-                            <div 
+                            <div
                                 key={room.id}
                                 className="flex-shrink-0 w-[300px] md:w-[320px] snap-start bg-white rounded-[2.5rem] overflow-hidden shadow-[0_15px_35px_-10px_rgba(0,0,0,0.05)] border border-[#b2e8d9] group hover:translate-y-[-8px] transition-all duration-500 hover:shadow-[0_20px_45px_-10px_rgba(13,107,82,0.15)] hover:border-[#0d6b52]/30"
                             >
                                 {/* PHẦN TRÊN THẺ: Hình ảnh và Trạng thái phòng */}
                                 <div className="relative h-60 overflow-hidden">
                                     {room.images && room.images.length > 0 ? (
-                                        <img 
-                                            src={getImageUrl(room.images[0])} 
-                                            alt={room.name} 
-                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                                        <img
+                                            src={getImageUrl(room.images[0])}
+                                            alt={room.name}
+                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                         />
                                     ) : (
                                         <div className="w-full h-full bg-[var(--green-ultra)] flex items-center justify-center">
@@ -125,11 +123,10 @@ export default function FeaturedClinics() {
                                     )}
                                     {/* Nhãn trạng thái - Modern style */}
                                     <div className="absolute top-5 right-5">
-                                        <span className={`px-4 py-1.5 rounded-full text-[10px] font-extrabold tracking-widest shadow-lg ${
-                                            room.status === 'AVAILABLE' ? 'bg-[#0d6b52] text-white' : 
-                                            room.status === 'MAINTENANCE' ? 'bg-amber-500 text-white' :
-                                            'bg-red-500 text-white'
-                                        }`}>
+                                        <span className={`px-4 py-1.5 rounded-full text-[10px] font-extrabold tracking-widest shadow-lg ${room.status === 'AVAILABLE' ? 'bg-[#0d6b52] text-white' :
+                                                room.status === 'MAINTENANCE' ? 'bg-amber-500 text-white' :
+                                                    'bg-red-500 text-white'
+                                            }`}>
                                             {room.status === 'AVAILABLE' ? 'CÒN PHÒNG' : room.status === 'MAINTENANCE' ? 'BẢO TRÌ' : 'HẾT PHÒNG'}
                                         </span>
                                     </div>
@@ -144,14 +141,13 @@ export default function FeaturedClinics() {
                                     <div className="text-[#0a3d2e] font-extrabold text-lg mb-8">
                                         {formatPrice(room.pricePerNight)}
                                     </div>
-                                    <button 
+                                    <button
                                         onClick={() => setSelectedRoom(room)}
                                         disabled={room.status === 'MAINTENANCE'}
-                                        className={`w-full font-bold py-4 rounded-2xl transition-all duration-300 ${
-                                            room.status !== 'MAINTENANCE' 
-                                            ? 'bg-[var(--green-ultra)] text-[#0d6b52] border border-[#b2e8d9] hover:bg-[#0d6b52] hover:text-white hover:border-[#0d6b52] hover:shadow-lg hover:shadow-emerald-100' 
-                                            : 'bg-gray-50 text-gray-400 cursor-not-allowed border border-gray-100'
-                                        }`}
+                                        className={`w-full font-bold py-4 rounded-2xl transition-all duration-300 ${room.status !== 'MAINTENANCE'
+                                                ? 'bg-[var(--green-ultra)] text-[#0d6b52] border border-[#b2e8d9] hover:bg-[#0d6b52] hover:text-white hover:border-[#0d6b52] hover:shadow-lg hover:shadow-emerald-100'
+                                                : 'bg-gray-50 text-gray-400 cursor-not-allowed border border-gray-100'
+                                            }`}
                                     >
                                         {room.status === 'MAINTENANCE' ? 'Đang bảo trì' : 'Xem chi tiết'}
                                     </button>
@@ -164,21 +160,21 @@ export default function FeaturedClinics() {
 
             {/* Modal hiển thị chi tiết phòng */}
             {selectedRoom && !isBooking && (
-                <RoomDetailModal 
-                    room={selectedRoom} 
-                    onClose={() => setSelectedRoom(null)} 
+                <RoomDetailModal
+                    room={selectedRoom}
+                    onClose={() => setSelectedRoom(null)}
                     onBook={() => setIsBooking(true)}
                 />
             )}
 
             {/* Modal thực hiện đặt phòng */}
             {selectedRoom && isBooking && (
-                <RoomBookingModal 
-                    room={selectedRoom} 
+                <RoomBookingModal
+                    room={selectedRoom}
                     onClose={() => {
                         setSelectedRoom(null);
                         setIsBooking(false);
-                    }} 
+                    }}
                 />
             )}
         </section>

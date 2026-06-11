@@ -83,7 +83,6 @@ function getOrCreateSessionId(): string {
 }
 
 export default function ChatWidget() {
-    // --- 1. KHAI BÁO HOOK VÀ STATE ---
     const [isOpen, setIsOpen] = useState(false); // Trạng thái đóng/mở cửa sổ chat
     const [messages, setMessages] = useState<Message[]>([ // Danh sách các tin nhắn trong hội thoại
         {
@@ -177,9 +176,10 @@ export default function ChatWidget() {
             const isTimeout = err instanceof Error && err.name === "AbortError";
             setMessages((prev) => [
                 ...prev,
-                { role: "assistant", content: isTimeout
-                    ? "⏱️ Hệ thống AI đang bận, vui lòng thử lại sau vài giây nhé."
-                    : "Xin lỗi, đã xảy ra lỗi kết nối. Vui lòng thử lại."
+                {
+                    role: "assistant", content: isTimeout
+                        ? "⏱️ Hệ thống AI đang bận, vui lòng thử lại sau vài giây nhé."
+                        : "Xin lỗi, đã xảy ra lỗi kết nối. Vui lòng thử lại."
                 },
             ]);
         } finally {

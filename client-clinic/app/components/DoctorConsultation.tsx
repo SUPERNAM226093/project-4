@@ -67,14 +67,17 @@ export default function DoctorConsultation() {
     // LOADING STATE
     if (loading) {
         return (
+        /* TRẠNG THÁI ĐANG TẢI: Hiển thị khung giả lập card bác sĩ để người dùng biết dữ liệu đang được lấy từ backend. */
         <section className="py-14 bg-transparent">
                 <div className="max-w-6xl mx-auto px-4">
+                    {/* TIÊU ĐỀ KHU VỰC: Giữ giống layout thật để khi hết loading giao diện không bị nhảy mạnh. */}
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-extrabold text-[#0a3d2e] tracking-tight">
                             {"ĐẶT LỊCH KHÁM VỚI BÁC SĨ"}
                         </h2>
                         <div className="w-16 h-1.5 bg-[#0d6b52] mx-auto mt-4 rounded-full opacity-20"></div>
                     </div>
+                    {/* SKELETON CARDS: Các thẻ xám mô phỏng ảnh, tên và nút của card bác sĩ khi dữ liệu chưa tải xong. */}
                     <div className="flex gap-5 overflow-hidden">
                         {[1, 2, 3, 4].map((i) => (
                             <div key={i} className="flex-shrink-0 w-[250px] bg-white rounded-2xl border border-gray-100 overflow-hidden animate-pulse">
@@ -101,14 +104,17 @@ export default function DoctorConsultation() {
     // ERROR STATE
     if (error) {
         return (
+        /* TRẠNG THÁI LỖI: Khi API danh sách bác sĩ lỗi, hiển thị thông báo và nút tải lại trang. */
         <section className="py-14 bg-transparent">
                 <div className="max-w-6xl mx-auto px-4 text-center">
+                    {/* TIÊU ĐỀ KHU VỰC: Vẫn hiển thị tiêu đề để người dùng biết lỗi thuộc phần đặt lịch bác sĩ. */}
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-extrabold text-[#0a3d2e] tracking-tight">
                             {"ĐẶT LỊCH KHÁM VỚI BÁC SĨ"}
                         </h2>
                         <div className="w-16 h-1.5 bg-[#0d6b52] mx-auto mt-4 rounded-full opacity-20"></div>
                     </div>
+                    {/* HỘP THÔNG BÁO LỖI: Nền đỏ nhạt, icon cảnh báo và nút thử lại. */}
                     <div className="bg-red-50 border border-red-200 rounded-2xl p-8 inline-block">
                         <svg className="w-10 h-10 text-red-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
@@ -129,8 +135,10 @@ export default function DoctorConsultation() {
     // EMPTY STATE
     if (doctors.length === 0) {
         return (
+        /* TRẠNG THÁI RỖNG: API chạy thành công nhưng chưa có bác sĩ nào để hiển thị. */
         <section className="py-14 bg-transparent">
                 <div className="max-w-6xl mx-auto px-4 text-center">
+                    {/* TIÊU ĐỀ KHU VỰC: Giữ cùng cấu trúc với trạng thái có dữ liệu. */}
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-extrabold text-[#0a3d2e] tracking-tight">
                             {"ĐẶT LỊCH KHÁM VỚI BÁC SĨ"}
@@ -144,8 +152,11 @@ export default function DoctorConsultation() {
     }
 
     return (
+        /* KHU VỰC ĐẶT LỊCH VỚI BÁC SĨ: Section trên trang chủ hiển thị danh sách bác sĩ dạng carousel ngang. */
         <section className="py-14 bg-transparent">
+            {/* CONTAINER CHÍNH: Căn giữa nội dung và giới hạn chiều rộng để card không dàn quá rộng trên màn hình lớn. */}
             <div className="max-w-6xl mx-auto px-4">
+                {/* HEADER SECTION: Tiêu đề lớn và gạch nhấn màu xanh, đồng bộ với các section khác trên trang chủ. */}
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-extrabold text-[#0a3d2e] tracking-tight">
                         {"ĐẶT LỊCH KHÁM VỚI BÁC SĨ"}
@@ -153,7 +164,9 @@ export default function DoctorConsultation() {
                     <div className="w-16 h-1.5 bg-[#0d6b52] mx-auto mt-4 rounded-full opacity-20"></div>
                 </div>
 
+                {/* CAROUSEL WRAPPER: Bọc danh sách bác sĩ và hai nút điều hướng trái/phải. */}
                 <div className="relative group">
+                    {/* NÚT CUỘN TRÁI: Khi hover vào carousel mới hiện, giúp giao diện gọn hơn. */}
                     <button
                         onClick={() => scroll("left")}
                         className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center text-gray-500 hover:text-[#2e5bff] hover:shadow-xl transition-all opacity-0 group-hover:opacity-100"
@@ -162,6 +175,7 @@ export default function DoctorConsultation() {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                         </svg>
                     </button>
+                    {/* NÚT CUỘN PHẢI: Cuộn danh sách card bác sĩ sang phải theo từng đoạn 300px. */}
                     <button
                         onClick={() => scroll("right")}
                         className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center text-gray-500 hover:text-black hover:shadow-xl transition-all opacity-0 group-hover:opacity-100"
@@ -171,17 +185,20 @@ export default function DoctorConsultation() {
                         </svg>
                     </button>
 
+                    {/* DANH SÁCH BÁC SĨ: Flex hàng ngang, có overflow-x để kéo/cuộn trên desktop và mobile. */}
                     <div
                         ref={scrollRef}
                         className="flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory"
                         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                     >
                         {doctors.map((doctor, index) => (
+                            /* CARD BÁC SĨ: Mỗi card là một bác sĩ, click vào card sẽ chuyển sang trang chi tiết /doctor/{id}. */
                             <div
                                 key={doctor.id}
                                 onClick={() => router.push(`/doctor/${doctor.id}`)}
                                 className="flex-shrink-0 w-[250px] snap-start card-premium overflow-hidden cursor-pointer"
                             >
+                                {/* PHẦN ẢNH ĐẠI DIỆN: Hiển thị ảnh bác sĩ nếu có, nếu không thì dùng chữ cái đầu tên kèm màu nền tự động. */}
                                 <div className="relative pt-6 pb-4 px-6">
                                     <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center overflow-hidden border-4 border-white shadow-lg">
                                         {doctor.featureImageUrl ? (
@@ -200,6 +217,7 @@ export default function DoctorConsultation() {
                                         )}
                                     </div>
 
+                                    {/* THÔNG TIN NHANH: Kinh nghiệm và trạng thái xác thực hiển thị ngay dưới ảnh đại diện. */}
                                     <div className="flex justify-between items-center mt-3 text-[10px] text-gray-500">
                                         <span className="flex items-center gap-1">
                                             <span className="font-bold text-gray-400">{"Kinh nghiệm:"}</span>
@@ -212,6 +230,7 @@ export default function DoctorConsultation() {
                                     </div>
                                 </div>
 
+                                {/* PHẦN NỘI DUNG CARD: Tên bác sĩ, chuyên khoa, email và nút chuyển sang trang tư vấn/đặt lịch. */}
                                 <div className="px-4 pb-5">
                                     <h3 className="text-base font-bold text-[#000000] mb-2">
                                         {doctor.fullName}
@@ -233,6 +252,7 @@ export default function DoctorConsultation() {
                                         )}
                                     </div>
 
+                                    {/* NÚT TƯ VẤN NGAY: Chặn nổi bọt sự kiện để click nút không kích hoạt click toàn card hai lần. */}
                                     <button
                                         onClick={(e) => { e.stopPropagation(); router.push(`/doctor/${doctor.id}`); }}
                                         className="w-full btn-premium text-sm py-2.5 rounded-lg"

@@ -430,6 +430,8 @@ export default function Navbar() {
 
     return (
         <>
+            {/* NAVBAR DÙNG CHUNG: Thanh điều hướng cố định ở đầu màn hình cho toàn bộ client.
+                Ở đầu trang chủ thì trong suốt để hòa với Hero Banner; khi cuộn xuống hoặc ở trang khác thì chuyển sang xanh đậm. */}
             <header
                 className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${!isHomepage || isScrolled
                     ? "bg-[#042f2e]/95 backdrop-blur-md border-b border-white/10 shadow-lg"
@@ -438,7 +440,7 @@ export default function Navbar() {
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-20">
-                        {/* BRAND LOGO */}
+                        {/* LOGO THƯƠNG HIỆU: Dùng ảnh trong public, đặt bên trái Navbar và dẫn về trang chủ. */}
                         <a href="/" className="flex items-center gap-2 shrink-0">
                             <Image
                                 src="/logo-medpro.png"
@@ -449,7 +451,7 @@ export default function Navbar() {
                             />
                         </a>
 
-                        {/* DESKTOP NAVIGATION ITEMS */}
+                        {/* MENU DESKTOP: Render từ menuItems để các mục điều hướng dùng chung, không viết lại ở từng trang. */}
                         <nav className="hidden lg:flex items-center gap-1.5 ml-auto mr-8">
                             {menuItems.map((item) => (
                                 <div
