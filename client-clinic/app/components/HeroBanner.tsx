@@ -79,8 +79,10 @@ export default function HeroBanner() {
     const benefits = ["Đặt khám nhanh - Lấy số thứ tự trực tuyến - Tư vấn sức khỏe từ xa", "Đặt khám theo giờ - Đặt càng sớm để có thể có số thứ tự thấp nhất", "Được hoàn tiền khi huỷ khám - Có cơ hội nhận ưu đãi hoàn tiền"];
 
     return (
+        /* HERO BANNER: Khối mở đầu trang chủ chiếm gần toàn màn hình.
+           Dùng nền xanh đậm làm màu gốc, sau đó chồng ảnh nền, lớp phủ xanh và ảnh bác sĩ lên trên. */
         <section className="relative pt-36 pb-16 lg:pb-0 overflow-hidden bg-[#042f2e] min-h-screen flex items-center">
-            {/* Background Image of Clinic corridor */}
+            {/* LỚP 1 - Ảnh nền hành lang bệnh viện: phủ kín toàn banner để tạo bối cảnh y tế. */}
             <div className="absolute inset-0 z-0">
                 <Image
                     src="/clinic_corridor_bg.png"
@@ -90,19 +92,19 @@ export default function HeroBanner() {
                     sizes="100vw"
                     className="object-cover object-center select-none pointer-events-none opacity-50 lg:opacity-75"
                 />
-                {/* Gradient overlay to match the reference style: solid teal on the left fading to transparent on the right */}
+                {/* LỚP 2 - Phủ xanh lên ảnh nền: bên trái đậm để chữ dễ đọc, bên phải nhạt dần để vẫn thấy ảnh bác sĩ và hành lang. */}
                 <div className="absolute inset-0 bg-gradient-to-b from-[#042f2e]/95 via-[#134e4a]/90 to-[#042f2e]/95 lg:bg-gradient-to-r lg:from-[#042f2e]/95 lg:via-[#0f766e]/85 lg:via-[#0d9488]/25 lg:to-transparent" />
             </div>
 
-            {/* Pattern overlay */}
+            {/* LỚP 3 - Họa tiết chấm mờ rất nhẹ: tạo chiều sâu cho nền nhưng không làm rối nội dung. */}
             <div className="absolute inset-0 opacity-5 pointer-events-none z-[1]" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.4) 1.5px, transparent 1.5px)', backgroundSize: '40px 40px' }} />
 
-            {/* Medical cross decor */}
+            {/* LỚP 4 - Dấu cộng y tế trang trí: đặt mờ phía sau để nhấn nhận diện ngành y. */}
             <div className="absolute top-24 right-[45%] text-white/5 text-6xl font-thin select-none pointer-events-none z-[1]">+</div>
             <div className="absolute top-48 left-[5%] text-white/5 text-4xl font-thin select-none pointer-events-none z-[1]">+</div>
             <div className="absolute bottom-32 left-[40%] text-white/5 text-5xl font-thin select-none pointer-events-none z-[1]">+</div>
 
-            {/* Absolute Doctors Group Image positioned behind the text grid (z-10) */}
+            {/* LỚP 5 - Ảnh nhóm bác sĩ: đặt absolute bên phải, sát đáy banner, nổi trên nền nhưng thấp hơn khối chữ. */}
             <div className="absolute right-[5%] bottom-0 h-[96%] w-[55%] z-10 pointer-events-none hidden lg:flex items-end justify-end">
                 <div className="relative w-full max-w-[440px] sm:max-w-[550px] lg:max-w-[850px] h-full">
                     <Image
@@ -116,10 +118,12 @@ export default function HeroBanner() {
                 </div>
             </div>
 
+            {/* LỚP 6 - Khối nội dung chính: căn giữa theo max-width để không bị dàn quá rộng trên màn hình lớn. */}
             <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-20">
+                {/* Chia layout thành 12 cột trên desktop: 7 cột trái cho chữ/search, 5 cột phải chừa không gian cho ảnh bác sĩ. */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
-                    {/* LEFT COLUMN: TEXT, SEARCH, BENEFITS */}
+                    {/* CỘT TRÁI - Nội dung chính: nhãn, tiêu đề, mô tả, nút PWA, thanh tìm kiếm và danh sách lợi ích. */}
                     <div className="lg:col-span-7 text-left space-y-8 relative z-20">
                         <div className="space-y-4">
                             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
@@ -140,7 +144,7 @@ export default function HeroBanner() {
                             </div>
                         </div>
 
-                        {/* Search Bar */}
+                        {/* THANH TÌM KIẾM - Người dùng nhập tên bác sĩ hoặc chuyên khoa, hệ thống lọc gợi ý ngay bên dưới. */}
                         <div className="relative max-w-xl" ref={searchRef}>
                             <div className="relative flex items-center bg-white rounded-full shadow-2xl p-1.5 border border-white/10 transition-all focus-within:ring-2 focus-within:ring-sky-500/50">
                                 <div className="flex items-center flex-1 px-4">
@@ -161,7 +165,7 @@ export default function HeroBanner() {
                                 </button>
                             </div>
 
-                            {/* Suggestions Dropdown */}
+                            {/* DROPDOWN GỢI Ý - Hiện tối đa 5 bác sĩ phù hợp với từ khóa người dùng nhập. */}
                             {showSuggestions && suggestions.length > 0 && (
                                 <div className="absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-2xl border border-[#b2e8d9] overflow-hidden z-[60] animate-in fade-in slide-in-from-top-2 duration-200">
                                     <div className="py-2">
@@ -218,7 +222,7 @@ export default function HeroBanner() {
                             )}
                         </div>
 
-                        {/* Benefits list */}
+                        {/* DANH SÁCH LỢI ÍCH - Tóm tắt nhanh các giá trị chính của hệ thống đặt khám. */}
                         <div className="space-y-3.5 pt-2">
                             {benefits.map((benefit, index) => (
                                 <div key={index} className="flex items-start gap-3">
@@ -235,7 +239,7 @@ export default function HeroBanner() {
                         </div>
                     </div>
 
-                    {/* RIGHT COLUMN: Spacer to allow the absolutely positioned doctor image to show through */}
+                    {/* CỘT PHẢI - Chỉ giữ khoảng trống để ảnh bác sĩ absolute bên trên không đè vào nội dung bên trái. */}
                     <div className="lg:col-span-5 hidden lg:block h-[500px] pointer-events-none" />
 
                 </div>
