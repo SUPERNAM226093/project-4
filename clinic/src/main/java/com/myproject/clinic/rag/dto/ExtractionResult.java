@@ -5,10 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * DTO chứa các tham số đã được trích xuất và chuẩn hóa từ câu hỏi của người dùng.
- * Được dùng bởi DataExtractionService để làm input cho các Handler.
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,7 +12,8 @@ import lombok.NoArgsConstructor;
 public class ExtractionResult {
 
     /**
-     * Tên chuyên khoa người dùng nhắc đến (sau khi đã qua AliasNormalizationService).
+     * Tên chuyên khoa người dùng nhắc đến (sau khi đã qua
+     * AliasNormalizationService).
      * null = người dùng không đề cập cụ thể -> tìm tất cả chuyên khoa.
      */
     private String specialization;

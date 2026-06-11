@@ -22,14 +22,12 @@ import java.util.*;
  * Chatbot Service — điều phối luồng xử lý theo Strategy + Factory Pattern.
  *
  * Luồng:
- *   ChatRequest
- *     -> IntentClassifier  (phân loại intent)
- *     -> IntentStrategyFactory (chọn đúng strategy — O(1), không if/else)
- *     -> ChatbotIntentStrategy.handle() (xử lý logic)
- *     -> ChatResponse
+ * ChatRequest
+ * -> IntentClassifier (phân loại intent)
+ * -> IntentStrategyFactory (chọn đúng strategy — O(1), không if/else)
+ * -> ChatbotIntentStrategy.handle() (xử lý logic)
+ * -> ChatResponse
  *
- * ChatbotService KHÔNG chứa bất kỳ if/else lớn nào cho từng intent.
- * Thêm intent mới = chỉ cần tạo class mới implement ChatbotIntentStrategy.
  */
 @Service
 @Slf4j
@@ -40,8 +38,6 @@ public class ChatbotService {
     private final IntentStrategyFactory intentStrategyFactory;
     private final DataExtractionService dataExtractionService;
     private final ChatSessionStore chatSessionStore;
-
-    // Dùng cho reindexAll() — không liên quan đến luồng chat
     private final EmbeddingService embeddingService;
     private final SpecializationRepository specializationRepository;
     private final DoctorRepository doctorRepository;
@@ -54,8 +50,8 @@ public class ChatbotService {
     public ChatResponse processMessage(ChatRequest request) {
         try {
             String sessionId = request.getSessionId();
-            String message   = request.getMessage();
-            Long   userId    = request.getUserId();
+            String message = request.getMessage();
+            Long userId = request.getUserId();
 
             // 1. Load hoặc khởi tạo session state
             Map<String, Object> state = chatSessionStore.getState(sessionId);
@@ -66,8 +62,8 @@ public class ChatbotService {
 
             // 2. Ghi tin nhắn người dùng vào lịch sử (giới hạn 10 tin)
             @SuppressWarnings("unchecked")
-            List<Map<String, String>> chatHistory =
-                    (List<Map<String, String>>) state.getOrDefault("chatHistory", new ArrayList<>());
+            List<Map<String, String>> chatHistory = (List<Map<String, String>>) state.getOrDefault("chatHistory",
+                    new ArrayList<>());
             chatHistory.add(Map.of("role", "user", "content", message));
             if (chatHistory.size() > 10) {
                 chatHistory = new ArrayList<>(chatHistory.subList(chatHistory.size() - 10, chatHistory.size()));
@@ -103,13 +99,15 @@ public class ChatbotService {
             return errorResponse("Xin lỗi, hệ thống không thể lưu phiên hội thoại. Vui lòng thử lại.");
         } catch (Exception e) {
             log.error("[ChatbotService] Lỗi nghiêm trọng: {}", e.getMessage(), e);
-            return errorResponse("Xin lỗi, hệ thống chatbot đang gặp sự cố kỹ thuật tạm thời. Vui lòng thử lại sau giây lát.");
+            return errorResponse(
+                    "Xin lỗi, hệ thống chatbot đang gặp sự cố kỹ thuật tạm thời. Vui lòng thử lại sau giây lát.");
         }
     }
 
     /**
      * Hàm tiện ích (Utility) để tạo một phản hồi lỗi mặc định.
-     * Khi có lỗi ngoại lệ không mong muốn xảy ra, trả về DTO này để hiển thị trên UI.
+     * Khi có lỗi ngoại lệ không mong muốn xảy ra, trả về DTO này để hiển thị trên
+     * UI.
      *
      * @param message Thông báo lỗi hiển thị cho người dùng
      * @return ChatResponse với trạng thái ERROR
@@ -122,14 +120,11 @@ public class ChatbotService {
                 .build();
     }
 
-    // =====================================================================
-    // Reindex embeddings — không liên quan đến luồng chat
-    // =====================================================================
-
     /**
      * Hàm thực thi quá trình tái tạo lại Vector (Embedding) cho tất cả dữ liệu
      * (Chuyên khoa, Bác sĩ, Gói khám) trong Database.
-     * Được gọi bởi Admin khi có thay đổi lớn về dữ liệu để Semantic Search hoạt động chính xác.
+     * Được gọi bởi Admin khi có thay đổi lớn về dữ liệu để Semantic Search hoạt
+     * động chính xác.
      * Lưu ý: Không liên quan đến luồng chat real-time của người dùng.
      */
     public void reindexAll() {
@@ -166,7 +161,8 @@ public class ChatbotService {
     }
 
     /**
-     * Hàm nội bộ để ghép các thông tin của bác sĩ thành một đoạn văn bản (Text block).
+     * Hàm nội bộ để ghép các thông tin của bác sĩ thành một đoạn văn bản (Text
+     * block).
      * Đoạn văn bản này sau đó sẽ được mang đi tạo Embedding (Vector).
      *
      * @param doctor Thực thể Bác sĩ
@@ -175,10 +171,14 @@ public class ChatbotService {
     private String buildDoctorEmbeddingText(Doctor doctor) {
         StringBuilder sb = new StringBuilder();
         sb.append(doctor.getUser().getFullName()).append(" ");
-        if (doctor.getUser().getGender() != null) sb.append(doctor.getUser().getGender()).append(" ");
-        if (doctor.getUser().getAddress() != null) sb.append(doctor.getUser().getAddress()).append(" ");
-        if (doctor.getSpecialization() != null) sb.append(doctor.getSpecialization().getName()).append(" ");
-        if (doctor.getBio() != null) sb.append(doctor.getBio());
+        if (doctor.getUser().getGender() != null)
+            sb.append(doctor.getUser().getGender()).append(" ");
+        if (doctor.getUser().getAddress() != null)
+            sb.append(doctor.getUser().getAddress()).append(" ");
+        if (doctor.getSpecialization() != null)
+            sb.append(doctor.getSpecialization().getName()).append(" ");
+        if (doctor.getBio() != null)
+            sb.append(doctor.getBio());
         return sb.toString().trim();
     }
 }

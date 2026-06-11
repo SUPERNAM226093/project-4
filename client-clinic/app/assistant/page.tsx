@@ -18,7 +18,7 @@ const FAQS = [
     { q: "Trợ lý AI có hỗ trợ tiếng Việt không?", a: "Có, trợ lý được tối ưu cho tiếng Việt và hiểu được các triệu chứng mô tả theo cách nói thông thường." },
 ];
 
-export default function AssistantPage() {
+export default function PageAssistant() {
     const router = useRouter();
 
     return (
@@ -31,7 +31,7 @@ export default function AssistantPage() {
                         subtitle="AI hỗ trợ bạn 24/7 — tư vấn triệu chứng, gợi ý chuyên khoa và tìm kiếm thông tin"
                         backHref="/"
                         backLabel="Trang chủ"
-                        icon = {
+                        icon={
                             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                             </svg>

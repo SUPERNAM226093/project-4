@@ -15,8 +15,6 @@ import java.util.Map;
  * Spring tự inject toàn bộ bean implement ChatbotIntentStrategy.
  * Factory gom vào Map<intent, strategy> khi khởi động.
  *
- * Lookup O(1) — không có if/else, không có switch/case.
- * Nếu intent không hợp lệ -> fallback UnknownIntentStrategy.
  */
 @Component
 @Slf4j
@@ -25,14 +23,6 @@ public class IntentStrategyFactory {
     private final Map<String, ChatbotIntentStrategy> strategyMap;
     private final ChatbotIntentStrategy unknownStrategy;
 
-    /**
-     * Spring inject toàn bộ implementation của ChatbotIntentStrategy.
-     * Factory tự build strategyMap từ getSupportedIntent() của mỗi strategy.
-     */
-    /**
-     * Gom toàn bộ strategy do Spring inject thành Map theo intent để tra cứu nhanh.
-     * Nhờ vậy ChatbotService không cần if/else lớn cho từng loại câu hỏi.
-     */
     public IntentStrategyFactory(List<ChatbotIntentStrategy> strategies) {
         this.strategyMap = new HashMap<>();
 
@@ -54,11 +44,12 @@ public class IntentStrategyFactory {
      * Nếu intent bị rỗng (null) hoặc không nằm trong danh sách hỗ trợ, hệ thống
      * sẽ tự động trả về UnknownIntentStrategy để báo lỗi lịch sự với người dùng.
      *
-     * @param intent Chuỗi văn bản đại diện cho intent (VD: "STATISTICS", "SYMPTOM", "SEARCH")
-     * @return Lớp implement ChatbotIntentStrategy phù hợp nhất để xử lý
+     * @param intent
+     * @return
      */
     public ChatbotIntentStrategy getStrategy(String intent) {
-        if (intent == null) return unknownStrategy;
+        if (intent == null)
+            return unknownStrategy;
         ChatbotIntentStrategy strategy = strategyMap.get(intent.toUpperCase());
         if (strategy == null) {
             log.warn("[IntentStrategyFactory] No strategy for intent '{}', using UNKNOWN", intent);

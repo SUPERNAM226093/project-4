@@ -42,7 +42,6 @@ const menuItems: MenuItem[] = [
         subItems: [
             { key: "nearestClinic", name: "Tìm cơ sở y tế", href: "/nearest-clinic" },
             { key: "allHospitals", name: "Tất cả cơ sở y tế", href: "/hospitals" },
-            { key: "priorityBooking", name: "Đặt lịch khám ưu tiên", href: "/priority-booking" }
         ]
     },
     {
@@ -50,7 +49,6 @@ const menuItems: MenuItem[] = [
         name: "Dịch vụ y tế",
         hasDropdown: true,
         subItems: [
-            { key: "facilityRegistration", name: "Đăng ký khám tại cơ sở", href: "/service-registration" },
             { key: "specializationBooking", name: "Đặt lịch khám theo chuyên khoa", href: "/specialization" },
             { key: "healthPackage", name: "Gói khám sức khỏe toàn diện", href: "/health-package" },
             { key: "onlineConsultation", name: "Khám tư vấn từ xa", href: "/video-call" }

@@ -16,7 +16,8 @@ import java.util.Map;
 
 /**
  * Strategy xử lý khi người dùng nhập triệu chứng bệnh (SYMPTOM).
- * - Sử dụng Vector Embedding để tìm kiếm nhanh các chuyên khoa có độ tương đồng với triệu chứng.
+ * - Sử dụng Vector Embedding để tìm kiếm nhanh các chuyên khoa có độ tương đồng
+ * với triệu chứng.
  * - Gọi LLM để phân tích triệu chứng (dự đoán nguyên nhân sơ bộ).
  * - Yêu cầu LLM khuyên người dùng đi khám ở các chuyên khoa liên quan.
  * LƯU Ý: Luôn có khuyến cáo người dùng nên đi khám trực tiếp.
@@ -30,29 +31,32 @@ public class SymptomIntentHandler implements ChatbotIntentStrategy {
     private final EmbeddingService embeddingService;
     private final LlmService llmService;
 
-    // === STRATEGY PATTERN ===
-
-    /** Trả về intent SYMPTOM để các câu hỏi mô tả triệu chứng được chuyển vào handler này. */
+    /**
+     * Trả về intent SYMPTOM để các câu hỏi mô tả triệu chứng được chuyển vào
+     * handler này.
+     */
     @Override
     public String getSupportedIntent() {
         return "SYMPTOM";
     }
 
-    /** Nhận ChatRequest từ luồng chung và chuyển sang xử lý phân tích triệu chứng. */
+    /**
+     * Nhận ChatRequest từ luồng chung và chuyển sang xử lý phân tích triệu chứng.
+     */
     @Override
     public ChatResponse handle(ChatRequest request, java.util.Map<String, Object> state) {
         return handle(request.getMessage(), state);
     }
 
-    // === LOGIC GỐC (giữ nguyên) ===
-
     /**
      * Xử lý chính luồng tư vấn triệu chứng:
      * 1. Vector hóa triệu chứng của user.
-     * 2. Tính Cosine Similarity với Vector của tất cả chuyên khoa, lấy top 3 khoa giống nhất làm fallback.
+     * 2. Tính Cosine Similarity với Vector của tất cả chuyên khoa, lấy top 3 khoa
+     * giống nhất làm fallback.
      * 3. Gửi danh sách toàn bộ khoa + triệu chứng cho LLM phân tích.
      * 4. LLM trả về văn bản phân tích và tên các khoa gợi ý.
-     * 5. Lọc ra các thẻ chuyên khoa tương ứng với gợi ý của LLM (hoặc fallback từ bước 2).
+     * 5. Lọc ra các thẻ chuyên khoa tương ứng với gợi ý của LLM (hoặc fallback từ
+     * bước 2).
      */
     public ChatResponse handle(String message, java.util.Map<String, Object> state) {
         // Get embedding for user's symptoms
@@ -78,7 +82,8 @@ public class SymptomIntentHandler implements ChatbotIntentStrategy {
 
         if (topSpecs.isEmpty()) {
             return ChatResponse.builder()
-                    .message("Xin lỗi, tôi không tìm thấy chuyên khoa phù hợp với triệu chứng bạn mô tả. Vui lòng mô tả chi tiết hơn.")
+                    .message(
+                            "Xin lỗi, tôi không tìm thấy chuyên khoa phù hợp với triệu chứng bạn mô tả. Vui lòng mô tả chi tiết hơn.")
                     .intent("SYMPTOM")
                     .step("ANALYZE")
                     .build();
@@ -89,10 +94,10 @@ public class SymptomIntentHandler implements ChatbotIntentStrategy {
         List<LlmService.ChatMessage> llmMessages = new ArrayList<>();
         llmMessages.add(new LlmService.ChatMessage("system",
                 "Bạn là trợ lý y tế. Người dùng mô tả triệu chứng, bạn hãy:\n" +
-                "1. Phân tích ngắn gọn triệu chứng (2-3 câu)\n" +
-                "2. Gợi ý 1 đến 3 chuyên khoa liên quan nhất từ danh sách sau: " + allSpecNames + "\n" +
-                "3. Lưu ý: Đây chỉ là gợi ý sơ bộ, cần được bác sĩ thăm khám trực tiếp.\n" +
-                "Trả lời bằng tiếng Việt, ngắn gọn. Hãy viết hoa đúng tên chuyên khoa."));
+                        "1. Phân tích ngắn gọn triệu chứng (2-3 câu)\n" +
+                        "2. Gợi ý 1 đến 3 chuyên khoa liên quan nhất từ danh sách sau: " + allSpecNames + "\n" +
+                        "3. Lưu ý: Đây chỉ là gợi ý sơ bộ, cần được bác sĩ thăm khám trực tiếp.\n" +
+                        "Trả lời bằng tiếng Việt, ngắn gọn. Hãy viết hoa đúng tên chuyên khoa."));
         llmMessages.add(new LlmService.ChatMessage("user", message));
 
         String analysis = llmService.chat(llmMessages);
@@ -101,7 +106,8 @@ public class SymptomIntentHandler implements ChatbotIntentStrategy {
         if (LlmService.LLM_ERROR_SENTINEL.equals(analysis)) {
             log.warn("[SymptomIntentHandler] LLM không phản hồi được, dừng xử lý để tránh gợi ý sai.");
             return ChatResponse.builder()
-                    .message("Xin lỗi, hệ thống tư vấn AI đang tạm thời quá tải. Vui lòng thử lại sau ít phút hoặc liên hệ trực tiếp phòng khám.")
+                    .message(
+                            "Xin lỗi, hệ thống tư vấn AI đang tạm thời quá tải. Vui lòng thử lại sau ít phút hoặc liên hệ trực tiếp phòng khám.")
                     .intent("SYMPTOM")
                     .step("ERROR")
                     .build();
@@ -112,16 +118,19 @@ public class SymptomIntentHandler implements ChatbotIntentStrategy {
                 .filter(spec -> analysis.toLowerCase().contains(spec.getName().toLowerCase()))
                 .toList());
 
-        // Chỉ bổ sung từ embedding nếu LLM đề cập ít hơn 3 khoa (không bao giờ fallback hoàn toàn sang embedding khi LLM đã có kết quả)
+        // Chỉ bổ sung từ embedding nếu LLM đề cập ít hơn 3 khoa (không bao giờ fallback
+        // hoàn toàn sang embedding khi LLM đã có kết quả)
         if (!finalSpecs.isEmpty()) {
             for (Specialization spec : topSpecs) {
-                if (finalSpecs.size() >= 3) break;
+                if (finalSpecs.size() >= 3)
+                    break;
                 if (!finalSpecs.contains(spec)) {
                     finalSpecs.add(spec);
                 }
             }
         } else {
-            // LLM không nhắc tên khoa nào (có thể format khác) → dùng top embedding nhưng log cảnh báo
+            // LLM không nhắc tên khoa nào (có thể format khác) → dùng top embedding nhưng
+            // log cảnh báo
             log.warn("[SymptomIntentHandler] LLM không đề cập tên chuyên khoa cụ thể. Dùng embedding fallback.");
             finalSpecs.addAll(topSpecs.stream().limit(3).toList());
         }

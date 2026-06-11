@@ -21,9 +21,11 @@ import java.util.concurrent.CompletableFuture;
  * Strategy xử lý SEARCH intent.
  *
  * Tối ưu tốc độ:
- * - 3 tác vụ tìm kiếm (spec, doctor, package) chạy SONG SONG với CompletableFuture.
- * - Tổng thời gian ≈ max(tìm_spec, tìm_doctor, tìm_package) thay vì tổng cộng 3 cái.
- * - Embedding so sánh thuần CPU, không block thread pool.
+ * - 3 tác vụ tìm kiếm (spec, doctor, package) chạy SONG SONG với
+ * CompletableFuture.
+ * - Tổng thời gian ≈ max(tìm_spec, tìm_doctor, tìm_package) thay vì tổng cộng 3
+ * cái.
+ * - Embedding so sánh thuần CPU
  */
 @Component
 @Slf4j
@@ -37,43 +39,48 @@ public class SearchIntentHandler implements ChatbotIntentStrategy {
 
     // === STRATEGY PATTERN ===
 
-    /** Trả về intent SEARCH để Factory điều hướng các câu hỏi tìm kiếm vào handler này. */
+    /**
+     * Trả về intent SEARCH để Factory điều hướng các câu hỏi tìm kiếm vào handler
+     * này.
+     */
     @Override
     public String getSupportedIntent() {
         return "SEARCH";
     }
 
-    /** Nhận ChatRequest từ ChatbotService và chuyển sang hàm xử lý tìm kiếm cốt lõi. */
+    /**
+     * Nhận ChatRequest từ ChatbotService và chuyển sang hàm xử lý tìm kiếm cốt lõi.
+     */
     @Override
     public ChatResponse handle(ChatRequest request, java.util.Map<String, Object> state) {
         return handle(request.getMessage(), state);
     }
 
-    // === LOGIC GỐC — tối ưu parallel search ===
-
     /**
      * Logic chính của xử lý tìm kiếm (SEARCH).
-     * Băm câu hỏi của user thành Vector (Embedding) và chạy 3 tác vụ tìm kiếm song song:
-     * Chuyên khoa, Bác sĩ, Gói khám sức khỏe.
-     * Cuối cùng tổng hợp lại số lượng kết quả và trả về cho UI hiển thị danh sách thẻ (Cards).
+     * Băm câu hỏi của user thành Vector (Embedding) và chạy 3 tác vụ tìm kiếm song
+     * song:
+     * Chuyên khoa, Bác sĩ
+     * Cuối cùng tổng hợp lại số lượng kết quả và trả về cho UI hiển thị danh sách
+     * thẻ (Cards).
      *
-     * @param message Tin nhắn tìm kiếm của người dùng
-     * @param state Trạng thái phiên hiện tại
-     * @return Đối tượng ChatResponse chứa các mảng thẻ UI (Card arrays)
+     * @param message
+     * @param state
+     * @return
      */
     public ChatResponse handle(String message, java.util.Map<String, Object> state) {
         long start = System.currentTimeMillis();
         List<Double> queryEmbedding = embeddingService.getEmbedding(message);
 
         // === PARALLEL: chạy 3 search đồng thời ===
-        CompletableFuture<List<ChatResponse.CardItem>> specFuture =
-                CompletableFuture.supplyAsync(() -> searchSpecializations(queryEmbedding));
+        CompletableFuture<List<ChatResponse.CardItem>> specFuture = CompletableFuture
+                .supplyAsync(() -> searchSpecializations(queryEmbedding));
 
-        CompletableFuture<List<ChatResponse.DoctorCard>> doctorFuture =
-                CompletableFuture.supplyAsync(() -> searchDoctors(queryEmbedding));
+        CompletableFuture<List<ChatResponse.DoctorCard>> doctorFuture = CompletableFuture
+                .supplyAsync(() -> searchDoctors(queryEmbedding));
 
-        CompletableFuture<List<ChatResponse.CardItem>> packageFuture =
-                CompletableFuture.supplyAsync(() -> searchHealthPackages(queryEmbedding));
+        CompletableFuture<List<ChatResponse.CardItem>> packageFuture = CompletableFuture
+                .supplyAsync(() -> searchHealthPackages(queryEmbedding));
 
         // Chờ tất cả 3 hoàn thành
         CompletableFuture.allOf(specFuture, doctorFuture, packageFuture).join();
@@ -91,9 +98,12 @@ public class SearchIntentHandler implements ChatbotIntentStrategy {
             responseMessage = "Xin lỗi, tôi không tìm thấy kết quả phù hợp. Bạn có thể thử tìm kiếm với từ khóa khác.";
         } else {
             StringBuilder sb = new StringBuilder("Đây là kết quả tìm kiếm cho: **" + message + "**\n\n");
-            if (!specCards.isEmpty()) sb.append("🏥 Tìm thấy **").append(specCards.size()).append("** chuyên khoa\n");
-            if (!doctorCards.isEmpty()) sb.append("👨‍⚕️ Tìm thấy **").append(doctorCards.size()).append("** bác sĩ\n");
-            if (!packageCards.isEmpty()) sb.append("📦 Tìm thấy **").append(packageCards.size()).append("** gói khám\n");
+            if (!specCards.isEmpty())
+                sb.append("🏥 Tìm thấy **").append(specCards.size()).append("** chuyên khoa\n");
+            if (!doctorCards.isEmpty())
+                sb.append("👨‍⚕️ Tìm thấy **").append(doctorCards.size()).append("** bác sĩ\n");
+            if (!packageCards.isEmpty())
+                sb.append("📦 Tìm thấy **").append(packageCards.size()).append("** gói khám\n");
             responseMessage = sb.toString();
         }
 
@@ -108,7 +118,8 @@ public class SearchIntentHandler implements ChatbotIntentStrategy {
     }
 
     /**
-     * Tìm kiếm Chuyên khoa dựa vào tính toán Cosine Similarity (Độ tương đồng) giữa Vector câu hỏi và Vector dữ liệu.
+     * Tìm kiếm Chuyên khoa dựa vào tính toán Cosine Similarity (Độ tương đồng) giữa
+     * Vector câu hỏi và Vector dữ liệu.
      * Lọc lấy top 3 chuyên khoa có độ tương đồng > 0.3.
      */
     private List<ChatResponse.CardItem> searchSpecializations(List<Double> queryEmbedding) {
@@ -131,14 +142,16 @@ public class SearchIntentHandler implements ChatbotIntentStrategy {
                         .id(e.getKey().getId())
                         .name(e.getKey().getName())
                         .description(e.getKey().getDescription())
-                        .featureImageUrl(e.getKey().getFeatureImage() != null ? "/images/" + e.getKey().getFeatureImage() : null)
+                        .featureImageUrl(
+                                e.getKey().getFeatureImage() != null ? "/images/" + e.getKey().getFeatureImage() : null)
                         .type("specialization")
                         .build())
                 .toList();
     }
 
     /**
-     * Tìm kiếm Bác sĩ dựa vào tính toán Cosine Similarity (Độ tương đồng) giữa Vector câu hỏi và Vector dữ liệu.
+     * Tìm kiếm Bác sĩ dựa vào tính toán Cosine Similarity (Độ tương đồng) giữa
+     * Vector câu hỏi và Vector dữ liệu.
      * Lọc lấy top 3 bác sĩ có độ tương đồng > 0.3.
      */
     private List<ChatResponse.DoctorCard> searchDoctors(List<Double> queryEmbedding) {
@@ -172,7 +185,8 @@ public class SearchIntentHandler implements ChatbotIntentStrategy {
     }
 
     /**
-     * Tìm kiếm Gói khám sức khỏe dựa vào tính toán Cosine Similarity (Độ tương đồng).
+     * Tìm kiếm Gói khám sức khỏe dựa vào tính toán Cosine Similarity (Độ tương
+     * đồng).
      * Lọc lấy top 3 gói khám có độ tương đồng > 0.3.
      */
     private List<ChatResponse.CardItem> searchHealthPackages(List<Double> queryEmbedding) {
@@ -195,7 +209,8 @@ public class SearchIntentHandler implements ChatbotIntentStrategy {
                         .id(e.getKey().getId())
                         .name(e.getKey().getName())
                         .description(e.getKey().getDescription())
-                        .featureImageUrl(e.getKey().getFeatureImage() != null ? "/images/" + e.getKey().getFeatureImage() : null)
+                        .featureImageUrl(
+                                e.getKey().getFeatureImage() != null ? "/images/" + e.getKey().getFeatureImage() : null)
                         .type("health_package")
                         .build())
                 .toList();
