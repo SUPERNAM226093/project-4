@@ -75,6 +75,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/online-consultations/patient/**").permitAll()
                         .requestMatchers("/api/room-bookings/by-user/**").permitAll()
                         .requestMatchers("/api/prescriptions/patient/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/appointments").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/appointments/*/cancel/*").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/health-package-bookings").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/health-package-bookings/*/cancel").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/online-consultations").permitAll()
