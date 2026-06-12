@@ -1,3 +1,4 @@
+# Cấu hình khởi chạy môi trường bằng Docker Compose (Dành cho việc test/triển khai nhanh)
 version: '3.8'
 
 services:

@@ -1,4 +1,4 @@
-# Local environment configs
+# Local environment configs (Cấu hình môi trường local)
 .env
 .env.bak
 *.env

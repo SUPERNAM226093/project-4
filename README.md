@@ -1,6 +1,6 @@
 # Hệ Thống Phòng Khám Đa Khoa (MedPro DATN)
 
-Hệ thống gồm Backend (Spring Boot), Client bệnh nhân (Next.js), Admin (Vite + React), ML dự đoán tim mạch (Python Flask) và MySQL. **Chạy trực tiếp trên máy local** — không dùng Docker.
+Hệ thống phòng khám tích hợp chatbot RAG AI gồm Backend (Spring Boot), Client bệnh nhân (Next.js), Admin (Vite + React), ML dự đoán tim mạch (Python Flask) và MySQL. **Chạy trực tiếp trên máy local** — không dùng Docker.
 
 ---
 

@@ -1,4 +1,5 @@
 import org.springframework.util.AntPathMatcher;
+// Class dùng để test tính năng so khớp đường dẫn của AntPathMatcher trong Spring Security
 public class TestAntPathMatcher {
     public static void main(String[] args) {
         AntPathMatcher matcher = new AntPathMatcher();
