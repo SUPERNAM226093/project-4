@@ -4,7 +4,7 @@ import Modal from '../../components/ui/Modal';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
 import { toast } from 'react-toastify';
 
-import { HiOutlinePlus, HiOutlinePencil, HiOutlineTrash } from 'react-icons/hi2';
+import { HiOutlinePlus, HiOutlineTrash } from 'react-icons/hi2';
 import { useAuth } from '../../store/AuthContext';
 
 /**
@@ -79,16 +79,6 @@ export default function PrescriptionPage() {
         }
         setForm({ ...emptyForm, doctorId: defaultDoctorId, items: [{ ...emptyItem }] });
         setEditingId(null);
-        setShowModal(true);
-    };
-
-    const openEdit = (p: Prescription) => {
-        setForm({ 
-            medicalRecordId: String(p.medicalRecordId), 
-            doctorId: String(p.doctorId), 
-            items: p.items.length > 0 ? p.items.map(i => ({ ...i })) : [{ ...emptyItem }] 
-        });
-        setEditingId(p.id); 
         setShowModal(true);
     };
 
@@ -184,7 +174,9 @@ export default function PrescriptionPage() {
                                 <td>{p.createdAt ? new Date(p.createdAt).toLocaleDateString('vi-VN') : '—'}</td>
                                 <td>
                                     <div className="table-actions">
+                                        {/*
                                         <button className="btn-icon" onClick={() => openEdit(p)} title="Sửa đơn thuốc"><HiOutlinePencil /></button>
+                                        */}
                                         {canDelete && (
                                             <button className="btn-icon" onClick={() => setDeleteId(p.id)} title="Xóa đơn thuốc"><HiOutlineTrash /></button>
                                         )}

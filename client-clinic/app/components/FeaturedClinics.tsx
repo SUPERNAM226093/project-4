@@ -4,14 +4,12 @@
  */
 import { useEffect, useState, useRef } from "react";
 
-import { useRouter } from "next/navigation";
 import { fetchRooms, RoomResponse, getImageUrl } from "../lib/api";
 import RoomDetailModal from "./RoomDetailModal";
 import RoomBookingModal from "./RoomBookingModal";
 
 export default function FeaturedClinics() {
 
-    const router = useRouter();
     const [rooms, setRooms] = useState<RoomResponse[]>([]); // Lưu danh sách các phòng lấy từ API
     const [loading, setLoading] = useState(true); // Trạng thái đang tải dữ liệu
     const [selectedRoom, setSelectedRoom] = useState<RoomResponse | null>(null); // Lưu thông tin phòng đang được người dùng chọn
@@ -66,16 +64,6 @@ export default function FeaturedClinics() {
                         </h2>
                         <div className="w-16 h-1.5 bg-[#0d6b52] mt-4 rounded-full opacity-20"></div>
                     </div>
-                    {/* Nút xem tất cả - Premium Blue */}
-                    <button
-                        onClick={() => router.push("/rooms")}
-                        className="text-sm font-bold text-[#0d6b52] hover:text-[#1E40AF] transition-all flex items-center gap-2 group"
-                    >
-                        Xem tất cả phòng
-                        <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                        </svg>
-                    </button>
                 </div>
 
                 <div className="relative group/carousel">

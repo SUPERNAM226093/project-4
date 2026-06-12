@@ -27,7 +27,6 @@ import java.util.*;
  * -> IntentStrategyFactory (chọn đúng strategy — O(1), không if/else)
  * -> ChatbotIntentStrategy.handle() (xử lý logic)
  * -> ChatResponse
- *
  */
 @Service
 @Slf4j

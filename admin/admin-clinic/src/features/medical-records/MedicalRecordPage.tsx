@@ -4,7 +4,7 @@ import Modal from '../../components/ui/Modal';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
 import { toast } from 'react-toastify';
 
-import { HiOutlinePlus, HiOutlinePencil, HiOutlineTrash } from 'react-icons/hi2';
+import { HiOutlinePlus, HiOutlineTrash } from 'react-icons/hi2';
 import { useAuth } from '../../store/AuthContext';
 
 /**
@@ -91,11 +91,6 @@ export default function MedicalRecordPage() {
     };
 
     // Mở form chỉnh sửa bệnh án hiện tại
-    const openEdit = (r: MedicalRecord) => {
-        setForm({ appointmentId: String(r.appointmentId), doctorId: String(r.doctorId), diagnosis: r.diagnosis || '', conclusion: r.conclusion || '' });
-        setEditingId(r.id); setShowModal(true);
-    };
-
     /**
      * HÀM: handleSubmit
      * MÔ TẢ: Gửi kết quả chẩn đoán và kết luận lên hệ thống.
@@ -178,7 +173,9 @@ export default function MedicalRecordPage() {
                                 <td>{r.createdAt ? new Date(r.createdAt).toLocaleDateString('vi-VN') : '—'}</td>
                                 <td>
                                     <div className="table-actions">
+                                        {/*
                                         <button className="btn-icon" onClick={() => openEdit(r)} title="Sửa bệnh án"><HiOutlinePencil /></button>
+                                        */}
                                         {canDelete && (
                                             <button className="btn-icon" onClick={() => setDeleteId(r.id)} title="Xóa bệnh án"><HiOutlineTrash /></button>
                                         )}

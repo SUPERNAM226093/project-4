@@ -101,33 +101,8 @@ public class HealthPackageBookingService {
         HealthPackageBooking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("HealthPackageBooking", id));
 
-        User patient = userRepository.findById(request.getPatientId())
-                .orElseThrow(() -> new ResourceNotFoundException("User", request.getPatientId()));
-
-        HealthPackage healthPackage = healthPackageRepository.findById(request.getHealthPackageId())
-                .orElseThrow(() -> new ResourceNotFoundException("HealthPackage", request.getHealthPackageId()));
-
-        // Validate availability if date/time changed
-        if (!booking.getBookingDate().equals(request.getBookingDate()) || !booking.getBookingTime().equals(request.getBookingTime())) {
-            bookingValidationService.validatePatientAvailability(
-                    patient.getId(),
-                    request.getBookingDate(),
-                    request.getBookingTime()
-            );
-
-            bookingValidationService.validateHealthPackageAvailability(
-                    healthPackage.getId(),
-                    request.getBookingDate(),
-                    request.getBookingTime(),
-                    id, // Exclude current booking
-                    false
-            );
-        }
-
-        booking.setPatient(patient);
-        booking.setHealthPackage(healthPackage);
-        booking.setBookingDate(request.getBookingDate());
-        booking.setBookingTime(request.getBookingTime());
+        // Patient/package/date/time are fixed after the patient creates the booking.
+        // Admin update is limited to status and note only.
         booking.setStatus(request.getStatus());
         booking.setNote(request.getNote());
 

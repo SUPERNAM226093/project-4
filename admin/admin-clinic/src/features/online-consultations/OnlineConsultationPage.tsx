@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { type CSSProperties, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import { HiOutlinePencil, HiOutlineTrash, HiOutlineVideoCamera, HiOutlineArrowPath } from "react-icons/hi2";
@@ -41,6 +41,11 @@ const statusColors: Record<string, string> = {
     PAID: "success",    // Đã nhận được tiền
     CANCELLED: "danger",// Đã hủy đơn
     COMPLETED: "info", // Hoàn thành
+};
+const lockedFieldStyle: CSSProperties = {
+    backgroundColor: "#f3f4f6",
+    color: "#6b7280",
+    cursor: "not-allowed",
 };
 
 export default function OnlineConsultationPage() {
@@ -282,6 +287,8 @@ export default function OnlineConsultationPage() {
                                 className="form-control"
                                 value={editForm.doctorId}
                                 onChange={(e) => setEditForm({...editForm, doctorId: e.target.value})}
+                                disabled
+                                style={lockedFieldStyle}
                             >
                                 {doctors.map(d => (
                                     <option key={d.id} value={d.id}>{d.fullName}</option>
@@ -296,6 +303,8 @@ export default function OnlineConsultationPage() {
                                 className="form-control"
                                 value={editForm.phoneNumber}
                                 onChange={(e) => setEditForm({...editForm, phoneNumber: e.target.value})}
+                                disabled
+                                style={lockedFieldStyle}
                             />
                         </div>
 
@@ -308,6 +317,8 @@ export default function OnlineConsultationPage() {
                                     className="form-control"
                                     value={editForm.consultationDate}
                                     onChange={(e) => setEditForm({...editForm, consultationDate: e.target.value})}
+                                    disabled
+                                    style={lockedFieldStyle}
                                 />
                             </div>
                             <div className="form-group">
@@ -316,6 +327,8 @@ export default function OnlineConsultationPage() {
                                     className="form-control"
                                     value={editForm.consultationTime}
                                     onChange={(e) => setEditForm({...editForm, consultationTime: e.target.value})}
+                                    disabled
+                                    style={lockedFieldStyle}
                                 >
                                     <option value="">-- Chọn giờ --</option>
                                     <option value="18:00">18:00</option>

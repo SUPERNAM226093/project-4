@@ -32,10 +32,6 @@ const footerLinks = {
 
 
 
-/**
- * COMPONENT: Footer
- * MÔ TẢ: Render toàn bộ giao diện chân trang bao gồm các cột thông tin và dòng bản quyền dưới cùng.
- */
 export default function Footer() {
 
 

@@ -21,12 +21,5 @@ import java.util.Map;
 public interface ChatbotIntentStrategy {
     String getSupportedIntent();
 
-    /**
-     * Xử lý câu hỏi và trả về phản hồi chatbot.
-     *
-     * @param request ChatRequest chứa sessionId, message, userId
-     * @param state   Trạng thái phiên hội thoại hiện tại (từ ChatSessionStore)
-     * @return ChatResponse với message, intent, step và data cards
-     */
     ChatResponse handle(ChatRequest request, Map<String, Object> state);
 }

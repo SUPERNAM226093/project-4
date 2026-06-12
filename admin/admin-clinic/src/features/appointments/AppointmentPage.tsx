@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { type CSSProperties, useEffect, useState } from 'react';
 import api from '../../services/api';
 import Modal from '../../components/ui/Modal';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
@@ -23,6 +23,11 @@ const emptyForm = { patientId: '', doctorId: '', serviceId: '', scheduleId: '', 
 
 // Định nghĩa màu sắc hiển thị cho từng trạng thái lịch hẹn
 const statusColors: Record<string, string> = { PENDING: 'warning', CONFIRMED: 'info', COMPLETED: 'success', CANCELLED: 'danger' };
+const lockedFieldStyle: CSSProperties = {
+    backgroundColor: '#f3f4f6',
+    color: '#6b7280',
+    cursor: 'not-allowed',
+};
 
 export default function AppointmentPage() {
     // --- 1. KHỞI TẠO STATE ---
@@ -39,6 +44,7 @@ export default function AppointmentPage() {
     // Phân quyền cứng: chỉ Admin được Thêm/Xóa lịch hẹn; Doctor & Staff chỉ Xem/Sửa
     const canAdd = isAdmin;
     const canDelete = isAdmin;
+    const isEditing = editingId !== null;
 
     /**
      * HÀM: fetchData
@@ -187,14 +193,14 @@ export default function AppointmentPage() {
                 <Modal title={editingId ? "Sửa Lịch hẹn" : "Lịch hẹn mới"} onClose={() => setShowModal(false)}>
                     {/* Chọn Bệnh nhân */}
                     <div className="form-group"><label>{"Bệnh nhân"}</label>
-                        <select name="patientId" className="form-control" value={form.patientId} onChange={handleChange} disabled={isDoctor}>
+                        <select name="patientId" className="form-control" value={form.patientId} onChange={handleChange} disabled={isEditing || isDoctor} style={isEditing || isDoctor ? lockedFieldStyle : undefined}>
                             <option value="">{"Chọn Bệnh nhân"}</option>
                             {patients.map(p => <option key={p.id} value={p.id}>{p.fullName}</option>)}
                         </select>
                     </div>
                     {/* Chọn Bác sĩ */}
                     <div className="form-group"><label>{"Bác sĩ"}</label>
-                        <select name="doctorId" className="form-control" value={form.doctorId} onChange={handleChange} disabled={isDoctor}>
+                        <select name="doctorId" className="form-control" value={form.doctorId} onChange={handleChange} disabled={isEditing || isDoctor} style={isEditing || isDoctor ? lockedFieldStyle : undefined}>
                             <option value="">{"Chọn Bác sĩ"}</option>
                             {doctors.map(d => <option key={d.id} value={d.id}>{d.fullName}</option>)}
                         </select>
@@ -202,13 +208,13 @@ export default function AppointmentPage() {
 
                     {/* Chọn Ngày và Giờ */}
                     <div className="form-row">
-                        <div className="form-group"><label>{"Ngày khám"}</label><input name="appointmentDate" type="date" className="form-control" value={form.appointmentDate} onChange={handleChange} disabled={isDoctor} /></div>
-                        <div className="form-group"><label>{"Giờ khám"}</label><input name="appointmentTime" type="time" step="3600" className="form-control" value={form.appointmentTime} onChange={handleChange} disabled={isDoctor} /></div>
+                        <div className="form-group"><label>{"Ngày khám"}</label><input name="appointmentDate" type="date" className="form-control" value={form.appointmentDate} onChange={handleChange} disabled={isEditing || isDoctor} style={isEditing || isDoctor ? lockedFieldStyle : undefined} /></div>
+                        <div className="form-group"><label>{"Giờ khám"}</label><input name="appointmentTime" type="time" step="3600" className="form-control" value={form.appointmentTime} onChange={handleChange} disabled={isEditing || isDoctor} style={isEditing || isDoctor ? lockedFieldStyle : undefined} /></div>
                     </div>
 
                     {/* Cập nhật Trạng thái (Doctor có thể dùng phần này để xác nhận lịch hẹn) */}
                     <div className="form-group"><label>{"Trạng thái"}</label>
-                        <select name="status" className="form-control" value={form.status} onChange={handleChange} disabled={form.status === 'CANCELLED'}>
+                        <select name="status" className="form-control" value={form.status} onChange={handleChange}>
                             {form.status === 'CANCELLED' ? (
                                 <option value="CANCELLED">{"Đã hủy"}</option>
                             ) : (
@@ -225,7 +231,7 @@ export default function AppointmentPage() {
                     {/* Ghi chú thêm */}
                     <div className="form-group">
                         <label>{"Ghi chú"} {form.status === 'CANCELLED' && <span className="text-danger ml-2">(Lý do hủy)</span>}</label>
-                        <textarea name="note" className="form-control" value={form.note} onChange={handleChange} disabled={form.status === 'CANCELLED'} placeholder="Nhập ghi chú hoặc lý do hủy lịch tại đây..." />
+                        <textarea name="note" className="form-control" value={form.note} onChange={handleChange} placeholder="Nhập ghi chú hoặc lý do hủy lịch tại đây..." />
                     </div>
 
                     {/* Nút hành động trong Modal */}

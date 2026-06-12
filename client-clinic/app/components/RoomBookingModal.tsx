@@ -1,8 +1,4 @@
 "use client";
-/**
- * FILE: RoomBookingModal.tsx
- * MÔ TẢ: Modal cho phép bệnh nhân thực hiện đặt chỗ ở nội trú, chọn ngày nhận/trả phòng và nhập thông tin liên hệ.
- */
 import { useState, useEffect } from "react";
 
 import { RoomResponse, createRoomBooking, AuthResponse, fetchRoomBookingsByUser } from "../lib/api";
@@ -15,8 +11,6 @@ interface Props {
 }
 
 export default function RoomBookingModal({ room, onClose }: Props) {
-    // --- 1. KHAI BÁO HOOK VÀ STATE ---
-    
     const { showToast } = useToast();
     const [user, setUser] = useState<AuthResponse | null>(null); // Thông tin người dùng hiện tại
     const [form, setForm] = useState({ // Dữ liệu form đặt phòng
@@ -78,7 +72,7 @@ export default function RoomBookingModal({ room, onClose }: Props) {
             // Validate maximum 3 active room bookings to prevent spam
             try {
                 const userRooms = await fetchRoomBookingsByUser(user.userId);
-                const activeRooms = userRooms.filter(r => 
+                const activeRooms = userRooms.filter(r =>
                     r.status !== "CANCELLED" && r.status !== "COMPLETED"
                 );
                 if (activeRooms.length >= 3) {
@@ -104,7 +98,7 @@ export default function RoomBookingModal({ room, onClose }: Props) {
             onClose();
         } catch (err: any) {
             let msg = err.message || "Đặt chỗ thất bại. Vui lòng thử lại.";
-            
+
             // Aggressively strip technical prefixes if they exist
             if (msg.includes(" - 409 CONFLICT")) {
                 const parts = msg.split(" - 409 CONFLICT");
@@ -141,7 +135,7 @@ export default function RoomBookingModal({ room, onClose }: Props) {
                     {/* CHỌN BỆNH NHÂN */}
                     <div>
                         <label className="block text-[11px] font-black text-gray-400 uppercase mb-2">Chọn Bệnh nhân</label>
-                        <select 
+                        <select
                             className="w-full bg-gray-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-[#0052CC] outline-none"
                             value={form.patientName}
                             onChange={e => setForm({ ...form, patientName: e.target.value })}
@@ -154,7 +148,7 @@ export default function RoomBookingModal({ room, onClose }: Props) {
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="block text-[11px] font-black text-gray-400 uppercase mb-2">Ngày nhận phòng</label>
-                            <input 
+                            <input
                                 type="date"
                                 required
                                 min={new Date().toISOString().split('T')[0]}
@@ -167,7 +161,7 @@ export default function RoomBookingModal({ room, onClose }: Props) {
 
                         <div>
                             <label className="block text-[11px] font-black text-gray-400 uppercase mb-2">Ngày trả phòng</label>
-                            <input 
+                            <input
                                 type="date"
                                 required
                                 min={form.checkInDate || new Date().toISOString().split('T')[0]}
@@ -181,13 +175,12 @@ export default function RoomBookingModal({ room, onClose }: Props) {
 
                     <div>
                         <label className="block text-[11px] font-black text-gray-400 uppercase mb-2">Số điện thoại liên hệ</label>
-                        <input 
+                        <input
                             type="text"
                             required
                             placeholder="Nhập số điện thoại..."
-                            className={`w-full bg-gray-50 rounded-xl px-4 py-3 text-sm focus:ring-2 outline-none transition-all ${
-                                phoneError ? "ring-2 ring-red-500 bg-red-50" : "focus:ring-[#0052CC]"
-                            }`}
+                            className={`w-full bg-gray-50 rounded-xl px-4 py-3 text-sm focus:ring-2 outline-none transition-all ${phoneError ? "ring-2 ring-red-500 bg-red-50" : "focus:ring-[#0052CC]"
+                                }`}
                             value={form.contactPhone}
                             onChange={e => {
                                 setForm({ ...form, contactPhone: e.target.value });
@@ -201,7 +194,7 @@ export default function RoomBookingModal({ room, onClose }: Props) {
                     {/* GHI CHÚ ĐẶC BIỆT */}
                     <div>
                         <label className="block text-[11px] font-black text-gray-400 uppercase mb-2">Ghi chú (Tùy chọn)</label>
-                        <textarea 
+                        <textarea
                             className="w-full bg-gray-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-[#0052CC] outline-none"
                             rows={2}
                             placeholder="Ví dụ: Cần phòng yên tĩnh, hỗ trợ xe lăn..."
@@ -218,14 +211,14 @@ export default function RoomBookingModal({ room, onClose }: Props) {
 
                     {/* CÁC NÚT ĐIỀU KHIỂN */}
                     <div className="flex gap-3 pt-4">
-                        <button 
+                        <button
                             type="button"
                             onClick={onClose}
                             className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold py-3.5 rounded-2xl transition-all"
                         >
                             Hủy
                         </button>
-                        <button 
+                        <button
                             type="submit"
                             disabled={loading}
                             className="flex-[2] bg-[#0052CC] hover:bg-[#e05611] text-white font-black py-3.5 rounded-2xl shadow-xl shadow-[#0052CC]/20 transition-all disabled:opacity-50"

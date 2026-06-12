@@ -1,22 +1,15 @@
 "use client";
-
-/**
- * FILE: RoomBookingHistory.tsx
- * MÔ TẢ: Thành phần hiển thị danh sách các phòng mà người dùng đã đặt.
- * Cho phép xem trạng thái (Đang chờ, Đã xác nhận, Đã hủy) và thực hiện hủy đặt phòng.
- */
 import { useEffect, useState } from "react";
 import { fetchRoomBookingsByUser, RoomBookingResponse, cancelRoomBooking } from "../lib/api";
 
 import { toast } from "react-toastify";
 
 interface Props {
-    userId: number; // ID của người dùng đang đăng nhập
+    userId: number;
 }
 
 export default function RoomBookingHistory({ userId }: Props) {
-    // --- 1. KHỞI TẠO HOOK VÀ STATE ---
-    
+
     const [bookings, setBookings] = useState<RoomBookingResponse[]>([]); // Danh sách lịch sử đặt phòng
     const [loading, setLoading] = useState(true); // Trạng thái chờ tải dữ liệu
 
@@ -37,12 +30,12 @@ export default function RoomBookingHistory({ userId }: Props) {
     const handleCancelBooking = async (id: number) => {
         const reason = window.prompt("Nhập lý do hủy đặt phòng (không bắt buộc):");
         if (reason === null) return; // Nếu nhấn Cancel trên prompt thì dừng lại
-        
+
         try {
             await cancelRoomBooking(id, userId, reason);
             toast.success("Hủy đặt phòng thành công!");
             // Cập nhật lại UI ngay lập tức mà không cần load lại trang
-            setBookings(prev => prev.map(b => 
+            setBookings(prev => prev.map(b =>
                 b.id === id ? { ...b, status: "CANCELLED", cancelReason: reason } : b
             ));
         } catch (err: any) {
@@ -89,7 +82,7 @@ export default function RoomBookingHistory({ userId }: Props) {
                     return (
                         /* THẺ LỊCH SỬ ĐẶT PHÒNG (Booking Card) */
                         <div key={booking.id} className="bg-white rounded-[2rem] shadow-xl shadow-gray-100 overflow-hidden border border-gray-50 flex flex-col md:flex-row">
-                            
+
                             {/* CỘT TRÁI: Hiển thị Ngày Nhận Phòng theo dạng lịch */}
                             <div className="bg-[#f8f7ff] p-8 flex flex-col items-center justify-center border-r border-gray-50 min-w-[140px]">
                                 <span className="text-gray-400 text-xs font-black uppercase mb-1">{date.year}</span>
@@ -116,11 +109,10 @@ export default function RoomBookingHistory({ userId }: Props) {
                                     </div>
                                     {/* Nhãn hiển thị trạng thái (Status Badge) */}
                                     <div className="text-right">
-                                        <span className={`px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest ${
-                                            booking.status === 'PENDING' ? 'bg-amber-100 text-amber-600' :
-                                            booking.status === 'CONFIRMED' ? 'bg-green-100 text-green-600' :
-                                            'bg-gray-100 text-gray-600'
-                                        }`}>
+                                        <span className={`px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest ${booking.status === 'PENDING' ? 'bg-amber-100 text-amber-600' :
+                                                booking.status === 'CONFIRMED' ? 'bg-green-100 text-green-600' :
+                                                    'bg-gray-100 text-gray-600'
+                                            }`}>
                                             {booking.status === 'PENDING' ? 'CHỜ DUYỆT' : booking.status === 'CONFIRMED' ? 'ĐÃ XÁC NHẬN' : 'ĐÃ HỦY'}
                                         </span>
                                     </div>
@@ -148,7 +140,7 @@ export default function RoomBookingHistory({ userId }: Props) {
 
                                 {/* Nút Hủy phòng (Chỉ hiển thị khi trạng thái là Đang chờ hoặc Đã xác nhận) */}
                                 {(booking.status === 'PENDING' || booking.status === 'CONFIRMED') && (
-                                    <button 
+                                    <button
                                         onClick={() => handleCancelBooking(booking.id)}
                                         className="absolute bottom-8 right-8 text-[10px] font-black text-red-400 border border-red-100 px-4 py-2 rounded-xl hover:bg-red-50 transition-all"
                                     >

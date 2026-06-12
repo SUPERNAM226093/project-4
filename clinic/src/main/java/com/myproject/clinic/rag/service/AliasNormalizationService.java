@@ -86,25 +86,26 @@ public class AliasNormalizationService {
             Map.entry("răng", "Răng hàm mặt"),
             Map.entry("răng hàm mặt", "Răng hàm mặt"),
             Map.entry("nha khoa", "Răng hàm mặt"),
-            Map.entry("dentist", "Răng hàm mặt")
-    );
+            Map.entry("dentist", "Răng hàm mặt"));
 
     /**
      * Tìm ID chuyên khoa từ tên dân dã mà người dùng nhập.
      * Ưu tiên: Khớp chính xác không dấu -> Khớp bán phần không dấu -> Alias Map.
      *
-     * @param rawName tên chuyên khoa người dùng nhập (vd: "khoa tim")
-     * @return ID chuyên khoa nếu tìm thấy, null nếu không khớp
+     * @param rawName
+     * @return
      */
     public Long resolveSpecializationId(String rawName) {
-        if (rawName == null || rawName.isBlank()) return null;
+        if (rawName == null || rawName.isBlank())
+            return null;
 
         String cleanInput = removeDiacritics(rawName.toLowerCase().trim());
 
-        // Tiền xử lý: bỏ các từ "khoa", "chuyên khoa", "phòng khám" để so khớp lõi tốt hơn
+        // Tiền xử lý: bỏ các từ "khoa", "chuyên khoa", "phòng khám" để so khớp lõi tốt
+        // hơn
         cleanInput = cleanInput.replaceAll("^(chuyen\\s+)?khoa\\s+", "")
-                               .replaceAll("^phong\\s+kham\\s+", "")
-                               .trim();
+                .replaceAll("^phong\\s+kham\\s+", "")
+                .trim();
 
         // Lấy tất cả chuyên khoa từ DB
         List<Specialization> allSpecs = specializationRepository.findAll();
@@ -115,7 +116,8 @@ public class AliasNormalizationService {
             cleanSpecName = cleanSpecName.replaceAll("^(chuyen\\s+)?khoa\\s+", "").trim();
 
             if (cleanSpecName.equals(cleanInput)) {
-                log.info("[AliasNorm] Khớp chính xác không dấu: '{}' -> '{}' (ID={})", rawName, spec.getName(), spec.getId());
+                log.info("[AliasNorm] Khớp chính xác không dấu: '{}' -> '{}' (ID={})", rawName, spec.getName(),
+                        spec.getId());
                 return spec.getId();
             }
         }
@@ -126,7 +128,8 @@ public class AliasNormalizationService {
             cleanSpecName = cleanSpecName.replaceAll("^(chuyen\\s+)?khoa\\s+", "").trim();
 
             if (cleanSpecName.contains(cleanInput) || cleanInput.contains(cleanSpecName)) {
-                log.info("[AliasNorm] Khớp bán phần không dấu: '{}' -> '{}' (ID={})", rawName, spec.getName(), spec.getId());
+                log.info("[AliasNorm] Khớp bán phần không dấu: '{}' -> '{}' (ID={})", rawName, spec.getName(),
+                        spec.getId());
                 return spec.getId();
             }
         }
@@ -137,7 +140,8 @@ public class AliasNormalizationService {
         if (canonicalName != null) {
             Optional<Specialization> found = findByName(canonicalName);
             if (found.isPresent()) {
-                log.info("[AliasNorm] Khớp Alias Map: '{}' -> '{}' (ID={})", rawName, canonicalName, found.get().getId());
+                log.info("[AliasNorm] Khớp Alias Map: '{}' -> '{}' (ID={})", rawName, canonicalName,
+                        found.get().getId());
                 return found.get().getId();
             }
         }
@@ -150,13 +154,14 @@ public class AliasNormalizationService {
      * Loại bỏ dấu tiếng Việt để so sánh chuỗi chính xác.
      */
     public static String removeDiacritics(String str) {
-        if (str == null) return null;
+        if (str == null)
+            return null;
         String nfdNormalizedString = java.text.Normalizer.normalize(str, java.text.Normalizer.Form.NFD);
         java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
         String temp = pattern.matcher(nfdNormalizedString).replaceAll("");
         return temp.replace('đ', 'd').replace('Đ', 'D')
-                   .replace("o\u031b", "o")
-                   .replace("u\u031b", "u");
+                .replace("o\u031b", "o")
+                .replace("u\u031b", "u");
     }
 
     /**

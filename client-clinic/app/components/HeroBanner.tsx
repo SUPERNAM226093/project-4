@@ -1,8 +1,4 @@
 "use client";
-/**
- * FILE: HeroBanner.tsx
- * MÔ TẢ: Thành phần Banner chính của trang chủ, bao gồm tiêu đề chào mừng và thanh tìm kiếm bác sĩ thông minh.
- */
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 

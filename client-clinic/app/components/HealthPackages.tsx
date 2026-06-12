@@ -1,24 +1,13 @@
 "use client";
-/**
- * FILE: HealthPackages.tsx
- * MÔ TẢ: Thành phần hiển thị danh sách các gói khám sức khỏe tổng quát/chuyên sâu.
- */
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { fetchHealthPackages, HealthPackageResponse, getImageUrl } from "../lib/api";
-
-/**
- * HÀM BỔ TRỢ: formatPrice
- * MÔ TẢ: Định dạng số tiền thành chuỗi tiền tệ Việt Nam (VNĐ).
- */
 function formatPrice(price: number): string {
     return new Intl.NumberFormat("vi-VN").format(price) + "đ";
 }
 
 export default function HealthPackages() {
-    // --- 1. KHỞI TẠO HOOK VÀ STATE ---
-     // Đa ngôn ngữ
     const scrollRef = useRef<HTMLDivElement>(null); // Điều khiển cuộn ngang
     const router = useRouter(); // Điều hướng trang
     const [packages, setPackages] = useState<HealthPackageResponse[]>([]); // Danh sách gói khám
@@ -70,7 +59,7 @@ export default function HealthPackages() {
     // TRẠNG THÁI ĐANG TẢI (Loading Skeleton) - Hiển thị các ô vuông nhấp nháy khi đang lấy dữ liệu
     if (loading) {
         return (
-        <section className="py-14 bg-transparent">
+            <section className="py-14 bg-transparent">
                 <div className="max-w-6xl mx-auto px-4">
                     <h2 className="text-xl md:text-2xl font-bold text-center text-[#000000] mb-10 tracking-wide">
                         {"CHĂM SÓC SỨC KHỎE TOÀN DIỆN"}
@@ -98,7 +87,7 @@ export default function HealthPackages() {
     // TRẠNG THÁI LỖI (Error State)
     if (error) {
         return (
-        <section className="py-14 bg-transparent">
+            <section className="py-14 bg-transparent">
                 <div className="max-w-6xl mx-auto px-4 text-center">
                     <h2 className="text-xl md:text-2xl font-bold text-[#000000] mb-6 tracking-wide">
                         {"CHĂM SÓC SỨC KHỎE TOÀN DIỆN"}
@@ -124,7 +113,7 @@ export default function HealthPackages() {
     // Empty state
     if (packages.length === 0) {
         return (
-        <section className="py-14 bg-transparent">
+            <section className="py-14 bg-transparent">
                 <div className="max-w-6xl mx-auto px-4 text-center">
                     <h2 className="text-xl md:text-2xl font-bold text-[#000000] mb-6 tracking-wide">
                         {"CHĂM SÓC SỨC KHỎE TOÀN DIỆN"}

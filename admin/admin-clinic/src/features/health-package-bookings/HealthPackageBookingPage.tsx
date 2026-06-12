@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { type CSSProperties, useEffect, useState } from 'react';
 
 import { toast } from 'react-toastify';
 import api from '../../services/api';
@@ -27,6 +27,22 @@ interface PackageOpt { id: number; name: string; price: number; }
 
 const emptyForm = { patientId: '', healthPackageId: '', bookingDate: '', bookingTime: '', status: 'PENDING', note: '' };
 const statusColors: Record<string, string> = { PENDING: 'warning', CONFIRMED: 'info', COMPLETED: 'success', CANCELLED: 'danger' };
+const FIXED_SLOTS = [
+    { start: '08:00', end: '09:00' },
+    { start: '09:00', end: '10:00' },
+    { start: '10:00', end: '11:00' },
+    { start: '11:00', end: '12:00' },
+    { start: '12:00', end: '13:00' },
+    { start: '13:00', end: '14:00' },
+    { start: '14:00', end: '15:00' },
+    { start: '15:00', end: '16:00' },
+    { start: '16:00', end: '17:00' },
+];
+const lockedFieldStyle: CSSProperties = {
+    backgroundColor: '#f3f4f6',
+    color: '#6b7280',
+    cursor: 'not-allowed',
+};
 
 export default function HealthPackageBookingPage() {
     
@@ -44,6 +60,7 @@ export default function HealthPackageBookingPage() {
     const canAdd = isAdmin || isStaff;
     const canEdit = isAdmin || isStaff;
     const canDelete = isAdmin;
+    const isEditing = editingId !== null;
 
     const fetchData = async () => {
         setLoading(true);
@@ -200,14 +217,28 @@ export default function HealthPackageBookingPage() {
                 <Modal title={editingId ? 'Cập nhật lịch gói khám' : 'Thêm lịch gói khám'} onClose={() => setShowModal(false)}>
                     <div className="form-group">
                         <label>Khách hàng</label>
-                        <select name="patientId" className="form-control" value={form.patientId} onChange={handleChange}>
+                        <select
+                            name="patientId"
+                            className="form-control"
+                            value={form.patientId}
+                            onChange={handleChange}
+                            disabled={isEditing}
+                            style={isEditing ? lockedFieldStyle : undefined}
+                        >
                             <option value="">Chọn khách hàng</option>
                             {patients.map(p => <option key={p.id} value={p.id}>{p.fullName} ({p.email})</option>)}
                         </select>
                     </div>
                     <div className="form-group">
                         <label>Gói khám</label>
-                        <select name="healthPackageId" className="form-control" value={form.healthPackageId} onChange={handleChange}>
+                        <select
+                            name="healthPackageId"
+                            className="form-control"
+                            value={form.healthPackageId}
+                            onChange={handleChange}
+                            disabled={isEditing}
+                            style={isEditing ? lockedFieldStyle : undefined}
+                        >
                             <option value="">Chọn gói khám</option>
                             {packages.map(p => <option key={p.id} value={p.id}>{p.name} - {new Intl.NumberFormat('vi-VN').format(p.price)}đ</option>)}
                         </select>
@@ -215,11 +246,33 @@ export default function HealthPackageBookingPage() {
                     <div className="form-row">
                         <div className="form-group">
                             <label>Ngày</label>
-                            <input name="bookingDate" type="date" className="form-control" value={form.bookingDate} onChange={handleChange} />
+                            <input
+                                name="bookingDate"
+                                type="date"
+                                className="form-control"
+                                value={form.bookingDate}
+                                onChange={handleChange}
+                                disabled={isEditing}
+                                style={isEditing ? lockedFieldStyle : undefined}
+                            />
                         </div>
                         <div className="form-group">
                             <label>Giờ</label>
-                            <input name="bookingTime" type="time" className="form-control" value={form.bookingTime} onChange={handleChange} />
+                            <select
+                                name="bookingTime"
+                                className="form-control"
+                                value={form.bookingTime?.substring(0, 5)}
+                                onChange={handleChange}
+                                disabled={isEditing}
+                                style={isEditing ? lockedFieldStyle : undefined}
+                            >
+                                <option value="">Chọn giờ</option>
+                                {FIXED_SLOTS.map(slot => (
+                                    <option key={slot.start} value={slot.start}>
+                                        {slot.start} - {slot.end}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                     </div>
                     <div className="form-group">

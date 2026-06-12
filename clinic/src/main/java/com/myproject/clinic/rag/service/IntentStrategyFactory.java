@@ -39,14 +39,6 @@ public class IntentStrategyFactory {
         this.unknownStrategy = unknown != null ? unknown : strategies.get(0);
     }
 
-    /**
-     * Hàm lấy ra Strategy (chiến lược) tương ứng để xử lý một intent cụ thể.
-     * Nếu intent bị rỗng (null) hoặc không nằm trong danh sách hỗ trợ, hệ thống
-     * sẽ tự động trả về UnknownIntentStrategy để báo lỗi lịch sự với người dùng.
-     *
-     * @param intent
-     * @return
-     */
     public ChatbotIntentStrategy getStrategy(String intent) {
         if (intent == null)
             return unknownStrategy;

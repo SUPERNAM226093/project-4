@@ -30,8 +30,7 @@ public class ChatController {
     }
 
     /**
-     * Endpoint quản trị dùng để tính toán lại vector (embedding) cho toàn bộ dữ
-     * liệu
+     * Endpoint quản trị dùng để tính toán lại vector (embedding) cho toàn bộ dl
      * chuyên khoa, bác sĩ
      */
     @PostMapping("/reindex")

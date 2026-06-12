@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { type CSSProperties, useEffect, useState } from 'react';
 import api from '../../services/api';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../store/AuthContext';
@@ -51,6 +51,11 @@ const emptyForm = {
     status: 'PENDING',
     specialNotes: ''
 };
+const lockedFieldStyle: CSSProperties = {
+    backgroundColor: '#f3f4f6',
+    color: '#6b7280',
+    cursor: 'not-allowed',
+};
 
 export default function RoomBookingPage() {
     // --- 1. KHỞI TẠO STATE ---
@@ -68,6 +73,7 @@ export default function RoomBookingPage() {
     const [editingId, setEditingId] = useState<number | null>(null);
     const [form, setForm] = useState(emptyForm);
     const [deleteId, setDeleteId] = useState<number | null>(null);
+    const isEditing = editingId !== null;
 
     /**
      * HÀM: fetchData
@@ -276,22 +282,22 @@ export default function RoomBookingPage() {
                 <Modal title={editingId ? 'Cập nhật thông tin đặt phòng' : 'Đăng ký đặt phòng mới'} onClose={() => setShowModal(false)}>
                     <div className="form-group">
                         <label>Người thực hiện đặt (Hệ thống)</label>
-                        <select name="bookedById" className="form-control" value={form.bookedById} onChange={handleChange}>
+                        <select name="bookedById" className="form-control" value={form.bookedById} onChange={handleChange} disabled={isEditing} style={isEditing ? lockedFieldStyle : undefined}>
                             <option value="">--- Chọn người dùng ---</option>
                             {patients.map(p => <option key={p.id} value={p.id}>{p.fullName} ({p.email})</option>)}
                         </select>
                     </div>
                     <div className="form-group">
                         <label>Họ tên Bệnh nhân</label>
-                        <input name="patientName" type="text" className="form-control" value={form.patientName} onChange={handleChange} placeholder="Tên bệnh nhân nội trú" />
+                        <input name="patientName" type="text" className="form-control" value={form.patientName} onChange={handleChange} disabled={isEditing} style={isEditing ? lockedFieldStyle : undefined} placeholder="Tên bệnh nhân nội trú" />
                     </div>
                     <div className="form-group">
                         <label>Số điện thoại liên hệ</label>
-                        <input name="contactPhone" type="text" className="form-control" value={form.contactPhone} onChange={handleChange} placeholder="Dùng để liên hệ khi nhận phòng" />
+                        <input name="contactPhone" type="text" className="form-control" value={form.contactPhone} onChange={handleChange} disabled={isEditing} style={isEditing ? lockedFieldStyle : undefined} placeholder="Dùng để liên hệ khi nhận phòng" />
                     </div>
                     <div className="form-group">
                         <label>Chọn Phòng</label>
-                        <select name="roomId" className="form-control" value={form.roomId} onChange={handleChange}>
+                        <select name="roomId" className="form-control" value={form.roomId} onChange={handleChange} disabled={isEditing} style={isEditing ? lockedFieldStyle : undefined}>
                             <option value="">--- Chọn phòng khám/nội trú ---</option>
                             {rooms.map(r => <option key={r.id} value={r.id}>{r.roomCode} - {r.name}</option>)}
                         </select>
@@ -299,17 +305,17 @@ export default function RoomBookingPage() {
                     <div className="form-row">
                         <div className="form-group">
                             <label>Dự kiến Nhận phòng</label>
-                            <input name="checkInDate" type="datetime-local" className="form-control" value={form.checkInDate} onChange={handleChange} />
+                            <input name="checkInDate" type="datetime-local" className="form-control" value={form.checkInDate} onChange={handleChange} disabled={isEditing} style={isEditing ? lockedFieldStyle : undefined} />
                         </div>
                         <div className="form-group">
                             <label>Dự kiến Trả phòng</label>
-                            <input name="checkOutDate" type="datetime-local" className="form-control" value={form.checkOutDate} onChange={handleChange} />
+                            <input name="checkOutDate" type="datetime-local" className="form-control" value={form.checkOutDate} onChange={handleChange} disabled={isEditing} style={isEditing ? lockedFieldStyle : undefined} />
                         </div>
                     </div>
                     <div className="form-row">
                         <div className="form-group">
                             <label>Số lượng bệnh nhân</label>
-                            <input name="numberOfPatients" type="number" min="1" className="form-control" value={form.numberOfPatients} onChange={handleChange} />
+                            <input name="numberOfPatients" type="number" min="1" className="form-control" value={form.numberOfPatients} onChange={handleChange} disabled={isEditing} style={isEditing ? lockedFieldStyle : undefined} />
                         </div>
                         <div className="form-group">
                             <label>Trạng thái đặt phòng</label>

@@ -11,8 +11,6 @@ import { useRouter } from "next/navigation";
 import { HOSPITALS } from "../lib/hospitals";
 
 export default function Partners() {
-    // --- 1. KHỞI TẠO HOOK VÀ STATE ---
-    
     const router = useRouter();
     const [currentIndex, setCurrentIndex] = useState(0); // Vị trí hiện tại của carousel
     const containerRef = useRef<HTMLDivElement>(null);
@@ -138,9 +136,8 @@ export default function Partners() {
                             <button
                                 key={i}
                                 onClick={() => setCurrentIndex(i)}
-                                className={`h-2 rounded-full transition-all duration-500 ${
-                                    i === currentIndex ? "w-10 bg-[#0d6b52]" : "w-2 bg-[#b2e8d9] hover:bg-[#0d6b52]/40"
-                                }`}
+                                className={`h-2 rounded-full transition-all duration-500 ${i === currentIndex ? "w-10 bg-[#0d6b52]" : "w-2 bg-[#b2e8d9] hover:bg-[#0d6b52]/40"
+                                    }`}
                             />
                         ))}
                     </div>

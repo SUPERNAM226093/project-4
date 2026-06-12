@@ -20,6 +20,7 @@ public class EmbeddingService {
 
     private final WebClient webClient;
     private final ObjectMapper objectMapper;
+    private final boolean tokenValid;
 
     private static final String EMBEDDING_URL =
             "https://router.huggingface.co/hf-inference/models/dangvantuan/vietnamese-embedding/pipeline/feature-extraction";
@@ -30,10 +31,19 @@ public class EmbeddingService {
      */
     public EmbeddingService(@Value("${hf.token}") String hfToken, ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
-        this.webClient = WebClient.builder()
-                .defaultHeader("Authorization", "Bearer " + hfToken)
-                .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(10 * 1024 * 1024))
-                .build();
+        this.tokenValid = hfToken != null
+                && !hfToken.trim().isEmpty()
+                && !hfToken.contains("your_hugging_face_token_here")
+                && !hfToken.contains("${HF_TOKEN}");
+        if (this.tokenValid) {
+            this.webClient = WebClient.builder()
+                    .defaultHeader("Authorization", "Bearer " + hfToken)
+                    .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(10 * 1024 * 1024))
+                    .build();
+        } else {
+            this.webClient = null;
+            log.warn("Hugging Face API token is missing or placeholder. Embedding calls will return empty vectors and use keyword fallback.");
+        }
     }
 
     /**
@@ -44,6 +54,9 @@ public class EmbeddingService {
      * Vector này được dùng để so sánh câu hỏi người dùng với dữ liệu trong database.
      */
     public List<Double> getEmbedding(String text) {
+        if (!tokenValid || text == null || text.isBlank() || webClient == null) {
+            return List.of();
+        }
         try {
             String responseBody = webClient.post()
                     .uri(EMBEDDING_URL)
@@ -66,6 +79,9 @@ public class EmbeddingService {
             }
             
             log.warn("Empty or unrecognized embedding response for text: {}", text.substring(0, Math.min(50, text.length())));
+            return List.of();
+        } catch (org.springframework.web.reactive.function.client.WebClientResponseException.Unauthorized e) {
+            log.warn("Hugging Face API returned 401 Unauthorized. Please verify HF_TOKEN in your environment.");
             return List.of();
         } catch (Exception e) {
             log.error("Failed to get embedding for text: {}", text.substring(0, Math.min(50, text.length())), e);
