@@ -74,6 +74,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/health-package-bookings/booked-slots/**").permitAll()
                         .requestMatchers("/api/online-consultations/patient/**").permitAll()
                         .requestMatchers("/api/room-bookings/by-user/**").permitAll()
+                        // Bệnh nhân (role USER) được phép POST tạo đơn đặt phòng và hủy đơn của mình
+                        .requestMatchers(HttpMethod.POST, "/api/room-bookings/*").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/room-bookings/*/cancel/*").permitAll()
                         .requestMatchers("/api/prescriptions/patient/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/appointments").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/appointments/*/cancel/*").permitAll()

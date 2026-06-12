@@ -96,7 +96,7 @@ export default function RoomBookingHistory({ userId }: Props) {
                                 <div className="flex justify-between items-start mb-4">
                                     <div>
                                         <h3 className="text-lg font-black text-[#392E7B] mb-1">
-                                            {booking.roomName} - Bệnh nhân: <span className="text-[#f26522]">{booking.patientName}</span>
+                                            {booking.room?.name || booking.roomName || 'Phòng không xác định'} - Bệnh nhân: <span className="text-[#f26522]">{booking.patientName}</span>
                                         </h3>
                                         <div className="space-y-1">
                                             <p className="text-xs text-gray-500 font-bold">

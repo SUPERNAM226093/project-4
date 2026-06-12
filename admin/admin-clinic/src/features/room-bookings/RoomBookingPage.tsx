@@ -85,7 +85,7 @@ export default function RoomBookingPage() {
             const endpoints = [
                 api.get('/room-bookings/all'),
                 api.get('/users'),
-                api.get('/rooms')
+                api.get('/rooms/all')
             ];
             const results = await Promise.all(endpoints);
             setItems(results[0].data);

@@ -84,15 +84,18 @@ export default function RoomBookingModal({ room, onClose }: Props) {
                 console.error("Không thể kiểm tra lịch sử đặt phòng:", fetchErr);
             }
 
-            // Fix time to 12:00 PM as requested
+            // Fix time to 12:00 PM - format LocalDateTime chuẩn Java (không có Z timezone)
             const checkIn = `${form.checkInDate}T12:00:00`;
             const checkOut = `${form.checkOutDate}T12:00:00`;
 
             await createRoomBooking(user.userId, {
                 roomId: room.id,
-                ...form,
-                checkInDate: new Date(checkIn).toISOString(),
-                checkOutDate: new Date(checkOut).toISOString()
+                patientName: form.patientName,
+                checkInDate: checkIn,
+                checkOutDate: checkOut,
+                numberOfPatients: form.numberOfPatients,
+                specialNotes: form.specialNotes,
+                contactPhone: form.contactPhone,
             });
             showToast("Đã gửi yêu cầu đặt chỗ thành công!", "success");
             onClose();

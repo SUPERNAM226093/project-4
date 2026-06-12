@@ -60,13 +60,31 @@ export interface RoomBookingRequest {
 export interface RoomBookingResponse {
     id: number;
     patientName: string;
-    roomName: string;
+    // Backend trả về object lồng nhau, không phải flat string
+    room: {
+        id: number;
+        roomCode: string;
+        name: string;
+    } | null;
+    bookedBy: {
+        id: number;
+        fullName: string;
+    } | null;
+    // Giữ lại cả roomName để tương thích ngược (deprecated, dùng room.name thay thế)
+    roomName?: string;
     checkInDate: string;
     checkOutDate: string;
+    actualCheckInAt?: string;
+    actualCheckOutAt?: string;
     totalNights: number;
     estimatedFee: number;
+    totalPrice?: number;
     status: string;
     specialNotes: string;
+    contactPhone?: string;
+    cancelReason?: string;
+    rejectReason?: string;
+    createdAt?: string;
 }
 
 export interface SpecializationResponse {
@@ -357,10 +375,22 @@ export async function fetchRooms(): Promise<RoomResponse[]> {
  * MÔ TẢ: Đăng ký đặt phòng lưu trú cho bệnh nhân. Cần đính kèm JWT xác thực.
  */
 export async function createRoomBooking(userId: number, request: RoomBookingRequest): Promise<RoomBookingResponse> {
+    // Đảm bảo checkInDate và checkOutDate đúng định dạng LocalDateTime Java: yyyy-MM-ddTHH:mm:ss
+    // Bỏ phần timezone (.000Z) vì backend dùng LocalDateTime không có timezone
+    const sanitize = (dt: string) => {
+        if (!dt) return dt;
+        // Nếu đã có dạng ISO 8601 có Z thì cắt bỏ
+        return dt.replace('Z', '').replace(/\.\d{3}$/, '').substring(0, 19);
+    };
+    const sanitizedRequest = {
+        ...request,
+        checkInDate: sanitize(request.checkInDate),
+        checkOutDate: sanitize(request.checkOutDate),
+    };
     const res = await fetch(`${API_BASE_URL}/api/room-bookings/${userId}`, {
         method: "POST",
         headers: getAuthHeaders({ "Content-Type": "application/json" }),
-        body: JSON.stringify(request),
+        body: JSON.stringify(sanitizedRequest),
     });
     if (!res.ok) {
         const errorText = await res.text();
