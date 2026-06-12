@@ -117,16 +117,6 @@ npm install
 NEXT_PUBLIC_API_URL=http://localhost:8080 npm run dev
 ```
 
-**ML:**
-
-```bash
-cd heart-predict-model
-python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-.venv/bin/python app.py
-```
-
----
-
 ## API keys (tùy chọn)
 
 Trong `.env`:
