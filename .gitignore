@@ -14,6 +14,8 @@ clinic/.env.bak
 
 # Logs
 *.log
+backend_logs.txt
+backend_logs_utf8.txt
 clinic/logs/
 clinic/logs/archived/
 clinic/out*.log
