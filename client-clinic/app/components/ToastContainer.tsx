@@ -1,16 +1,8 @@
 "use client";
-/**
- * FILE: ToastContainer.tsx
- * MÔ TẢ: Thành phần quản lý hiển thị các thông báo nổi (Toast notifications) như Thành công, Lỗi, Thông tin.
- */
 import React from 'react';
 import { useToast } from '../context/ToastContext';
 import { X, CheckCircle, AlertCircle, Info } from 'lucide-react';
 
-/**
- * COMPONENT: ToastContainer
- * MÔ TẢ: Container chứa danh sách các Toast đang hiển thị, đặt ở góc trên bên phải màn hình.
- */
 export default function ToastContainer() {
     const { toasts, removeToast } = useToast();
 
@@ -19,10 +11,10 @@ export default function ToastContainer() {
     return (
         <div className="fixed top-6 right-6 z-[9999] flex flex-col gap-3 pointer-events-none">
             {toasts.map((toast) => (
-                <ToastItem 
-                    key={toast.id} 
-                    toast={toast} 
-                    onClose={() => removeToast(toast.id)} 
+                <ToastItem
+                    key={toast.id}
+                    toast={toast}
+                    onClose={() => removeToast(toast.id)}
                 />
             ))}
         </div>
@@ -73,7 +65,7 @@ function ToastItem({ toast, onClose }: { toast: any, onClose: () => void }) {
             <div className="flex-shrink-0">
                 {styles.icon}
             </div>
-            
+
             {/* PHẦN NỘI DUNG THÔNG BÁO VĂN BẢN */}
             <div className="flex-grow">
                 <p className="text-sm font-medium text-gray-800">
@@ -82,7 +74,7 @@ function ToastItem({ toast, onClose }: { toast: any, onClose: () => void }) {
             </div>
 
             {/* NÚT ĐÓNG THÔNG BÁO NHANH */}
-            <button 
+            <button
                 onClick={onClose}
                 className="flex-shrink-0 p-1 hover:bg-gray-100 rounded-lg transition-colors text-gray-400"
             >
@@ -91,9 +83,9 @@ function ToastItem({ toast, onClose }: { toast: any, onClose: () => void }) {
 
             {/* THANH THỜI GIAN CHỜ (Progress Bar) - Tự động chạy trong 5 giây trước khi đóng */}
             <div className="absolute bottom-0 left-0 h-1 bg-gray-100 w-full opacity-30" />
-            <div 
+            <div
                 key={toast.updatedAt || toast.id}
-                className={`absolute bottom-0 left-0 h-1 ${styles.bar} animate-toast-progress`} 
+                className={`absolute bottom-0 left-0 h-1 ${styles.bar} animate-toast-progress`}
                 style={{ animationDuration: '5s', animationFillMode: 'forwards' }}
             />
         </div>

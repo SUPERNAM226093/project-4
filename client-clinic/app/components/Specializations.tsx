@@ -1,8 +1,4 @@
 "use client";
-/**
- * FILE: Specializations.tsx
- * MÔ TẢ: Thành phần hiển thị danh sách các chuyên khoa y tế dưới dạng lưới icon.
- */
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 
@@ -101,7 +97,7 @@ function getFallbackIcon(name: string): React.ReactNode {
 
 export default function Specializations() {
     // --- KHAI BÁO CÁC HOOK VÀ STATE ---
-    
+
     const [specializations, setSpecializations] = useState<SpecializationResponse[]>([]); // Danh sách chuyên khoa
     const [loading, setLoading] = useState(true); // Trạng thái đang tải
     const [error, setError] = useState<string | null>(null); // Lưu thông báo lỗi nếu API thất bại
@@ -171,7 +167,7 @@ export default function Specializations() {
                         </svg>
                     </button>
 
-                    <div 
+                    <div
                         ref={scrollRef}
                         className="flex gap-6 overflow-x-auto pb-8 px-2 no-scrollbar snap-x snap-mandatory"
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}

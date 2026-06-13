@@ -29,14 +29,12 @@ export const getCurrentDateTimeLocalStr = (): string => {
 
 /**
  * Kiểm tra xem một khung giờ (HH:mm) đã trôi qua so với thời gian hiện tại hay chưa.
- * @param dateStr Ngày đang xét (YYYY-MM-DD)
- * @param timeStr Giờ bắt đầu khung giờ (HH:mm)
  */
 export const isPastTime = (dateStr: string, timeStr: string): boolean => {
     const today = getTodayStr();
     if (dateStr < today) return true;
     if (dateStr > today) return false;
-    
+
     const nowTime = getCurrentTimeStr();
     return timeStr <= nowTime;
 };

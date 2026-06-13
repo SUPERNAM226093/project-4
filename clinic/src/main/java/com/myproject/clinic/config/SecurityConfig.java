@@ -70,6 +70,8 @@ public class SecurityConfig {
                         // ── Public: API bệnh nhân đặt lịch, tra cứu lịch sử ──
                         .requestMatchers("/api/appointments/by-patient/**").permitAll()
                         .requestMatchers("/api/medical-records/by-patient/**").permitAll()
+                        // Bệnh nhân (USER) được tự xem bệnh án của mình
+                        .requestMatchers(HttpMethod.GET, "/api/medical-records/my-records").permitAll()
                         .requestMatchers("/api/health-package-bookings/patient/**").permitAll()
                         .requestMatchers("/api/health-package-bookings/booked-slots/**").permitAll()
                         .requestMatchers("/api/online-consultations/patient/**").permitAll()
@@ -91,6 +93,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/chat").permitAll()
 
                         // ── ADMIN: Toàn quyền quản lý người dùng, vai trò ───
+                        // Bệnh nhân được xem thông tin cá nhân của chính mình
+                        .requestMatchers(HttpMethod.GET, "/api/users/{id}").permitAll()
                         .requestMatchers("/api/users/**").hasAnyRole("ADMIN", "STAFF", "DOCTOR")
                         .requestMatchers("/api/roles/**").hasRole("ADMIN")
                         .requestMatchers("/api/doctors/**").hasAnyRole("ADMIN", "DOCTOR", "STAFF")

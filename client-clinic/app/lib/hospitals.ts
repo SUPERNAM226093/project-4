@@ -1,5 +1,13 @@
 // app/lib/hospitals.ts
-// Mock data — thay bằng fetch API khi backend /api/hospitals sẵn sàng
+// ============================================================
+// HƯỚNG DẪN THÊM ẢNH LOGO PHÒNG KHÁM:
+// 1. Đặt file ảnh vào: client-clinic/public/images/hospitals/
+//    Ví dụ: public/images/hospitals/med1.png
+// 2. Trỏ image bên dưới thành: "/images/hospitals/med1.png"
+// 3. Commit ảnh vào git → Vercel tự deploy, không cần config thêm.
+//
+// Định dạng khuyến nghị: PNG nền trắng/trong suốt, 200x200px+
+// ============================================================
 
 export interface Hospital {
     id: number;
@@ -11,11 +19,11 @@ export interface Hospital {
     hotline: string;
     workingHours: string;
     specialties: string[];
-    image: string | null;       // URL ảnh logo
-    banner: string | null;      // URL ảnh banner
+    image: string | null;   // Đường dẫn ảnh logo, ví dụ: "/images/hospitals/med1.png"
+    banner: string | null;  // Đường dẫn ảnh banner trang chi tiết
     website: string | null;
     verified: boolean;
-    color: string;              // tailwind gradient cho avatar fallback
+    color: string;          // Tailwind gradient dùng khi image = null
 }
 
 export const HOSPITALS: Hospital[] = [
@@ -30,7 +38,8 @@ export const HOSPITALS: Hospital[] = [
         hotline: "1900 1111",
         workingHours: "Thứ 2 – Chủ Nhật: 7:00 – 20:00",
         specialties: ["Nội tổng quát", "Sản phụ khoa", "Tai mũi họng", "Cơ xương khớp"],
-        image: null,
+        // ← ĐỂ THÊM ẢNH: thay null bằng "/images/hospitals/med1.png"
+        image: "/images/med1.webp",
         banner: null,
         website: null,
         verified: true,
@@ -47,7 +56,8 @@ export const HOSPITALS: Hospital[] = [
         hotline: "1900 2222",
         workingHours: "Thứ 2 – Chủ Nhật: 7:00 – 19:00",
         specialties: ["Nhi khoa", "Nội tiêu hóa", "Mắt", "Răng hàm mặt"],
-        image: null,
+        // ← ĐỂ THÊM ẢNH: thay null bằng "/images/hospitals/med2.png"
+        image: "/images/med2.webp",
         banner: null,
         website: null,
         verified: true,
@@ -64,7 +74,8 @@ export const HOSPITALS: Hospital[] = [
         hotline: "1900 3333",
         workingHours: "Thứ 2 – Thứ 7: 7:30 – 18:00",
         specialties: ["Tim mạch", "Thần kinh", "Da liễu", "Nội tiết niệu"],
-        image: null,
+        // ← ĐỂ THÊM ẢNH: thay null bằng "/images/hospitals/med3.png"
+        image: "/images/med3.png",
         banner: null,
         website: null,
         verified: true,
@@ -81,12 +92,13 @@ export const HOSPITALS: Hospital[] = [
         hotline: "1900 4444",
         workingHours: "Thứ 2 – Chủ Nhật: 7:00 – 19:00",
         specialties: ["Cấp cứu", "Hô hấp", "Truyền nhiễm", "Ngoại khoa"],
-        image: null,
+        // ← ĐỂ THÊM ẢNH: thay null bằng "/images/hospitals/med4.png"
+        image: "/images/med4.png",
         banner: null,
         website: null,
         verified: true,
         color: "from-[#00695c] to-[#26a69a]",
-    }
+    },
 ];
 
 /** Tìm hospital theo slug — trả null nếu không tìm thấy */

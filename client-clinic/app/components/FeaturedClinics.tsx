@@ -97,7 +97,7 @@ export default function FeaturedClinics() {
                                 className="flex-shrink-0 w-[300px] md:w-[320px] snap-start bg-white rounded-[2.5rem] overflow-hidden shadow-[0_15px_35px_-10px_rgba(0,0,0,0.05)] border border-[#b2e8d9] group hover:translate-y-[-8px] transition-all duration-500 hover:shadow-[0_20px_45px_-10px_rgba(13,107,82,0.15)] hover:border-[#0d6b52]/30"
                             >
                                 {/* PHẦN TRÊN THẺ: Hình ảnh và Trạng thái phòng */}
-                                <div className="relative h-60 overflow-hidden">
+                                <div className="relative h-72 overflow-hidden">
                                     {room.images && room.images.length > 0 ? (
                                         <img
                                             src={getImageUrl(room.images[0])}
@@ -105,9 +105,19 @@ export default function FeaturedClinics() {
                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                         />
                                     ) : (
-                                        <div className="w-full h-full bg-[var(--green-ultra)] flex items-center justify-center">
-                                            <span className="text-4xl font-black text-[#b2e8d9]">{room.roomCode}</span>
-                                        </div>
+                                        // FALLBACK: Không có ảnh từ backend → dùng ảnh tĩnh trong /public/images/rooms/
+                                        // Đặt ảnh vào: public/images/rooms/room-default.jpg là hiện ngay
+                                        <img
+                                            src="/images/rooms/room-default.jpg"
+                                            alt={room.name}
+                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                            onError={(e) => {
+                                                // Nếu ảnh tĩnh cũng không có → hiện placeholder chữ
+                                                const target = e.currentTarget as HTMLImageElement;
+                                                target.style.display = 'none';
+                                                target.parentElement!.innerHTML += `<div class="w-full h-full bg-[var(--green-ultra)] flex items-center justify-center"><span class="text-4xl font-black text-[#b2e8d9]">${room.roomCode}</span></div>`;
+                                            }}
+                                        />
                                     )}
                                     {/* Nhãn trạng thái - Modern style */}
                                     <div className="absolute top-5 right-5">
